@@ -1,9 +1,11 @@
 package ru.yandex.practicum.kanban.services;
 
 import ru.yandex.practicum.kanban.models.Epic;
+import ru.yandex.practicum.kanban.models.Status;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
@@ -21,6 +23,30 @@ public class TaskManager {
     public int getNextId() {
         return ++id;
     }
+
+    // Обновление статуса EPIC
+    public void updateEpicStatus(Epic epic) {
+        ArrayList<Integer> epicStatus = new ArrayList<>(epic.getSubTask());
+        int countStatus = 0;
+        for (Integer subTaskId : epicStatus) {
+            Subtask subtask = subTasks.get(subTaskId);
+            if (subtask.getStatus() == Status.IN_PROGRESS) {
+                countStatus += 1;
+            } else if (subtask.getStatus() == Status.DONE) {
+                countStatus += 2;
+            }
+        }
+        if (countStatus == 0) {
+            epic.setStatus(Status.NEW);
+            return;
+        }
+        if (countStatus == epicStatus.size() * 2) {
+            epic.setStatus(Status.DONE);
+            return;
+        }
+        epic.setStatus(Status.IN_PROGRESS);
+    }
+
 
     // Вывод всех задач: TASK, EPIC, SUBTASK
     public HashMap<Integer, Task> getAllTasks() {

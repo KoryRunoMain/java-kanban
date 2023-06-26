@@ -1,11 +1,10 @@
 package ru.yandex.practicum.kanban.models;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private final List<Integer> subTasks;
+    private final ArrayList<Integer> subTasks;
 
     public Epic(String taskName, String taskDescription, int taskId, Status status) {
         super(taskName, taskDescription);
@@ -15,18 +14,12 @@ public class Epic extends Task {
         this.subTasks = new ArrayList<>();
     }
 
-    // Обновление статуса EPIC
-//    public void updateStatusEpic(Epic epic) {
-//        ArrayList<Integer> subTaskStatus = (ArrayList<Integer>) epic.getSubTask();
-//        if (subTaskStatus.isEmpty()) {
-//            epic.setStatus(Status.NEW);
-//            return;
-//        }
-//
-//    }
-
-    public List<Integer> getSubTask() {
+    public ArrayList<Integer> getSubTask() {
         return subTasks;
+    }
+
+    public Type getType() {
+        return Type.EPIC;
     }
 
     @Override
