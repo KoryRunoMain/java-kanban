@@ -18,10 +18,6 @@ public class Epic extends Task {
         return subTasks;
     }
 
-    public Type getType() {
-        return Type.EPIC;
-    }
-
     @Override
     public String toString() {
         return "Epic{" +
