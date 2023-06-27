@@ -5,16 +5,17 @@ import java.util.Objects;
 public class Subtask extends Task {
     private final int epicId;
 
-    public Subtask(String taskName, String taskDescription, int taskId, Status status, int epicId) {
+    public Subtask(int epicId, String taskName, String taskDescription) {
         super(taskName, taskDescription);
-        this.type = Type.SUBTASK;
-        this.status = status;
-        this.taskId = taskId;
         this.epicId = epicId;
     }
 
     public int getEpicId() {
         return epicId;
+    }
+
+    public Type getType() {
+        return Type.SUBTASK;
     }
 
     @Override
