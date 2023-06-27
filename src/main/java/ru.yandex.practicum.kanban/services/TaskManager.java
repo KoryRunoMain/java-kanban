@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
-    protected int id;
+    private int id;
     HashMap<Integer, Task> tasks;
     HashMap<Integer, Epic> epics;
     HashMap<Integer, Subtask> subTasks;
@@ -28,10 +28,9 @@ public class TaskManager {
     TASKS
      */
     // TASKS.Добавление
-    public Task addTask(Task task) {
+    public void addTask(Task task) {
         task.setTaskId(getNextId());
         tasks.put(task.getTaskId(), task);
-        return task;
     }
 
     // TASKS.Получение
@@ -77,10 +76,9 @@ public class TaskManager {
     EPICS
      */
     // EPICS.Добавление
-    public Epic addEpic(Epic epic) {
+    public void addEpic(Epic epic) {
         epic.setTaskId(getNextId());
         epics.put(epic.getTaskId(), epic);
-        return epic;
     }
 
     // EPICS.Получение
@@ -159,15 +157,12 @@ public class TaskManager {
     SUBTASKS
      */
     // SUBTASKS.Добавление
-    public Subtask addSubTask(Subtask subtask) {
+    public void addSubTask(Subtask subtask) {
         subtask.setTaskId(getNextId());
         Epic epic = epics.get(subtask.getEpicId());
-        if (epic == null) {
-            return null;
-        } else {
+        if (epic != null) {
             subTasks.put(subtask.getTaskId(), subtask);
             epic.setTaskId(subtask.getTaskId());
-            return subtask;
         }
     }
     // SUBTASKS.Получение
@@ -189,7 +184,9 @@ public class TaskManager {
         }
         Epic ep = epics.get(st.getEpicId());
         ep.getSubTask().remove(st.getTaskId());
+        updateEpicStatus(ep);
         subTasks.remove(id);
+
     }
     // SUBTASKS.Удаление всех задач
     public void removeAllSubTasks() {
@@ -214,4 +211,15 @@ public class TaskManager {
             updateEpicStatus(epic);
         }
     }
+
+    @Override
+    public String toString() {
+        return "TaskManager{" +
+                "id=" + id +
+                ", tasks=" + tasks +
+                ", epics=" + epics +
+                ", subTasks=" + subTasks +
+                '}';
+    }
+
 }
