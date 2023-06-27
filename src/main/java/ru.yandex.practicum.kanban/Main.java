@@ -33,12 +33,24 @@ public class Main {
         System.out.println(taskManager.getTask(1));
         System.out.println(taskManager.getTask(2));
 
-        System.out.println(taskManager.getEpic(1));
-        System.out.println(taskManager.getEpic(2));
-        System.out.println(taskManager.getEpic(3));
+//        System.out.println(taskManager.getEpic(1));
+//        System.out.println(taskManager.getEpic(2));
+//        System.out.println(taskManager.getEpic(5));
 
-        System.out.println(taskManager.getSubTask(1));
-        System.out.println(taskManager.getSubTask(2));
-        System.out.println(taskManager.getSubTask(3));
+//        System.out.println(taskManager.getSubTask(1));
+//        System.out.println(taskManager.getSubTask(2));
+//        System.out.println(taskManager.getSubTask(3));
+
+        System.out.println();
+        //taskManager.removeTask(1);
+        //taskManager.removeAllTasks();
+        //taskManager.updateTask(task2);
+        System.out.println(taskManager.getTask(1));
+        System.out.println(taskManager.getTask(2));
+        System.out.println(taskManager.getAllTasks());
+        Task task3 = new Task("Task3", "Taskdes3");
+        task2 = task3;
+        taskManager.updateTask(task2);
+        System.out.println("Обновление успешно: \n" + taskManager.getTask(2));
     }
 }
