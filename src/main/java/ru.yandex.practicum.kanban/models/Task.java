@@ -21,9 +21,9 @@ public class Task {
 //        this.taskDescription = taskDescription;
 //    }
 
-    public Type getType() {
-        return Type.TASK;
-    }
+//    public Type getType() {
+//        return Type.TASK;
+//    }
 
     public String getTaskName() {
         return taskName;
@@ -55,6 +55,10 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Type getType() {
+        return Type.TASK;
     }
 
     @Override
