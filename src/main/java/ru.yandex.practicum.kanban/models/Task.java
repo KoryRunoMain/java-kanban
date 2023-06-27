@@ -9,19 +9,21 @@ public class Task {
     protected Status status;
     protected Type type;
 
-    public Task(String taskName, String taskDescription, int taskId) {
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
-        this.taskId = taskId;
-        this.status = Status.NEW;
-        this.type = Type.TASK;
-    }
-
     public Task(String taskName, String taskDescription) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
+        this.taskId = 0;
+        this.status = Status.NEW;
     }
 
+//    public Task(String taskName, String taskDescription) {
+//        this.taskName = taskName;
+//        this.taskDescription = taskDescription;
+//    }
+
+    public Type getType() {
+        return Type.TASK;
+    }
 
     public String getTaskName() {
         return taskName;
@@ -62,7 +64,6 @@ public class Task {
                 ", taskDescription='" + taskDescription + '\'' +
                 ", taskId=" + taskId +
                 ", status=" + status +
-                ", type=" + type +
                 '}';
     }
 
