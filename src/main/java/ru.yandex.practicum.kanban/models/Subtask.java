@@ -5,10 +5,11 @@ import java.util.Objects;
 public class Subtask extends Task {
     private final int epicId;
 
-    public Subtask(int epicId, String taskName, String taskDescription) {
+    public Subtask(Integer epicId, String taskName, String taskDescription) {
         super(taskName, taskDescription);
         this.epicId = epicId;
     }
+
 
     public int getEpicId() {
         return epicId;
@@ -21,12 +22,11 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return "Subtask{" +
-                "epicId=" + epicId +
+                "epicId='" + epicId + '\'' +
+                "subtaskId='" + id + '\'' +
                 ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
-                ", taskId=" + taskId +
                 ", status=" + status +
-                ", type=" + type +
                 '}';
     }
 

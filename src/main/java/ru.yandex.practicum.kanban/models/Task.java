@@ -5,14 +5,14 @@ import java.util.Objects;
 public class Task {
     protected String taskName;
     protected String taskDescription;
-    protected int taskId;
+    protected int id;
     protected Status status;
     protected Type type;
 
     public Task(String taskName, String taskDescription) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.taskId = 0;
+        this.id = 1;
         this.status = Status.NEW;
     }
 
@@ -42,11 +42,11 @@ public class Task {
     }
 
     public int getTaskId() {
-        return taskId;
+        return id;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setTaskId(int id) {
+        this.id = id;
     }
 
     public Status getStatus() {
@@ -64,9 +64,9 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "taskName='" + taskName + '\'' +
+                "ID='" + id + '\'' +
+                ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
-                ", taskId=" + taskId +
                 ", status=" + status +
                 '}';
     }
@@ -76,7 +76,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return taskId == task.taskId
+        return id == task.id
                 && Objects.equals(taskName, task.taskName)
                 && Objects.equals(taskDescription, task.taskDescription)
                 && status == task.status
@@ -85,7 +85,7 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskName, taskDescription, taskId, status, type);
+        return Objects.hash(id, taskName, taskDescription, status, type);
     }
 
 }
