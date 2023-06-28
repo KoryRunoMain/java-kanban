@@ -13,17 +13,9 @@ public class Task {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.id = 1;
+        this.type = Type.TASK;
         this.status = Status.NEW;
     }
-
-//    public Task(String taskName, String taskDescription) {
-//        this.taskName = taskName;
-//        this.taskDescription = taskDescription;
-//    }
-
-//    public Type getType() {
-//        return Type.TASK;
-//    }
 
     public String getTaskName() {
         return taskName;
@@ -55,10 +47,6 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public Type getType() {
-        return Type.TASK;
     }
 
     @Override

@@ -5,22 +5,16 @@ import java.util.Objects;
 
 public class Epic extends Task {
     private ArrayList<Integer> subTasksId;
+    protected Type type;
 
     public Epic(String taskName, String taskDescription) {
         super(taskName, taskDescription);
         this.subTasksId = new ArrayList<>();
+        this.type = Type.EPIC;
     }
 
     public ArrayList<Integer> getSubTask() {
         return subTasksId;
-    }
-
-    public void setSubTask(ArrayList<Integer> subTasks) {
-        this.subTasksId = subTasks;
-    }
-
-    public Type getType() {
-        return Type.EPIC;
     }
 
     @Override

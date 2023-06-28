@@ -3,20 +3,17 @@ package ru.yandex.practicum.kanban.models;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private final int epicId;
+    private int epicId;
+    protected Type type;
 
     public Subtask(Integer epicId, String taskName, String taskDescription) {
         super(taskName, taskDescription);
         this.epicId = epicId;
+        this.type = Type.SUBTASK;
     }
-
 
     public int getEpicId() {
         return epicId;
-    }
-
-    public Type getType() {
-        return Type.SUBTASK;
     }
 
     @Override
