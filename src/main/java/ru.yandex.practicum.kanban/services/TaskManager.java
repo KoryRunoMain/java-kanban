@@ -25,7 +25,7 @@ public class TaskManager {
     }
 
 
-    //_____________________________________________________TASKS_____________________________________________________//
+    //_____TASKS_____//
     // TASKS.Добавление
     public Task createTask(Task task) {
         if (task == null) {
@@ -81,7 +81,7 @@ public class TaskManager {
     }
 
 
-    //_____________________________________________________EPICS_____________________________________________________//
+    //_____EPICS_____//
     // EPICS.Добавление
     public Epic createEpic(Epic epic) {
         if (epic == null) {
@@ -170,8 +170,7 @@ public class TaskManager {
     }
 
 
-    //___________________________________________________SUBTASKS____________________________________________________//
-
+    //_____SUBTASKS_____//
     // SUBTASKS.Добавление
     public Subtask createSubTask(Subtask subtask) {
         if (subtask == null) {
