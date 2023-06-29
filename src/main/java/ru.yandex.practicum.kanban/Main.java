@@ -24,6 +24,7 @@ public class Main {
 
         System.out.println("Получение по ID:");
         System.out.println(taskManager.getTaskById(task1.getTaskId()));
+        System.out.println(taskManager.getTaskById(task2.getTaskId()));
 
         System.out.println("Получение всех тасков: ");
         System.out.println(taskManager.getAllTasks());
@@ -64,8 +65,7 @@ public class Main {
 
         System.out.println("Изменение статуса задачи:");
         Epic modified2 = taskManager.getEpicById(epic2.getTaskId());
-        modified2.setStatus(Status.DONE);
-        System.out.println("Статус изменить нельзя.");
+        modified2.setStatus(Status.IN_PROGRESS);
         System.out.println(epic2);
 
         System.out.println("Обновление задачи:");
@@ -79,7 +79,6 @@ public class Main {
         System.out.println("Удаление всех задач:");
         taskManager.removeAllEpics();
         System.out.println(taskManager.getAllEpics());
-
 
         // SUBTASK
         Subtask subtask1 = new Subtask(epic1.getTaskId(),"Sub1","Subdes1");
@@ -102,10 +101,16 @@ public class Main {
         System.out.println("Изменение статуса задачи:");
         Subtask modified1 = taskManager.getSubTaskById(subtask1.getTaskId());
         modified1.setStatus(Status.DONE);
+        Subtask modified3 = taskManager.getSubTaskById(subtask2.getTaskId());
+        modified3.setStatus(Status.DONE);
+        Subtask modified4 = taskManager.getSubTaskById(subtask3.getTaskId());
+        modified4.setStatus(Status.DONE);
 
         System.out.println("Обновление задачи:");
-        taskManager.updateTask(modified1);
-        System.out.println(subtask1);
+        taskManager.updateSubTask(modified1);
+        taskManager.updateSubTask(modified3);
+        //taskManager.updateEpicStatus(epic1); // Модификация запрещена
+        System.out.println(taskManager.getSubTasksOfEpic(epic1));
 
         System.out.println("Удаление по ID:");
         taskManager.removeSubTaskById(subtask2.getTaskId());
@@ -119,6 +124,8 @@ public class Main {
         // Получение списка всех задач определенного EPIC
         System.out.println("Получение списка всех задач определенного EPIC:");
         System.out.println(taskManager.getSubTasksOfEpic(epic1));
+        System.out.println(taskManager.getSubTasksOfEpic(epic2));
+        System.out.println(taskManager.getAllEpics());
 
     }
 }

@@ -26,7 +26,6 @@ public class TaskManager {
 
 
     //_____________________________________________________TASKS_____________________________________________________//
-
     // TASKS.Добавление
     public Task createTask(Task task) {
         if (task == null) {
@@ -71,12 +70,16 @@ public class TaskManager {
 
     // TASKS.Обновление
     public void updateTask(Task updateTask) {
+        if (updateTask == null) {
+            return;
+        }
         Task taskToUpdate = taskStorage.get(updateTask.getTaskId());
         if (taskToUpdate == null) {
             return;
         }
         taskStorage.put(updateTask.getTaskId(), updateTask);
     }
+
 
     //_____________________________________________________EPICS_____________________________________________________//
     // EPICS.Добавление
@@ -128,6 +131,9 @@ public class TaskManager {
 
     // EPICS.Обновление
     public void updateEpic(Epic updateEpic) {
+        if (updateEpic == null) {
+            return;
+        }
         Epic epicToUpdate = epicStorage.get(updateEpic.getTaskId());
         if (epicToUpdate == null) {
             return;
@@ -154,9 +160,9 @@ public class TaskManager {
                     break;
             }
         }
-        if (subTaskList.size() == 0 || newCount == 0) {
+        if (newCount == subTaskList.size() || subTaskList.size() == 0) {
             epic.setStatus(Status.NEW);
-        } else if (subTaskList.size() == 1 || doneCount == 1) {
+        } else if (doneCount == subTaskList.size() || subTaskList.size() == 1) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
@@ -230,6 +236,9 @@ public class TaskManager {
 
     // SUBTASKS.Обновление
     public void updateSubTask(Subtask updateSubtask) {
+        if (updateSubtask == null) {
+            return;
+        }
         Subtask subTaskToUpdate = subTaskStorage.get(updateSubtask.getTaskId());
         if (subTaskToUpdate == null) {
             return;
