@@ -215,13 +215,14 @@ public class TaskManager {
     // SUBTASKS.Удаление по ID
     public void removeSubTaskById(int id) {
         Subtask subtask = subTaskStorage.get(id);
-        if (subtask == null) {
+        if (!subTaskStorage.containsKey(id)) {
             return;
         }
         Epic epic = epicStorage.get(subtask.getEpicId());
-        epic.removeSubtask(id);
-        updateEpicStatus(epic);
+        Integer subId = subtask.getTaskId();
+        epic.getSubTask().remove(subId);
         subTaskStorage.remove(id);
+        updateEpicStatus(epic);
     }
 
     // SUBTASKS.Удаление всех задач
