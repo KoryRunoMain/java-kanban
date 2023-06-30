@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subTasksId;
-    protected Type type;
+    private ArrayList<Integer> subTasksIds;
+    public ArrayList<Integer> subTaskList;
 
     public Epic(String taskName, String taskDescription) {
         super(taskName, taskDescription);
-        this.subTasksId = new ArrayList<>();
+        this.subTasksIds = new ArrayList<>();
+        this.subTaskList = new ArrayList<>(getSubTask());
         this.type = Type.EPIC;
     }
 
+
     public ArrayList<Integer> getSubTask() {
-        return subTasksId;
+        return subTasksIds;
     }
 
     @Override
@@ -33,11 +35,11 @@ public class Epic extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Epic epic = (Epic) o;
-        return Objects.equals(subTasksId, epic.subTasksId);
+        return Objects.equals(subTasksIds, epic.subTasksIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), subTasksId);
+        return Objects.hash(super.hashCode(), subTasksIds);
     }
 }
