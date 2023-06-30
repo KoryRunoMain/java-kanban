@@ -3,20 +3,18 @@ package ru.yandex.practicum.kanban.models;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
 public class Epic extends Task {
     private ArrayList<Integer> subTasksIds;
-    public ArrayList<Integer> subTaskList;
 
     public Epic(String taskName, String taskDescription) {
         super(taskName, taskDescription);
         this.subTasksIds = new ArrayList<>();
-        this.subTaskList = new ArrayList<>(getSubTask());
         this.type = Type.EPIC;
     }
 
-
     public ArrayList<Integer> getSubTask() {
-        return subTasksIds;
+        return subTasksIds; // Решил создать копию в методе updateEpicStatus
     }
 
     public void addSubtask(int id) {
