@@ -182,7 +182,7 @@ public class TaskManager {
         }
         subTaskStorage.put(getNextId(), subtask);
         subtask.setTaskId(generatorId);
-        epic.getSubTask().add(subtask.getTaskId());
+        epic.addSubtask(generatorId);
         updateEpicStatus(epic);
         return subtask;
     }
@@ -219,7 +219,7 @@ public class TaskManager {
             return;
         }
         Epic epic = epicStorage.get(subtask.getEpicId());
-        epic.getSubTask().remove(Integer.valueOf(id));
+        epic.removeSubtask(id);
         updateEpicStatus(epic);
         subTaskStorage.remove(id);
     }

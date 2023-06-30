@@ -19,6 +19,14 @@ public class Epic extends Task {
         return subTasksIds;
     }
 
+    public void addSubtask(int id) {
+        subTasksIds.add(id);
+    }
+
+    public void removeSubtask(int id) {
+        subTasksIds.remove(id);
+    }
+
     @Override
     public String toString() {
         return type + " {" +
