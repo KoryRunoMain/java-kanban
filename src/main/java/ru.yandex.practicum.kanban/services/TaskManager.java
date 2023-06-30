@@ -14,6 +14,7 @@ public class TaskManager {
     private final HashMap<Integer, Epic> epicStorage;
     private final HashMap<Integer, Subtask> subTaskStorage;
 
+
     public TaskManager() {
         taskStorage = new HashMap<>();
         epicStorage = new HashMap<>();
@@ -147,8 +148,9 @@ public class TaskManager {
         int newCount = 0;
         int doneCount = 0;
 
-        for (Integer subtaskStatus : epic.subTaskList) {
-            Subtask subtask = subTaskStorage.get(subtaskStatus);
+        ArrayList<Integer> subTaskList = new ArrayList<>(epic.getSubTask());
+        for (Integer subtaskSt : subTaskList) {
+            Subtask subtask = subTaskStorage.get(subtaskSt);
             switch (subtask.getStatus()) {
                 case NEW:
                     newCount += 1;
@@ -160,9 +162,9 @@ public class TaskManager {
                     break;
             }
         }
-        if (newCount == epic.subTaskList.size()) {
+        if (newCount == subTaskList.size()) {
             epic.setStatus(Status.NEW);
-        } else if (doneCount == epic.subTaskList.size()) {
+        } else if (doneCount == subTaskList.size()) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
@@ -219,6 +221,7 @@ public class TaskManager {
             return;
         }
         Epic epic = epicStorage.get(subtask.getEpicId());
+        updateEpicStatus(epic);
         Integer subId = subtask.getTaskId();
         epic.getSubTask().remove(subId);
         subTaskStorage.remove(id);
