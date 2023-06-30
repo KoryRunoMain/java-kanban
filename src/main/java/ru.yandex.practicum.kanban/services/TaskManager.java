@@ -144,11 +144,10 @@ public class TaskManager {
 
     // EPICS.Обновление статуса
     protected void updateEpicStatus(Epic epic) {
-        ArrayList<Integer> subTaskList = new ArrayList<>(epic.getSubTask());
         int newCount = 0;
         int doneCount = 0;
 
-        for (Integer subtaskStatus : subTaskList) {
+        for (Integer subtaskStatus : epic.subTaskList) {
             Subtask subtask = subTaskStorage.get(subtaskStatus);
             switch (subtask.getStatus()) {
                 case NEW:
@@ -156,13 +155,14 @@ public class TaskManager {
                     break;
                 case DONE:
                     doneCount += 1;
+                    break;
                 case IN_PROGRESS:
                     break;
             }
         }
-        if (newCount == subTaskList.size() || subTaskList.size() == 0) {
+        if (newCount == epic.subTaskList.size()) {
             epic.setStatus(Status.NEW);
-        } else if (doneCount == subTaskList.size() || subTaskList.size() == 1) {
+        } else if (doneCount == epic.subTaskList.size()) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
@@ -177,9 +177,13 @@ public class TaskManager {
             return null;
         }
         Epic epic = epicStorage.get(subtask.getEpicId());
+        if (epic == null) {
+            return null;
+        }
         subTaskStorage.put(getNextId(), subtask);
         subtask.setTaskId(generatorId);
         epic.getSubTask().add(subtask.getTaskId());
+        updateEpicStatus(epic);
         return subtask;
     }
 
@@ -230,6 +234,7 @@ public class TaskManager {
                 subTaskStorage.remove(st);
             }
             epic.getSubTask().clear();
+            updateEpicStatus(epic);
         }
     }
 
