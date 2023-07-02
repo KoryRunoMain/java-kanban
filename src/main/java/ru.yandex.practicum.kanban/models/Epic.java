@@ -14,7 +14,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Integer> getSubTask() {
-        return subTasksIds; // Решил создать копию в методе updateEpicStatus
+        return new ArrayList<>(subTasksIds);
     }
 
     public void addSubtask(int id) {
@@ -22,7 +22,11 @@ public class Epic extends Task {
     }
 
     public void removeSubtask(int id) {
-        subTasksIds.remove(id);
+        subTasksIds.remove((Integer) id);
+    }
+
+    public void clearSubtaskIds() {
+        subTasksIds.clear();
     }
 
     @Override
