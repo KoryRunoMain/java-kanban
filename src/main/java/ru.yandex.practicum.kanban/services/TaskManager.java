@@ -115,9 +115,7 @@ public class TaskManager {
         if (epic == null) {
             return;
         }
-        for (Integer epicToRemove : epic.getSubTask()) {
-            subTaskStorage.remove(epicToRemove);
-        }
+        epic.getSubTask().forEach(subTaskStorage::remove);
         epicStorage.remove(id);
     }
 
@@ -148,9 +146,8 @@ public class TaskManager {
         int newCount = 0;
         int doneCount = 0;
 
-        ArrayList<Integer> subTaskList = new ArrayList<>(epic.getSubTask());
-        for (Integer subtaskSt : subTaskList) {
-            Subtask subtask = subTaskStorage.get(subtaskSt);
+        for (Integer id : epic.getSubTask()) {
+            Subtask subtask = subTaskStorage.get(id);
             switch (subtask.getStatus()) {
                 case NEW:
                     newCount += 1;
@@ -162,9 +159,9 @@ public class TaskManager {
                     break;
             }
         }
-        if (newCount == subTaskList.size()) {
+        if (newCount == epic.getSubTask().size()) {
             epic.setStatus(Status.NEW);
-        } else if (doneCount == subTaskList.size()) {
+        } else if (doneCount == epic.getSubTask().size()) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
@@ -183,6 +180,7 @@ public class TaskManager {
             return null;
         }
         subTaskStorage.put(getNextId(), subtask);
+        epic.getSubTask().add(generatorId);
         subtask.setTaskId(generatorId);
         epic.addSubtask(generatorId);
         updateEpicStatus(epic);
@@ -216,14 +214,12 @@ public class TaskManager {
 
     // SUBTASKS.Удаление по ID
     public void removeSubTaskById(int id) {
-        Subtask subtask = subTaskStorage.get(id);
         if (!subTaskStorage.containsKey(id)) {
             return;
         }
+        Subtask subtask = subTaskStorage.get(id);
         Epic epic = epicStorage.get(subtask.getEpicId());
-        updateEpicStatus(epic);
-        Integer subId = subtask.getTaskId();
-        epic.getSubTask().remove(subId);
+        epic.removeSubtask(id);
         subTaskStorage.remove(id);
         updateEpicStatus(epic);
     }
@@ -237,7 +233,7 @@ public class TaskManager {
             for (Integer st : epic.getSubTask()) {
                 subTaskStorage.remove(st);
             }
-            epic.getSubTask().clear();
+            epic.clearSubtaskIds();
             updateEpicStatus(epic);
         }
     }
