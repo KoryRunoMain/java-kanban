@@ -2,6 +2,7 @@ package ru.yandex.practicum.kanban.models;
 
 import java.util.Objects;
 
+
 public class Subtask extends Task {
     private int epicId;
 

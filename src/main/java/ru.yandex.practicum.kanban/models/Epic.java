@@ -3,7 +3,6 @@ package ru.yandex.practicum.kanban.models;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 public class Epic extends Task {
     private ArrayList<Integer> subTasksIds;
 
