@@ -5,12 +5,12 @@ import ru.yandex.practicum.kanban.interfaces.TaskManager;
 
 public class Manager {
 
-    // Получить интерфейс TaskManager
+    // Получить обьект TaskManager
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();
     }
 
-    // Получить интерфейс HistoryManager
+    // Получить обьект HistoryManager
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
