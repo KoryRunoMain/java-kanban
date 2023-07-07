@@ -14,7 +14,7 @@ public interface TaskManager {
     // Получить
     Task getTaskById(int id);
     // Удалить
-    Task removeTaskById(int id);
+    void removeTaskById(int id);
     // Обновить
     void updateTask(Task updateTask);
     // Получить все задачи

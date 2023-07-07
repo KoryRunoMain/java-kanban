@@ -69,11 +69,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     // TASKS.Удаление по ID
     @Override
-    public Task removeTaskById(int id) {
+    public void removeTaskById(int id) {
         if (!taskStorage.containsKey(id)) {
-            return null;
+            return;
         }
-        return taskStorage.remove(id);
+        historyManager.remove(taskStorage.get(id));
+        taskStorage.remove(id);
     }
 
     // TASKS.Удаление всех задач
@@ -138,6 +139,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         epic.getSubTask().forEach(subTaskStorage::remove);
+        historyManager.remove(epic);
         epicStorage.remove(id);
     }
 
@@ -247,8 +249,9 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         Subtask subtask = subTaskStorage.get(id);
-        Epic epic = epicStorage.get(subtask.getEpicId());
+        Epic epic = epicStorage.get(subTaskStorage.get(id).getEpicId());
         epic.removeSubtask(id);
+        historyManager.remove(subtask);
         subTaskStorage.remove(id);
         updateEpicStatus(epic);
     }

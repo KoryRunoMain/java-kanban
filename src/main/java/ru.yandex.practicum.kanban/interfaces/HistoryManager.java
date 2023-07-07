@@ -8,6 +8,8 @@ public interface HistoryManager {
     // Добавление
     void add(Task task);
 
+    void remove(Task task);
+
     // Получить список просмотренных задач
     ArrayList<Task> getHistory();
 
