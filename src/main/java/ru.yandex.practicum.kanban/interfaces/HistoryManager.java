@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public interface HistoryManager {
 
-    // Просмотренные задачи
+    // Добавление
     void add(Task task);
 
     // Получить список просмотренных задач
