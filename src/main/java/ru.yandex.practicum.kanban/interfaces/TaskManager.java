@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.services;
+package ru.yandex.practicum.kanban.interfaces;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
@@ -49,6 +49,9 @@ public interface TaskManager {
     ArrayList<Subtask> getAllSubTasks();
     // Удалить все подзадачи
     void removeAllSubTasks();
+
+    /* Просмотр истории */
+    ArrayList<Task> getHistory();
 
 
 }

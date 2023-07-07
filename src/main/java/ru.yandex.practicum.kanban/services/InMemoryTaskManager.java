@@ -1,7 +1,9 @@
 package ru.yandex.practicum.kanban.services;
 
+import ru.yandex.practicum.kanban.interfaces.HistoryManager;
+import ru.yandex.practicum.kanban.interfaces.TaskManager;
 import ru.yandex.practicum.kanban.models.Epic;
-import ru.yandex.practicum.kanban.models.Status;
+import ru.yandex.practicum.kanban.constants.Status;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 
@@ -13,18 +15,26 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> taskStorage;
     private final HashMap<Integer, Epic> epicStorage;
     private final HashMap<Integer, Subtask> subTaskStorage;
-
+    private final HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         taskStorage = new HashMap<>();
         epicStorage = new HashMap<>();
         subTaskStorage = new HashMap<>();
+        historyManager = new InMemoryHistoryManager();
     }
+
+
     // Увеличение ID задачи на 1
     public int getNextId() {
         return ++generatorId;
     }
 
+    // Просмотр истории
+    @Override
+    public ArrayList<Task> getHistory() {
+        return historyManager.getHistory();
+    }
 
     /* TASKS */
     // TASKS.Добавление
@@ -44,6 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (!taskStorage.containsKey(id)) {
             return null;
         }
+        historyManager.add(taskStorage.get(id));
         return taskStorage.get(id);
     }
 
@@ -106,6 +117,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (!epicStorage.containsKey(id)) {
             return null;
         }
+        historyManager.add(epicStorage.get(id));
         return epicStorage.get(id);
     }
 
@@ -206,6 +218,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (!subTaskStorage.containsKey(id)) {
             return null;
         }
+        historyManager.add(subTaskStorage.get(id));
         return subTaskStorage.get(id);
     }
 

@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.models;
 
+import ru.yandex.practicum.kanban.constants.Type;
+
 import java.util.Objects;
 
 
