@@ -21,7 +21,7 @@ public class InMemoryTaskManager implements TaskManager {
         taskStorage = new HashMap<>();
         epicStorage = new HashMap<>();
         subTaskStorage = new HashMap<>();
-        historyManager = new InMemoryHistoryManager();
+        historyManager = Manager.getDefaultHistory();
     }
 
 
