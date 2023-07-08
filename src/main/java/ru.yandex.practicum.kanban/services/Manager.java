@@ -5,7 +5,6 @@ import ru.yandex.practicum.kanban.services.interfaces.TaskManager;
 
 public class Manager {
 
-    // Получить обьект TaskManager
     public static TaskManager getDefault(HistoryManager historyManager) {
         return new InMemoryTaskManager(historyManager);
     }

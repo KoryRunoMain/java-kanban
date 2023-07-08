@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban;
 
+import ru.yandex.practicum.kanban.services.InMemoryTaskManager;
+import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
 import ru.yandex.practicum.kanban.services.interfaces.TaskManager;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
@@ -8,7 +10,8 @@ import ru.yandex.practicum.kanban.services.Manager;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = Manager.getDefault();
+
+        TaskManager taskManager = Manager.getDefault(Manager.getDefaultHistory());
 
         Task task1 = new Task("Task1", "Taskdes1");
         Task task2 = new Task("Task2", "Taskdes2");
@@ -33,13 +36,13 @@ public class Main {
         taskManager.getEpicById(epic1.getTaskId());
         taskManager.getSubTaskById(subtask1.getTaskId());
 
-        System.out.println("История просмотров:");
-        System.out.println(taskManager.getHistory());
-
-        System.out.println("Удаление по ID:");
-        taskManager.removeTaskById(task1.getTaskId());
-        taskManager.removeEpicById(epic2.getTaskId());
-        taskManager.removeSubTaskById(subtask1.getTaskId());
+//        System.out.println("История просмотров:");
+//        System.out.println(taskManager.getHistory());
+//
+//        System.out.println("Удаление по ID:");
+//        taskManager.removeTaskById(task1.getTaskId());
+//        taskManager.removeEpicById(epic2.getTaskId());
+//        taskManager.removeSubTaskById(subtask1.getTaskId());
 
         System.out.println("История просмотров:");
         System.out.println(taskManager.getHistory());
