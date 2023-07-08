@@ -1,14 +1,15 @@
 package ru.yandex.practicum.kanban.services;
 
-import ru.yandex.practicum.kanban.interfaces.HistoryManager;
+import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
 import ru.yandex.practicum.kanban.models.Task;
 import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final ArrayList<Task> historyTasks;
     private static final int SIZE_OF_HISTORYTASKS = 10;
     private static final int OLD_TASK = 0;
+
+    private final ArrayList<Task> historyTasks;
 
     public InMemoryHistoryManager() {
         historyTasks = new ArrayList<>();
@@ -23,12 +24,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
         historyTasks.remove(OLD_TASK);
         historyTasks.add(task);
-    }
-
-    // Удалить
-    @Override
-    public void remove(Task task) {
-        historyTasks.remove(task);
     }
 
     // Получить

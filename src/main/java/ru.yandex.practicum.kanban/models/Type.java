@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.constants;
+package ru.yandex.practicum.kanban.models;
 
 
 public enum Type {

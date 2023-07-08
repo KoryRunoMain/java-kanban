@@ -1,9 +1,9 @@
 package ru.yandex.practicum.kanban.services;
 
-import ru.yandex.practicum.kanban.interfaces.HistoryManager;
-import ru.yandex.practicum.kanban.interfaces.TaskManager;
+import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
+import ru.yandex.practicum.kanban.services.interfaces.TaskManager;
 import ru.yandex.practicum.kanban.models.Epic;
-import ru.yandex.practicum.kanban.constants.Status;
+import ru.yandex.practicum.kanban.models.Status;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 
@@ -17,12 +17,13 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Subtask> subTaskStorage;
     private final HistoryManager historyManager;
 
-    public InMemoryTaskManager() {
+    public InMemoryTaskManager(HistoryManager historyManager) {
         taskStorage = new HashMap<>();
         epicStorage = new HashMap<>();
         subTaskStorage = new HashMap<>();
-        historyManager = Manager.getDefaultHistory();
+        this.historyManager = historyManager;
     }
+
 
 
     // Увеличение ID задачи на 1
@@ -73,7 +74,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (!taskStorage.containsKey(id)) {
             return;
         }
-        historyManager.remove(taskStorage.get(id));
         taskStorage.remove(id);
     }
 
@@ -139,7 +139,6 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         epic.getSubTask().forEach(subTaskStorage::remove);
-        historyManager.remove(epic);
         epicStorage.remove(id);
     }
 
@@ -251,7 +250,6 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subtask = subTaskStorage.get(id);
         Epic epic = epicStorage.get(subTaskStorage.get(id).getEpicId());
         epic.removeSubtask(id);
-        historyManager.remove(subtask);
         subTaskStorage.remove(id);
         updateEpicStatus(epic);
     }

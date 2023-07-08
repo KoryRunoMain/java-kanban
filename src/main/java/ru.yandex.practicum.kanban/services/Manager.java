@@ -1,13 +1,13 @@
 package ru.yandex.practicum.kanban.services;
 
-import ru.yandex.practicum.kanban.interfaces.HistoryManager;
-import ru.yandex.practicum.kanban.interfaces.TaskManager;
+import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
+import ru.yandex.practicum.kanban.services.interfaces.TaskManager;
 
 public class Manager {
 
     // Получить обьект TaskManager
-    public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+    public static TaskManager getDefault(HistoryManager historyManager) {
+        return new InMemoryTaskManager(historyManager);
     }
 
     // Получить обьект HistoryManager
