@@ -3,7 +3,7 @@ package ru.yandex.practicum.kanban.services;
 import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
 import ru.yandex.practicum.kanban.services.interfaces.TaskManager;
 
-public class Manager {
+public class Managers {
 
     public static TaskManager getDefault(HistoryManager historyManager) {
         return new InMemoryTaskManager(historyManager);

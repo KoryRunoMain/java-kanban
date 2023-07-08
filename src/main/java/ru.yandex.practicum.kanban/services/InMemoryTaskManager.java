@@ -25,7 +25,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-
     // Увеличение ID задачи на 1
     public int getNextId() {
         return ++generatorId;
