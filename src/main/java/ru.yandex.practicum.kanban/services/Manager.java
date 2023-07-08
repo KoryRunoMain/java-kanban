@@ -9,8 +9,8 @@ public class Manager {
         return new InMemoryTaskManager(historyManager);
     }
 
-    // Получить обьект HistoryManager
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
+
 }
