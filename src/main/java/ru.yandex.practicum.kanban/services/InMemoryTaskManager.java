@@ -9,6 +9,7 @@ import ru.yandex.practicum.kanban.models.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int generatorId = 0;
@@ -32,7 +33,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Просмотр истории
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
@@ -74,6 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         taskStorage.remove(id);
+        historyManager.remove(id);
     }
 
     // TASKS.Удаление всех задач
@@ -139,6 +141,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         epic.getSubTask().forEach(subTaskStorage::remove);
         epicStorage.remove(id);
+        historyManager.remove(id);
     }
 
     // EPICS.Удаление всех задач
@@ -250,6 +253,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epicStorage.get(subTaskStorage.get(id).getEpicId());
         epic.removeSubtask(id);
         subTaskStorage.remove(id);
+        historyManager.remove(id);
         updateEpicStatus(epic);
     }
 

@@ -5,6 +5,7 @@ import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public interface TaskManager {
@@ -52,7 +53,7 @@ public interface TaskManager {
     void removeAllSubTasks();
 
     /* Просмотр истории */
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 
 
 }
