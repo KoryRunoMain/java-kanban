@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.services;
+package ru.yandex.practicum.kanban.services.historyManagers;
 
 public class Node<E> {
     protected E data;

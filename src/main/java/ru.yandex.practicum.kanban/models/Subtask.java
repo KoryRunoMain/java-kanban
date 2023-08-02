@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.models;
 
+import ru.yandex.practicum.kanban.models.enums.Type;
+
 import java.util.Objects;
 
 public class Subtask extends Task {

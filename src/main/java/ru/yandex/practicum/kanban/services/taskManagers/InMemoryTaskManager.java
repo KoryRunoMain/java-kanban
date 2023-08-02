@@ -1,9 +1,8 @@
-package ru.yandex.practicum.kanban.services;
+package ru.yandex.practicum.kanban.services.taskManagers;
 
-import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
-import ru.yandex.practicum.kanban.services.interfaces.TaskManager;
+import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.models.Epic;
-import ru.yandex.practicum.kanban.models.Status;
+import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 

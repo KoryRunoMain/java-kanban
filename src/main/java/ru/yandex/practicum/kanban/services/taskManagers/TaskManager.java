@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.services.interfaces;
+package ru.yandex.practicum.kanban.services.taskManagers;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;

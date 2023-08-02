@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.services.interfaces;
+package ru.yandex.practicum.kanban.services.historyManagers;
 
 import ru.yandex.practicum.kanban.models.Task;
 import java.util.List;

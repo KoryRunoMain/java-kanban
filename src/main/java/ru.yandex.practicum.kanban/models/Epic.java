@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.models;
 
+import ru.yandex.practicum.kanban.models.enums.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
