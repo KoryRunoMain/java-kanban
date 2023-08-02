@@ -3,7 +3,7 @@ package ru.yandex.practicum.kanban.models;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private int epicId;
+    private final int epicId;
 
     public Subtask(Integer epicId, String taskName, String taskDescription) {
         super(taskName, taskDescription);

@@ -2,10 +2,8 @@ package ru.yandex.practicum.kanban.services;
 
 import ru.yandex.practicum.kanban.services.interfaces.HistoryManager;
 import ru.yandex.practicum.kanban.models.Task;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
@@ -21,24 +19,24 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     /* Добавление задачи в конец списка */
     public void linkLast(Task task) {
-        final Node<Task> oldTail = tail;
-        final Node<Task> newNode = new Node<>(null, task, oldTail);
+        Node<Task> oldTail = tail;
+        Node<Task> newNode = new Node<>(oldTail, task, null);
         historyTasks.put(task.getTaskId(), newNode);
         tail = newNode;
         if (oldTail == null) {
             head = newNode;
         } else {
-            oldTail.prev = newNode;
+            oldTail.next = newNode;
         }
     }
 
     /* Сбор всех задач в список выдачи истории просмотров */
     public List<Task> getTasks() {
-        Node<Task> task = head;
+        Node<Task> taskNode = head;
 
-        while (task != null) {
-            tasks.add(task.data);
-            task = head.next;
+        while (taskNode != null) {
+            tasks.add(taskNode.data);
+            taskNode = taskNode.next;
         }
         return new ArrayList<>(tasks);
     }
@@ -50,19 +48,19 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
         taskNode.data = null;
 
-        if (taskNode.equals(head) && taskNode.equals(tail)) {
+        if (head == taskNode && tail == taskNode) {
             head = null;
             tail = null;
             return;
         }
-        if (!(taskNode.equals(head)) && taskNode.equals(tail)) {
-            tail = taskNode.prev;
-            tail.next = null;
+        if (head == taskNode) {
+            head = taskNode.next;
+            head.prev = null;
             return;
         }
-        if (taskNode.equals(head) && !(taskNode.equals(tail))) {
-            head = taskNode.next;
-            tail.prev = null;
+        if (tail == taskNode) {
+            tail = taskNode.prev;
+            tail.next = null;
             return;
         }
         taskNode.prev.next = taskNode.next;
@@ -75,7 +73,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) {
             return;
         }
-        linkLast(task);
         remove(task.getTaskId());
         linkLast(task);
     }
