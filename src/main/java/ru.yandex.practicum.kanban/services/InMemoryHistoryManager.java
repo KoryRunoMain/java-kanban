@@ -9,76 +9,84 @@ import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks;
     private final Map<Integer, Node<Task>> historyTasks;
-    public Node<Task> first;
-    public Node<Task> last;
+    public Node<Task> head;
+    public Node<Task> tail;
 
     public InMemoryHistoryManager() {
+        tasks = new ArrayList<>();
         historyTasks = new HashMap<>();
     }
 
+    /* Добавление задачи в конец списка */
     public void linkLast(Task task) {
-        Node<Task> newNode = new Node<>(task, last, null);
+        final Node<Task> oldTail = tail;
+        final Node<Task> newNode = new Node<>(null, task, oldTail);
         historyTasks.put(task.getTaskId(), newNode);
-
-        if (last == null) {
-            first = newNode;
+        tail = newNode;
+        if (oldTail == null) {
+            head = newNode;
         } else {
-            last.setNext(newNode);
+            oldTail.prev = newNode;
         }
-        last = newNode;
     }
 
+    /* Сбор всех задач в список выдачи истории просмотров */
     public List<Task> getTasks() {
-        Node<Task> valueTask = first;
+        Node<Task> task = head;
 
-        while (valueTask != null) {
-            tasks.add(valueTask.getValue());
-            valueTask = first.getNext();
+        while (task != null) {
+            tasks.add(task.data);
+            task = head.next;
         }
         return new ArrayList<>(tasks);
     }
 
+    /* Удаление узла задачи из двухсвязного списка */
     public void removeNode(Node<Task> taskNode) {
         if (taskNode == null) {
             return;
         }
-        taskNode.setValue(null);
-        if (taskNode.equals(first) && taskNode.equals(last)) {
-            first = null;
-            last = null;
-            return;
-        }
-        if (!(taskNode.equals(first)) && taskNode.equals(last)) {
-            last = taskNode.getPrev();
-            last.setNext(null);
-            return;
-        }
-        if (taskNode.equals(first) && !(taskNode.equals(last))) {
-            first = taskNode.getNext();
-            last.setPrev(null);
-        } else {
-            Node<Task> next = taskNode.getNext();
-            Node<Task> prev = taskNode.getPrev();
-            prev.getNext() = next; // Доработать
-            next.getPrev() = prev; // Доработать
-        }
+        taskNode.data = null;
 
+        if (taskNode.equals(head) && taskNode.equals(tail)) {
+            head = null;
+            tail = null;
+            return;
+        }
+        if (!(taskNode.equals(head)) && taskNode.equals(tail)) {
+            tail = taskNode.prev;
+            tail.next = null;
+            return;
+        }
+        if (taskNode.equals(head) && !(taskNode.equals(tail))) {
+            head = taskNode.next;
+            tail.prev = null;
+            return;
+        }
+        taskNode.prev.next = taskNode.next;
+        taskNode.next.prev = taskNode.prev;
     }
 
-    // Добавить
+    /* Добавить задачу */
     @Override
     public void add(Task task) {
-
+        if (task == null) {
+            return;
+        }
+        linkLast(task);
+        remove(task.getTaskId());
+        linkLast(task);
     }
 
+    /* Удалить задачу */
     @Override
     public void remove(int id) {
-        historyTasks.remove(id);
+        removeNode(historyTasks.get(id));
     }
 
-    // Получить
+    /* Получить историю просмотров */
     @Override
     public List<Task> getHistory() {
         return getTasks();
