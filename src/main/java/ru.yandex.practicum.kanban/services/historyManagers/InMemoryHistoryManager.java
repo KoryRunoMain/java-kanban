@@ -9,31 +9,29 @@ import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final List<Task> tasks;
     private final Map<Integer, Node<Task>> historyTasks;
     public Node<Task> head;
     public Node<Task> tail;
 
     public InMemoryHistoryManager() {
-        tasks = new ArrayList<>();
         historyTasks = new HashMap<>();
     }
 
     /* Добавление задачи в конец списка */
-    public void linkLast(Task task) {
-        Node<Task> oldTail = tail;
-        Node<Task> newNode = new Node<>(oldTail, task, null);
+    private void linkLast(Task task) {
+        Node<Task> newNode = new Node<>(tail, task, null);
         historyTasks.put(task.getTaskId(), newNode);
-        tail = newNode;
-        if (oldTail == null) {
+        if (tail == null) {
             head = newNode;
         } else {
-            oldTail.next = newNode;
+            tail.next = newNode;
         }
+        tail = newNode;
     }
 
     /* Сбор всех задач в список выдачи истории просмотров */
-    public List<Task> getTasks() {
+    private List<Task> getTasks() {
+        List<Task> tasks = new ArrayList<>();
         Node<Task> taskNode = head;
 
         while (taskNode != null) {
@@ -44,7 +42,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     /* Удаление узла задачи из двухсвязного списка */
-    public void removeNode(Node<Task> taskNode) {
+    private void removeNode(Node<Task> taskNode) {
         if (taskNode == null) {
             return;
         }
@@ -75,7 +73,9 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) {
             return;
         }
-        remove(task.getTaskId());
+        if (historyTasks.containsKey(task.getTaskId())) {
+            remove(task.getTaskId());
+        }
         linkLast(task);
     }
 
@@ -83,6 +83,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void remove(int id) {
         removeNode(historyTasks.get(id));
+        historyTasks.remove(id);
     }
 
     /* Получить историю просмотров */
