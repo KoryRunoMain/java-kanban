@@ -38,7 +38,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             tasks.add(taskNode.data);
             taskNode = taskNode.next;
         }
-        return new ArrayList<>(tasks);
+        return tasks;
     }
 
     /* Удаление узла задачи из двухсвязного списка */
