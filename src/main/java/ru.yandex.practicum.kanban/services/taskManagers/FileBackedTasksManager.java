@@ -67,8 +67,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 getType(task).toString(),           // type
                 task.getTaskName(),                 // name
                 task.getStatus().toString(),        // status
-                task.getTaskDescription(),
-                getSubtaskOfEpic(task)
+                task.getTaskDescription(),          // description
+                getSubtaskOfEpic(task)              // epic
         };
         return String.join(",", line);
     }
