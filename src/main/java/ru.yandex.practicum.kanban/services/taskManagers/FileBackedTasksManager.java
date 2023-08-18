@@ -114,10 +114,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* Получение типа задачи */
     private Type getType(Task task) {
-        if (task.equals(Type.EPIC)) {
+        if (task.equals("EPIC")) {
             return Type.EPIC;
         }
-        if (task.equals(Type.SUBTASK)) {
+        if (task.equals("SUBTASK")) {
             return Type.SUBTASK;
         }
         return Type.TASK;
@@ -125,7 +125,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* Получение Subtask задачи */
     private String getSubtaskOfEpic(Task task) {
-        if (task.equals(Type.SUBTASK)) {
+        if (task.equals("SUBTASK")) {
             return Integer.toString(((Subtask) task).getEpicId());
         }
         return "";
