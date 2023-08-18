@@ -3,11 +3,13 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
+import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.exceptions.ManagerSaveException;
@@ -73,16 +75,41 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return String.join(",", line);
     }
 
-    /* Создание задачи из строки */
-    private Task fromString(String line) {
-        // ... Code here
-        return task;
+    /* Создание задачи из строки в менеджер */
+    private void fromString(String value) {
+        String[] values = value.split(",");
+        int id = Integer.parseInt(values[0]); // id
+        Type type = Type.valueOf(values[1]);
+        String name = values[2];
+        Status status = Status.valueOf(values[3]);
+        String description = values[4];
+        Integer epicId = Integer.parseInt(values[5]);
+
+        if (type.equals(Type.TASK)) {
+            Task task = new Task(name, description, type, status);
+            taskStorage.put(id, task);
+        }
+        if (type.equals(Type.EPIC)) {
+            Epic epic = new Epic(name, description, type, status);
+            epicStorage.put(id, epic);
+        }
+        if (type.equals(Type.SUBTASK)) {
+            Subtask subtask = new Subtask(epicId, name, description, type, status);
+            subTaskStorage.put(id, subtask);
+        }
     }
 
-    /* Создание задачи из строки в менеджер истории */
-    private List<Integer> fromString(String line) {
-        // ... Code here
-        return list;
+    /* Формирование задач из файла в менеджер истории */
+    private List<Integer> historyFromString(String values) {
+        if (values.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Integer> historyTaskList = new ArrayList<>();
+        String[] splitValue = values.split(",");
+        for (String value : splitValue) {
+            historyTaskList.add(Integer.valueOf(value));
+        }
+        return historyTaskList;
     }
 
     /* Получение типа задачи */
@@ -106,7 +133,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* Загрузка данных из файла в менеджер */
     public void loadFromFile() {
-        // ... Code here
+
     }
 
 
