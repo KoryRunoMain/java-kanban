@@ -12,9 +12,9 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int generatorId = 0;
-    private final HashMap<Integer, Task> taskStorage;
-    private final HashMap<Integer, Epic> epicStorage;
-    private final HashMap<Integer, Subtask> subTaskStorage;
+    protected final HashMap<Integer, Task> taskStorage;
+    protected final HashMap<Integer, Epic> epicStorage;
+    protected final HashMap<Integer, Subtask> subTaskStorage;
     private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
