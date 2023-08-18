@@ -1,6 +1,7 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public FileBackedTasksManager(HistoryManager historyManager, String file) {
         super(historyManager);
         this.file = new File(String.valueOf(filePath));
+    }
+
+    public FileBackedTasksManager(HistoryManager historyManager) {
+        super(historyManager);
     }
 
     /* Запись в файл */
@@ -76,7 +81,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     /* Создание задачи из строки в менеджер */
-    private void fromString(String value) {
+    private Task fromString(String value) {
         String[] values = value.split(",");
         int id = Integer.parseInt(values[0]); // id
         Type type = Type.valueOf(values[1]);
@@ -85,18 +90,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         String description = values[4];
         Integer epicId = Integer.parseInt(values[5]);
 
-        if (type.equals(Type.TASK)) {
-            Task task = new Task(name, description, type, status);
-            taskStorage.put(id, task);
-        }
         if (type.equals(Type.EPIC)) {
             Epic epic = new Epic(name, description, type, status);
-            epicStorage.put(id, epic);
+            epic.setTaskId(id);
+            epic.setStatus(status);
+            return epic;
         }
         if (type.equals(Type.SUBTASK)) {
             Subtask subtask = new Subtask(epicId, name, description, type, status);
-            subTaskStorage.put(id, subtask);
+            subtask.setTaskId(id);
+            subtask.setStatus(status);
+            return subtask;
         }
+        Task task = new Task(name, description, type, status);
+        task.setTaskId(id);
+        return task;
     }
 
     /* Формирование задач из файла в менеджер истории */
@@ -114,10 +122,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* Получение типа задачи */
     private Type getType(Task task) {
-        if (task.equals("EPIC")) {
+        if (task.equals(Type.EPIC)) {
             return Type.EPIC;
         }
-        if (task.equals("SUBTASK")) {
+        if (task.equals(Type.SUBTASK)) {
             return Type.SUBTASK;
         }
         return Type.TASK;
@@ -133,8 +141,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* Загрузка данных из файла в менеджер */
     public void loadFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(file, UTF_8))) {
+            while (br.ready()) {
+                String taskLine = br.readLine();
+                if (taskLine.equals("")) {
+                    break;
+                }
+                Task task = fromString(taskLine);
+
+                if (task.equals(Type.EPIC)) {
+                    createEpic((Epic) task);
+                }
+                if (task.equals(Type.SUBTASK)) {
+                    createSubTask((Subtask) task);
+                }
+                createTask((Task) task);
+            }
+            String historyLine = br.readLine();
+            for (Integer id : historyFromString(historyLine)) {
+                historyManager.add(id); // Разобраться
+            }
+
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка чтения файла..");
+        }
 
     }
+
 
 
     /* TASKS */
