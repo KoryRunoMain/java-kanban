@@ -1,5 +1,6 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
+import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.enums.Status;
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int generatorId = 0;
-    protected final HashMap<Integer, Task> taskStorage;
-    protected final HashMap<Integer, Epic> epicStorage;
-    protected final HashMap<Integer, Subtask> subTaskStorage;
-    protected final HistoryManager historyManager;
+    protected static HashMap<Integer, Task> taskStorage;
+    protected static HashMap<Integer, Epic> epicStorage;
+    protected static HashMap<Integer, Subtask> subTaskStorage;
+    protected static HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         taskStorage = new HashMap<>();

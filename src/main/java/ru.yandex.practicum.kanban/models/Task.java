@@ -15,17 +15,18 @@ public class Task {
     public Task(String taskName, String taskDescription) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
+        this.type = Type.TASK;
+        this.status = Status.NEW;
         this.id = 1;
     }
 
-    public Task(String taskName, String taskDescription, Type type, Status status) {
+    public Task(String taskName, String taskDescription, Status status) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.id = 1;
-        this.type = type;
         this.status = status;
+        this.type = Type.TASK;
+        this.id = 1;
     }
-
 
     public String getTaskName() {
         return taskName;
@@ -53,6 +54,10 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public void setStatus(Status status) {

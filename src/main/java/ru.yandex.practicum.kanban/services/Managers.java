@@ -2,8 +2,11 @@ package ru.yandex.practicum.kanban.services;
 
 import ru.yandex.practicum.kanban.services.historyManagers.InMemoryHistoryManager;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
+import ru.yandex.practicum.kanban.services.taskManagers.FileBackedTasksManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
+
+import java.io.File;
 
 public class Managers {
 
@@ -15,4 +18,7 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
+    public static FileBackedTasksManager getDefaultFileBackedTasksManager(File file) {
+        return new FileBackedTasksManager(getDefaultHistory());
+    }
 }
