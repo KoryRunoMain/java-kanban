@@ -8,7 +8,6 @@ import ru.yandex.practicum.kanban.models.enums.Type;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CSVFormatHandler {
@@ -43,17 +42,20 @@ public class CSVFormatHandler {
         String name = values[2];                            // name
         Status status = Status.valueOf(values[3]);          // status
         String description = values[4];                     // description
-        int epicId = Integer.parseInt(values[5]);           // epic id
+        int epicId = 0;
+        if (type.equals(Type.SUBTASK)) {
+            epicId = Integer.parseInt(values[5]);           // epic id
+        }
 
         switch (type) {
             case EPIC -> {
-                Epic epic = new Epic(name, description, status);
+                Epic epic = new Epic(name, description);
                 epic.setTaskId(id);
                 epic.setStatus(status);
                 return epic;
             }
             case SUBTASK -> {
-                Subtask subtask = new Subtask(epicId, name, description, status);
+                Subtask subtask = new Subtask(epicId, name, description);
                 subtask.setTaskId(id);
                 subtask.setStatus(status);
                 return subtask;
@@ -75,9 +77,6 @@ public class CSVFormatHandler {
     }
 
     public List<Integer> historyFromString(String values) {
-//        if (values.isEmpty()) {
-//            return Collections.emptyList();
-//        }
         List<Integer> taskIDs = new ArrayList<>();
         if (values == null) {
             return taskIDs;

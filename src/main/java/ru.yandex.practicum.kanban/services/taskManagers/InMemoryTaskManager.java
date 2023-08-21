@@ -22,7 +22,7 @@ public class InMemoryTaskManager implements TaskManager {
         taskStorage = new HashMap<>();
         epicStorage = new HashMap<>();
         subTaskStorage = new HashMap<>();
-        this.historyManager = historyManager;
+        InMemoryTaskManager.historyManager = historyManager;
     }
 
 

@@ -10,8 +10,8 @@ import java.util.Objects;
 public class Epic extends Task {
     private final List<Integer> subTasksIds;
 
-    public Epic(String taskName, String taskDescription, Status status) {
-        super(taskName, taskDescription, status);
+    public Epic(String taskName, String taskDescription) {
+        super(taskName, taskDescription);
         this.subTasksIds = new ArrayList<>();
         this.type = Type.EPIC;
     }

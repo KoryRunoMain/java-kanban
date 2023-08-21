@@ -16,7 +16,6 @@ import ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler.CSVForm
 import ru.yandex.practicum.kanban.services.taskManagers.exceptions.ManagerSaveException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-//import static ru.yandex.practicum.kanban.services.Managers.getDefaultFileBackedTasksManager;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
@@ -71,7 +70,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 //        System.out.println("История просмотров:");
 //        System.out.println(manager.getHistory());
 
-//        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getAllEpics());
+        System.out.println(manager.getAllSubTasks());
+        System.out.println(manager.getHistory());
     }
 
 
@@ -106,44 +108,42 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
     }
 
-    /* Загрузка данных из файла в менеджер */ // Дописать
+    /* Загрузка данных из файла в менеджер */
     private void loadFromFile(File file){
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file, UTF_8))) {
-            String taskLine = reader.readLine();
+            String tasksLine = "";
 
-            /* Проверка на пустой файл */
-            if (taskLine.equals("")) {
-                return;
-            }
-
-            while (reader.ready()) {
+//            /* Проверка на пустой файл */
+//            if (tasksLine.equals("")) {
+//                return;
+//            }
+            boolean firstLine = true;
+            while ((tasksLine = reader.readLine()) != null) {
                 /* Пропустить заголовок */
-                if (taskLine.contains("id")) {
-                    /*
-                    ДОПИСАТЬ
-                     */
+                if (firstLine) {
+                    firstLine = false;
+                    continue;
                 }
 
                 /* Если встретили пустую строку следующие записи для менеджера историии */
-                if (taskLine.isEmpty()) {
+                if (tasksLine.isEmpty()) {
                     break;
                 }
-
                 /* Запись задач */
-                Task task = handler.fromString(taskLine);
+                Task task = handler.fromString(tasksLine);
                 if (task instanceof Epic epic) {
-                    createEpic(epicStorage.put(epic.getTaskId(), epic));
+                    super.createEpic(epicStorage.put(epic.getTaskId(), epic));
                 } else if (task instanceof Subtask subtask) {
-                    createSubTask(subTaskStorage.put(subtask.getTaskId(), subtask));
+                    super.createSubTask(subTaskStorage.put(subtask.getTaskId(), subtask));
                 } else {
-                    createTask(taskStorage.put(task.getTaskId(), task));
+                    super.createTask(taskStorage.put(task.getTaskId(), task));
                 }
             }
 
             /* Запись истории просмотренных задач */
             String historyRow = reader.readLine();
-            if (historyRow.isEmpty()) {
+            if (!historyRow.isEmpty()) {
                 // Записываем просмотренные задачи в историю
                 for (int id : handler.historyFromString(historyRow)) {
                     addToHistory(id);

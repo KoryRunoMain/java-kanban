@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Subtask extends Task {
     private final int epicId;
 
-    public Subtask(Integer epicId, String taskName, String taskDescription, Status status) {
-        super(taskName, taskDescription, status);
+    public Subtask(Integer epicId, String taskName, String taskDescription) {
+        super(taskName, taskDescription);
         this.epicId = epicId;
         this.type = Type.SUBTASK;
     }
