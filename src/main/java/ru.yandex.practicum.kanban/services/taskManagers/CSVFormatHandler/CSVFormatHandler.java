@@ -19,7 +19,7 @@ public class CSVFormatHandler {
         return "id,type,name,status,description,epic" + "\n";
     }
 
-    /* Получить строку задач*/
+    /* Получить строку из задач */
     public String generateToString(Task task) {
         String result = task.getTaskId() + DELIMITER +      // id
                 task.getType() + DELIMITER +                // type
@@ -33,7 +33,7 @@ public class CSVFormatHandler {
         return result;
     }
 
-    /* Получить задачи из строки */
+    /* Получить задачи из строк */
     public Task fromString(String value) {
         String[] values = value.split(DELIMITER);
 
@@ -68,6 +68,7 @@ public class CSVFormatHandler {
         }
     }
 
+    /* Получить строку из истории */
     public String generateHistoryToString(HistoryManager historyManager) {
         List<String> result = new ArrayList<>();
         for (Task task: historyManager.getHistory()) {
@@ -76,6 +77,7 @@ public class CSVFormatHandler {
         return String.join(DELIMITER, result);
     }
 
+    /* Получить историю из строки */
     public List<Integer> historyFromString(String values) {
         List<Integer> taskIDs = new ArrayList<>();
         if (values == null) {

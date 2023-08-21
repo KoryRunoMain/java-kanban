@@ -1,6 +1,5 @@
 package ru.yandex.practicum.kanban.models;
 
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
 import java.util.ArrayList;
@@ -15,13 +14,6 @@ public class Epic extends Task {
         this.subTasksIds = new ArrayList<>();
         this.type = Type.EPIC;
     }
-
-//    public Epic(String taskName, String taskDescription, Status status) {
-//        super(taskName, taskDescription, status);
-//        this.subTasksIds = new ArrayList<>();
-//        this.type = Type.EPIC;
-//    }
-
 
     public ArrayList<Integer> getSubTask() {
         return new ArrayList<>(subTasksIds);

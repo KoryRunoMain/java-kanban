@@ -1,9 +1,7 @@
 package ru.yandex.practicum.kanban.models;
 
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
-import javax.xml.stream.events.StartDocument;
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -14,12 +12,6 @@ public class Subtask extends Task {
         this.epicId = epicId;
         this.type = Type.SUBTASK;
     }
-
-//    public Subtask(Integer epicId, String taskName, String taskDescription, Status status) {
-//        super(taskName, taskDescription, status);
-//        this.epicId = epicId;
-//        this.type = Type.SUBTASK;
-//    }
 
     public int getEpicId() {
         return epicId;
