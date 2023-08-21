@@ -74,7 +74,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             }
 
             String tasksLine = "";
-            boolean firstLine = true;
+            boolean firstLine = false; // Переменная для пропуска заголовка
+
+            /* Проверка первой строки файла на заголовок */
+            if (reader.readLine().trim().equals(handler.getHeader())) {
+                firstLine = true;
+            }
             while ((tasksLine = reader.readLine()) != null) {
                 /* Пропустить заголовок */
                 if (firstLine) {
@@ -236,7 +241,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public static void main(String[] args) {
         FileBackedTasksManager manager = Managers.getDefaultFileBackedTasksManager(file);
         manager.loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
-
     }
 
 }
