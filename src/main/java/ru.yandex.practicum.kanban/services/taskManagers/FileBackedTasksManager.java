@@ -20,7 +20,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     /* Класс работает с форматом .CSV */
     private static final CSVFormatHandler handler = new CSVFormatHandler();
 
-    private static final Path path = Path.of("src/resources/tasks.csv");
+    private Path path = Path.of("src/resources/tasks.csv");
     private File file = new File(String.valueOf(path));
 
     public FileBackedTasksManager(HistoryManager historyManager) {
