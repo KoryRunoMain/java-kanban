@@ -6,7 +6,7 @@ import ru.yandex.practicum.kanban.models.enums.Type;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private final int epicId;
+    protected final int epicId;
 
     public Subtask(Integer epicId, String taskName, String taskDescription) {
         super(taskName, taskDescription);

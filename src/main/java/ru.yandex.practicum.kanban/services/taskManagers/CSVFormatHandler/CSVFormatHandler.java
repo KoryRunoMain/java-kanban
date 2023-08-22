@@ -53,8 +53,9 @@ public class CSVFormatHandler {
         if (type.equals(Type.SUBTASK)) {
             epicId = Integer.parseInt(values[5]);           // epic id
         }
+        int subTaskId = 0;
         if (type.equals(Type.EPIC)) {
-
+            subTaskId = Integer.parseInt(values[0]);        // Добавление Subtask Id к эпику
         }
 
 
@@ -63,6 +64,7 @@ public class CSVFormatHandler {
                 Epic epic = new Epic(name, description);
                 epic.setTaskId(id);
                 epic.setStatus(status);
+                epic.addSubtask(subTaskId);
                 return epic;
             }
             case SUBTASK -> {

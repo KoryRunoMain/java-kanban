@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private final List<Integer> subTasksIds;
+    protected final List<Integer> subTasksIds;
 
     public Epic(String taskName, String taskDescription) {
         super(taskName, taskDescription);

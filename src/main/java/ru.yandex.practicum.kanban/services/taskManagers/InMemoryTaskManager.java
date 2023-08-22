@@ -1,6 +1,5 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
-import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.enums.Status;
@@ -30,9 +29,8 @@ public class InMemoryTaskManager implements TaskManager {
         return ++generatorId;
     }
 
-    protected int updateGeneratorID(int initialID) {
+    protected void updateGeneratorID(int initialID) {
         generatorId = initialID;
-        return generatorId;
     }
 
     /* Просмотр истории */

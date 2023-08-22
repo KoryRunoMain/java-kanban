@@ -1,7 +1,6 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -9,7 +8,6 @@ import java.util.*;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler.CSVFormatHandler;
@@ -22,8 +20,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     /* Класс работает с форматом .CSV */
     private static final CSVFormatHandler handler = new CSVFormatHandler();
 
-    private static final Path PATH = Path.of("src/resources/tasks.csv");
-    private File file = new File(String.valueOf(PATH));
+    private static final Path path = Path.of("src/resources/tasks.csv");
+    private File file = new File(String.valueOf(path));
 
     public FileBackedTasksManager(HistoryManager historyManager) {
         super(historyManager);
@@ -78,7 +76,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             }
 
             String tasksLine = "";
-            boolean firstLine = reader.readLine().trim().equals(handler.getHeader()); // Переменная для пропуска заголовка
+            boolean firstLine = reader.readLine()  // Переменная для пропуска заголовка
+                                      .trim()
+                                      .equals(handler.getHeader());
 
             /* Проверка первой строки файла на заголовок */
             while ((tasksLine = reader.readLine()) != null) {
@@ -100,7 +100,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     return fileBackedTasksManager;
                 }
 
-                /*  */
+                /* Обновление ID счетчика восстановленных задач */
                 if (task.getTaskId() > initialID) {
                     initialID = task.getTaskId();
                     fileBackedTasksManager.updateGeneratorID(initialID);
@@ -254,22 +254,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public static void main(String[] args) {
         FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
         manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
-
-        Task task1 = new Task("Task1S", "T1S");
-        Epic epic1 = new Epic("Epic1S", "E1S");
-        Subtask sub1 = new Subtask(epic1.getTaskId(), "Sub1S", "S1S");
-        Subtask sub2 = new Subtask(epic1.getTaskId(), "Sub2S", "S2S");
-
-        task1 = manager.createTask(new Task("Task1S", "T1S"));
-        epic1 = manager.createEpic(new Epic("Epic1S", "E1S"));
-        sub1 = manager.createSubTask(new Subtask(epic1.getTaskId(), "Sub1S", "S1S"));
-
-        System.out.println(manager.getAllTasks());
-        System.out.println(manager.getAllEpics());
-        System.out.println(manager.getAllSubTasks());
-//        System.out.println(manager.getTaskById(task1.getTaskId()));
-//        System.out.println(manager.getHistory());
-
     }
 
 }
