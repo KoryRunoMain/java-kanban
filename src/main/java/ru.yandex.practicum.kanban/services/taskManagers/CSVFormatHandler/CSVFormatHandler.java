@@ -13,6 +13,8 @@ import java.util.List;
 public class CSVFormatHandler {
 
     private static final String DELIMITER = ",";
+    private static final Integer TASK_LENGHT = 5;
+    private static final Integer TASK_LENGHT_WITH_EPICID = 6;
 
     /* Получить заголовок */
     public String getHeader() {
@@ -36,7 +38,12 @@ public class CSVFormatHandler {
     /* Получить задачи из строк */
     public Task fromString(String value) {
         String[] values = value.split(DELIMITER);
+        int valuesLength = values.length;
 
+        if (valuesLength != TASK_LENGHT &&
+            valuesLength != TASK_LENGHT_WITH_EPICID) {
+            return null;
+        }
         int id = Integer.parseInt(values[0]);               // id
         Type type = Type.valueOf(values[1]);                // type
         String name = values[2];                            // name
@@ -46,24 +53,20 @@ public class CSVFormatHandler {
         if (type.equals(Type.SUBTASK)) {
             epicId = Integer.parseInt(values[5]);           // epic id
         }
+        if (type.equals(Type.EPIC)) {
+
+        }
+
 
         switch (type) {
             case EPIC -> {
-                Epic epic = new Epic(name, description);
-                epic.setTaskId(id);
-                epic.setStatus(status);
-                return epic;
+                return new Epic(id, name, description, status, type);
             }
             case SUBTASK -> {
-                Subtask subtask = new Subtask(epicId, name, description);
-                subtask.setTaskId(id);
-                subtask.setStatus(status);
-                return subtask;
+                return new Subtask(epicId, name, description, status, type, epicId);
             }
             default -> {
-                Task task = new Task(name, description, status);
-                task.setTaskId(id);
-                return task;
+                return new Task(id, name, description, status, type);
             }
         }
     }

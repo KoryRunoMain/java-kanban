@@ -1,5 +1,6 @@
 package ru.yandex.practicum.kanban.models;
 
+import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
 import java.util.ArrayList;
@@ -9,10 +10,9 @@ import java.util.Objects;
 public class Epic extends Task {
     private final List<Integer> subTasksIds;
 
-    public Epic(String taskName, String taskDescription) {
-        super(taskName, taskDescription);
+    public Epic(Integer id, String taskName, String taskDescription, Status status, Type type) {
+        super(id, taskName, taskDescription, status, type);
         this.subTasksIds = new ArrayList<>();
-        this.type = Type.EPIC;
     }
 
     public ArrayList<Integer> getSubTask() {

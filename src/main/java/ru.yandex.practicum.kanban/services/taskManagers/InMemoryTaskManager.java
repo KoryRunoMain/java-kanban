@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int generatorId = 0;
+    protected int generatorId = 1;
     protected static HashMap<Integer, Task> taskStorage;
     protected static HashMap<Integer, Epic> epicStorage;
     protected static HashMap<Integer, Subtask> subTaskStorage;
@@ -24,7 +24,6 @@ public class InMemoryTaskManager implements TaskManager {
         subTaskStorage = new HashMap<>();
         this.historyManager = historyManager;
     }
-
 
     /* Увеличение ID задачи на 1 */
     public int getNextId() {
