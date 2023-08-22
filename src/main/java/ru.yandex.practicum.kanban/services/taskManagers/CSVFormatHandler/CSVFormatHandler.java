@@ -13,8 +13,8 @@ import java.util.List;
 public class CSVFormatHandler {
 
     private static final String DELIMITER = ",";
-    private static final Integer TASK_LENGHT = 5;
-    private static final Integer TASK_LENGHT_WITH_EPICID = 6;
+    private static final Integer TASK_LENGTH = 5;
+    private static final Integer TASK_LENGTH_WITH_EPICID = 6;
 
     /* Получить заголовок */
     public String getHeader() {
@@ -40,8 +40,8 @@ public class CSVFormatHandler {
         String[] values = value.split(DELIMITER);
         int valuesLength = values.length;
 
-        if (valuesLength != TASK_LENGHT &&
-            valuesLength != TASK_LENGHT_WITH_EPICID) {
+        if (valuesLength != TASK_LENGTH &&
+            valuesLength != TASK_LENGTH_WITH_EPICID) {
             return null;
         }
         int id = Integer.parseInt(values[0]);               // id
@@ -60,10 +60,16 @@ public class CSVFormatHandler {
 
         switch (type) {
             case EPIC -> {
-                return new Epic(id, name, description, status, type);
+                Epic epic = new Epic(name, description);
+                epic.setTaskId(id);
+                epic.setStatus(status);
+                return epic;
             }
             case SUBTASK -> {
-                return new Subtask(epicId, name, description, status, type, epicId);
+                Subtask subtask = new Subtask(epicId, name, description);
+                subtask.setTaskId(id);
+                subtask.setStatus(status);
+                return subtask;
             }
             default -> {
                 return new Task(id, name, description, status, type);

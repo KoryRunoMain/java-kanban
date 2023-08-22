@@ -69,7 +69,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     /* Восстановление данных из файла */
     public static FileBackedTasksManager loadFromFile(File file){
         FileBackedTasksManager fileBackedTasksManager = Managers.getFileBackedTasksManager();
-        int initialID = 0;
+        int initialID = 0; // Счетчик id восстановленных задач
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file, UTF_8))) {
             /* Проверка на пустой файл */
@@ -100,9 +100,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     return fileBackedTasksManager;
                 }
 
-                /* Запись ID */
+                /*  */
                 if (task.getTaskId() > initialID) {
                     initialID = task.getTaskId();
+                    fileBackedTasksManager.updateGeneratorID(initialID);
                 }
 
                 if (task instanceof Epic epic) {
@@ -252,31 +253,22 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     /* ТЕСТ */
     public static void main(String[] args) {
         FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
-//        loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
+        manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
 
-//        Task task4 = new Task("Task0", "TaskDes22");
-//        Task task5 = new Task("Task1", "TaskDes22");
-//        Task task6 = new Task("Task3", "TaskDes22");
-//
-//        manager.createTask(task4);
-//        manager.createTask(task5);
-//        manager.createTask(task6);
+        Task task1 = new Task("Task1S", "T1S");
+        Epic epic1 = new Epic("Epic1S", "E1S");
+        Subtask sub1 = new Subtask(epic1.getTaskId(), "Sub1S", "S1S");
+        Subtask sub2 = new Subtask(epic1.getTaskId(), "Sub2S", "S2S");
 
-        System.out.println(manager.getAllTasks());
-
-        Task task1 = new Task("Task4", "TaskDes22");
-        Task task2 = new Task("Task5", "TaskDes22");
-        Task task3 = new Task("Task6", "TaskDes22");
-
-        manager.createTask(task1);
-        manager.createTask(task2);
-        manager.createTask(task3);
+        task1 = manager.createTask(new Task("Task1S", "T1S"));
+        epic1 = manager.createEpic(new Epic("Epic1S", "E1S"));
+        sub1 = manager.createSubTask(new Subtask(epic1.getTaskId(), "Sub1S", "S1S"));
 
         System.out.println(manager.getAllTasks());
-
-        //loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
-
-        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getAllEpics());
+        System.out.println(manager.getAllSubTasks());
+//        System.out.println(manager.getTaskById(task1.getTaskId()));
+//        System.out.println(manager.getHistory());
 
     }
 

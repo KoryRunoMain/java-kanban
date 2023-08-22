@@ -10,8 +10,9 @@ import java.util.Objects;
 public class Epic extends Task {
     private final List<Integer> subTasksIds;
 
-    public Epic(Integer id, String taskName, String taskDescription, Status status, Type type) {
-        super(id, taskName, taskDescription, status, type);
+    public Epic(String taskName, String taskDescription) {
+        super(taskName, taskDescription);
+        this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
     }
 
@@ -34,7 +35,7 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return type + " {" +
-                "ID= " + id +
+                "ID=" + id +
                 ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status +
