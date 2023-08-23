@@ -94,11 +94,11 @@ public class InMemoryTaskManager implements TaskManager {
         if (updateTask == null) {
             return;
         }
-        Task taskToUpdate = taskStorage.get(updateTask.getTaskId());
+        Task taskToUpdate = taskStorage.get(updateTask.getId());
         if (taskToUpdate == null) {
             return;
         }
-        taskStorage.put(updateTask.getTaskId(), updateTask);
+        taskStorage.put(updateTask.getId(), updateTask);
     }
 
 
@@ -160,11 +160,11 @@ public class InMemoryTaskManager implements TaskManager {
         if (updateEpic == null) {
             return;
         }
-        Epic epicToUpdate = epicStorage.get(updateEpic.getTaskId());
+        Epic epicToUpdate = epicStorage.get(updateEpic.getId());
         if (epicToUpdate == null) {
             return;
         }
-        epicStorage.put(updateEpic.getTaskId(), updateEpic);
+        epicStorage.put(updateEpic.getId(), updateEpic);
         updateEpicStatus(updateEpic);
     }
 
@@ -276,13 +276,13 @@ public class InMemoryTaskManager implements TaskManager {
         if (updateSubtask == null) {
             return;
         }
-        Subtask subTaskToUpdate = subTaskStorage.get(updateSubtask.getTaskId());
+        Subtask subTaskToUpdate = subTaskStorage.get(updateSubtask.getId());
         if (subTaskToUpdate == null) {
             return;
         }
         Epic epicToUpdate = epicStorage.get(updateSubtask.getEpicId());
-        if (epicStorage.containsKey(epicToUpdate.getTaskId())) {
-            subTaskStorage.put(updateSubtask.getTaskId(), updateSubtask);
+        if (epicStorage.containsKey(epicToUpdate.getId())) {
+            subTaskStorage.put(updateSubtask.getId(), updateSubtask);
             updateEpicStatus(epicToUpdate);
         }
     }

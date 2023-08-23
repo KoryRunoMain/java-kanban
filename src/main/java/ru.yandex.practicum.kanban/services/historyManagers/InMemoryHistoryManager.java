@@ -20,7 +20,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     /* Добавление задачи в конец списка */
     private void linkLast(Task task) {
         Node<Task> newNode = new Node<>(tail, task, null);
-        historyTasks.put(task.getTaskId(), newNode);
+        historyTasks.put(task.getId(), newNode);
         if (tail == null) {
             head = newNode;
         } else {
@@ -73,8 +73,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) {
             return;
         }
-        if (historyTasks.containsKey(task.getTaskId())) {
-            remove(task.getTaskId());
+        if (historyTasks.containsKey(task.getId())) {
+            remove(task.getId());
         }
         linkLast(task);
     }

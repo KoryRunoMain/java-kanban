@@ -43,7 +43,7 @@ public class Task {
         this.description = taskDescription;
     }
 
-    public int getTaskId() {
+    public int getId() {
         return id;
     }
 

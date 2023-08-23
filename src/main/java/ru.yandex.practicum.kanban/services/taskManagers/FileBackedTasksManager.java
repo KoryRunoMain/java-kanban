@@ -101,24 +101,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 }
 
                 /* Обновление ID счетчика восстановленных задач */
-                if (task.getTaskId() > initialID) {
-                    initialID = task.getTaskId();
+                if (task.getId() > initialID) {
+                    initialID = task.getId();
                     fileBackedTasksManager.updateGeneratorID(initialID);
                 }
 
                 if (task instanceof Epic epic) {
                     fileBackedTasksManager.epicStorage // Заполнение задачами Epic
-                                          .put(epic.getTaskId(), epic);
+                                          .put(epic.getId(), epic);
 
                 } else if (task instanceof Subtask subtask) {
                     fileBackedTasksManager.subTaskStorage // Заполнение задачами SubTask
-                                          .put(subtask.getTaskId(), subtask);
+                                          .put(subtask.getId(), subtask);
                     fileBackedTasksManager.epicStorage // Заполнение Epic задачи своими SubTask задачами
                                           .get(subtask.getEpicId())
-                                          .addSubtaskId(subtask.getTaskId());
+                                          .addSubtaskId(subtask.getId());
                 } else {
                     fileBackedTasksManager.taskStorage // Заполнение задачами Task
-                                          .put(task.getTaskId(), task);
+                                          .put(task.getId(), task);
                 }
             }
 

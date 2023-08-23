@@ -23,7 +23,7 @@ public class CSVFormatHandler {
 
     /* Получить строку из задач */
     public String generateToString(Task task) {
-        String result = task.getTaskId() + DELIMITER +      // id
+        String result = task.getId() + DELIMITER +      // id
                 task.getType() + DELIMITER +                // type
                 task.getName() + DELIMITER +            // name
                 task.getStatus() + DELIMITER +              //status
@@ -77,7 +77,7 @@ public class CSVFormatHandler {
     public String generateHistoryToString(HistoryManager historyManager) {
         List<String> result = new ArrayList<>();
         for (Task task: historyManager.getHistory()) {
-            result.add(String.valueOf(task.getTaskId()));
+            result.add(String.valueOf(task.getId()));
         }
         return String.join(DELIMITER, result);
     }
