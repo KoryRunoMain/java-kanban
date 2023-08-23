@@ -6,48 +6,48 @@ import ru.yandex.practicum.kanban.models.enums.Type;
 import java.util.Objects;
 
 public class Task {
-    protected String taskName;
-    protected String taskDescription;
+    protected String name;
+    protected String description;
     protected int id;
     protected Status status;
     protected Type type;
 
-    public Task(String taskName, String taskDescription) {
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
         this.type = Type.TASK;
         this.status = Status.NEW;
     }
 
-    public Task(int id, String taskName, String taskDescription, Status status, Type type) {
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
+    public Task(int id, String taskName, String description, Status status, Type type) {
+        this.name = taskName;
+        this.description = description;
         this.status = status;
         this.type = type;
         this.id = id;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getName() {
+        return name;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setName(String taskName) {
+        this.name = taskName;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setDescription(String taskDescription) {
+        this.description = taskDescription;
     }
 
     public int getTaskId() {
         return id;
     }
 
-    public void setTaskId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -67,8 +67,8 @@ public class Task {
     public String toString() {
         return type + " {" +
                 "ID=" + id +
-                ", taskName='" + taskName + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
+                ", taskName='" + name + '\'' +
+                ", taskDescription='" + description + '\'' +
                 ", status=" + status +
                 '}';
     }
@@ -79,15 +79,15 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return id == task.id
-                && Objects.equals(taskName, task.taskName)
-                && Objects.equals(taskDescription, task.taskDescription)
+                && Objects.equals(name, task.name)
+                && Objects.equals(description, task.description)
                 && status == task.status
                 && type == task.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, taskName, taskDescription, status, type);
+        return Objects.hash(id, name, description, status, type);
     }
 
 }

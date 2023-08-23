@@ -23,8 +23,8 @@ public class Subtask extends Task {
         return type + " {" +
                 "ID= " + id +
                 ", epicID= " + epicId +
-                ", taskName='" + taskName + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
+                ", taskName='" + name + '\'' +
+                ", taskDescription='" + description + '\'' +
                 ", status=" + status +
                 '}';
     }

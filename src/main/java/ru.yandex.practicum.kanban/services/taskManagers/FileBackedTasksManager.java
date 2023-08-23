@@ -107,27 +107,38 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 }
 
                 if (task instanceof Epic epic) {
-                    fileBackedTasksManager.createEpic(epicStorage.put(epic.getTaskId(), epic));
+                    fileBackedTasksManager.epicStorage // Заполнение задачами Epic
+                                          .put(epic.getTaskId(), epic);
+
                 } else if (task instanceof Subtask subtask) {
-                    fileBackedTasksManager.createSubTask(subTaskStorage.put(subtask.getTaskId(), subtask));
+                    fileBackedTasksManager.subTaskStorage // Заполнение задачами SubTask
+                                          .put(subtask.getTaskId(), subtask);
+                    fileBackedTasksManager.epicStorage // Заполнение Epic задачи своими SubTask задачами
+                                          .get(subtask.getEpicId())
+                                          .addSubtaskId(subtask.getTaskId());
                 } else {
-                    fileBackedTasksManager.createTask(taskStorage.put(task.getTaskId(), task));
+                    fileBackedTasksManager.taskStorage // Заполнение задачами Task
+                                          .put(task.getTaskId(), task);
                 }
             }
 
             /* Запись истории просмотренных задач */
             String historyRow = reader.readLine();
-            if (!(historyRow == null)) {
-                for (int id : handler.historyFromString(historyRow)) {
-                    if (taskStorage.containsKey(id)) {
-                        historyManager.add(taskStorage.get(id));
-                    }
-                    if (epicStorage.containsKey(id)) {
-                        historyManager.add(epicStorage.get(id));
-                    }
-                    if (subTaskStorage.containsKey(id)) {
-                        historyManager.add(subTaskStorage.get(id));
-                    }
+            if (historyRow == null) {
+                return fileBackedTasksManager;
+            }
+            for (int id : handler.historyFromString(historyRow)) {
+                if (fileBackedTasksManager.taskStorage.containsKey(id)) {
+                    fileBackedTasksManager.historyManager
+                                          .add(fileBackedTasksManager.taskStorage.get(id));
+                }
+                if (fileBackedTasksManager.epicStorage.containsKey(id)) {
+                    fileBackedTasksManager.historyManager
+                                          .add(fileBackedTasksManager.epicStorage.get(id));
+                }
+                if (fileBackedTasksManager.subTaskStorage.containsKey(id)) {
+                    fileBackedTasksManager.historyManager
+                                          .add(fileBackedTasksManager.subTaskStorage.get(id));
                 }
             }
         } catch (IOException e) {

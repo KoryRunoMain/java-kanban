@@ -25,9 +25,9 @@ public class CSVFormatHandler {
     public String generateToString(Task task) {
         String result = task.getTaskId() + DELIMITER +      // id
                 task.getType() + DELIMITER +                // type
-                task.getTaskName() + DELIMITER +            // name
+                task.getName() + DELIMITER +            // name
                 task.getStatus() + DELIMITER +              //status
-                task.getTaskDescription() + DELIMITER;      // description
+                task.getDescription() + DELIMITER;      // description
 
         if (task.getType() == Type.SUBTASK) {
             result += ((Subtask) task).getEpicId();         // epic id
@@ -53,23 +53,17 @@ public class CSVFormatHandler {
         if (type.equals(Type.SUBTASK)) {
             epicId = Integer.parseInt(values[5]);           // epic id
         }
-        int subTaskId = 0;
-        if (type.equals(Type.EPIC)) {
-            subTaskId = Integer.parseInt(values[0]);        // Добавление Subtask Id к эпику
-        }
-
 
         switch (type) {
             case EPIC -> {
                 Epic epic = new Epic(name, description);
-                epic.setTaskId(id);
+                epic.setId(id);
                 epic.setStatus(status);
-                epic.addSubtask(subTaskId);
                 return epic;
             }
             case SUBTASK -> {
                 Subtask subtask = new Subtask(epicId, name, description);
-                subtask.setTaskId(id);
+                subtask.setId(id);
                 subtask.setStatus(status);
                 return subtask;
             }

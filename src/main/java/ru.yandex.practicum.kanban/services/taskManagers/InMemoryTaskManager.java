@@ -12,10 +12,10 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     protected int generatorId = 0;
-    protected static HashMap<Integer, Task> taskStorage;
-    protected static HashMap<Integer, Epic> epicStorage;
-    protected static HashMap<Integer, Subtask> subTaskStorage;
-    protected static HistoryManager historyManager;
+    protected HashMap<Integer, Task> taskStorage;
+    protected HashMap<Integer, Epic> epicStorage;
+    protected HashMap<Integer, Subtask> subTaskStorage;
+    protected HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         taskStorage = new HashMap<>();
@@ -46,7 +46,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         taskStorage.put(getNextId(), task);
-        task.setTaskId(generatorId);
+        task.setId(generatorId);
         return task;
     }
 
@@ -109,7 +109,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         epicStorage.put(getNextId(), epic);
-        epic.setTaskId(generatorId);
+        epic.setId(generatorId);
         return epic;
     }
 
@@ -207,8 +207,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subTaskStorage.put(getNextId(), subtask);
         epic.getSubTask().add(generatorId);
-        subtask.setTaskId(generatorId);
-        epic.addSubtask(generatorId);
+        subtask.setId(generatorId);
+        epic.addSubtaskId(generatorId);
         updateEpicStatus(epic);
         return subtask;
     }
