@@ -32,10 +32,6 @@ public class Epic extends Task {
         subTasksIds.clear();
     }
 
-    public List<Integer> getAllSubtaskIds() {
-        return new ArrayList<>(subTasksIds);
-    }
-
     @Override
     public String toString() {
         return type + " {" +
