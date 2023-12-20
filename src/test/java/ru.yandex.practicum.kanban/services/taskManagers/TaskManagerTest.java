@@ -20,147 +20,151 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     // Создать TASK, EPIC, SUBTASK
     @Test
-    void createTask() {
+    public void checkCreateTask() {
         task = new Task("Task", "Task Description");
         taskManager.createTask(task);
         int taskId = task.getId();
         final Task savedTask = taskManager.getTaskById(taskId);
 
-        assertNotNull(savedTask, "Задача не найдена");
+        assertNotNull(savedTask, "Задача не получена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
 
         final List<Task> taskStorage = taskManager.getAllTasks();
 
-        assertNotNull(taskStorage, "Задачи на возвращаются.");
+        assertNotNull(taskStorage, "Задача не получена.");
         assertEquals(1, taskStorage.size(), "Неверное количество задач.");
         assertEquals(task, taskStorage.get(taskId), "Задачи не совпадают.");
     }
 
     @Test
-    void createEpic() {
+    public void checkCreateEpic() {
         epic = new Epic("Epic", "Epic Description");
         taskManager.createEpic(epic);
         int epicId = epic.getId();
         final Epic savedEpic = taskManager.getEpicById(epicId);
 
-        assertNotNull(savedEpic, "задача (эпик) не найдена");
+        assertNotNull(savedEpic, "Задача (Эпик) не получена.");
         assertEquals(epic, savedEpic, "Задачи (эпик) не совпадают.");
 
         final List<Epic> epicStorage = taskManager.getAllEpics();
 
-        assertNotNull(epicStorage, "задачи (эпик) на возвращаются.");
+        assertNotNull(epicStorage, "Задача (Эпик) не получена.");
         assertEquals(1, epicStorage.size(), "Неверное количество задач (эпик).");
         assertEquals(epic, epicStorage.get(epicId), "задачи (эпик) не совпадают.");
     }
 
     @Test
-    void createSubTask() {
+    public void checkCreateSubTask() {
         subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description");
         taskManager.createSubTask(subtask);
         int subtaskId = subtask.getId();
         final Subtask savedSubTask = taskManager.getSubTaskById(subtaskId);
 
-        assertNotNull(savedSubTask, "Подзадача не найдена");
+        assertNotNull(savedSubTask, "Подзадача не получена.");
         assertEquals(subtask, savedSubTask, "Подзадача не совпадают.");
 
         final List<Subtask> subtaskStorage = taskManager.getAllSubTasks();
 
-        assertNotNull(subtaskStorage, "Подзадача на возвращаются.");
+        assertNotNull(subtaskStorage, "Подзадача не получена.");
         assertEquals(1, subtaskStorage.size(), "Неверное количество подзадач.");
         assertEquals(subtask , subtaskStorage.get(subtaskId), "Подзадача не совпадают.");
     }
 
     // Получить TASK, EPIC, SUBTASK
     @Test
-    void getTaskByIdTestNotNull() {
+    void checkTaskByIdTestNotNull() {
         Task task = taskManager.getSubTaskById(1);
-        assertNotNull(task, "Задача не найдена.");
+        assertNotNull(task, "Задача не получена.");
     }
     @Test
-    void getTaskByIdTestIsNull() {
+    void checkTaskByIdTestIsNull() {
         Task task = taskManager.getSubTaskById(0);
         assertNull(task, "Задача найдена.");
     }
 
     @Test
-    void getEpicByIdNotNull() {
+    void checkEpicByIdNotNull() {
         Epic epic = taskManager.getEpicById(2);
-        assertNotNull(epic, "задача (эпик) не найдена.");
+        assertNotNull(epic, "Задача (Эпик) не получена.");
     }
 
     @Test
-    void getEpicByIdIsNull() {
+    void checkEpicByIdIsNull() {
         Epic epic = taskManager.getEpicById(0);
         assertNull(epic, "задача (эпик) найдена.");
     }
 
     @Test
-    void getSubTaskByIdNotNull() {
+    void checkSubTaskByIdNotNull() {
         Subtask subtask = taskManager.getSubTaskById(3);
-        assertNotNull(subtask, "Подзадача не найдена");
+        assertNotNull(subtask, "Подзадача не получена.");
     }
 
     @Test
-    void getSubTaskByIdIsNull() {
+    void checkSubTaskByIdIsNull() {
         Subtask subtask = taskManager.getSubTaskById(0);
         assertNull(subtask, "Подзадача не найдена");
     }
 
     // Удалить TASK, EPIC, SUBTASK
     @Test
-    void removeTaskByCorrectId() {
+    void checkRemoveTaskByCorrectId() {
         taskManager.removeTaskById(task.getId());
         List<Task> taskStorage = taskManager.getAllTasks();
-        assertNotNull(taskStorage, "В списке задач не обнаружено.");
+        assertNotNull(taskStorage, "Задача не получена.");
         assertEquals(0, taskStorage.size(), "Список задач не пустой.");
     }
 
     @Test
-    void removeTaskByNotCorrectId() {
+    void checkRemoveTaskByNotCorrectId() {
         taskManager.removeTaskById(0);
         List<Task> taskStorage  = taskManager.getAllTasks();
-        assertNotNull(taskStorage, "В списке задач не обнаружено.");
+        assertNotNull(taskStorage, "Задача не получена.");
         assertEquals(1, taskStorage.size(), "Список задач пустой.");
     }
 
     @Test
-    void removeEpicByCorrectId() {
+    void checkRemoveEpicByCorrectId() {
         taskManager.removeEpicById(epic.getId());
         List<Epic> epicStorage = taskManager.getAllEpics();
-        assertNotNull(epicStorage, "В списке задач (эпиков) не обнаружено.");
+        assertNotNull(epicStorage, "Задача (Эпик) не получена.");
         assertEquals(0, epicStorage.size(), "Список задач (эпиков) не пустой.");
     }
 
     @Test
-    void removeEpicByNotCorrectId() {
+    void checkRemoveEpicByNotCorrectId() {
         taskManager.removeEpicById(0);
         List<Epic> epicStorage = taskManager.getAllEpics();
-        assertNotNull(epicStorage, "В списке задач (эпиков) не обнаружено.");
+        assertNotNull(epicStorage, "Задача (Эпик) не получена.");
         assertEquals(1, epicStorage.size(), "Список задач (эпиков) пустой.");
     }
 
     @Test
-    void removeSubTaskByCorrectId() {
+    void checkRemoveSubTaskByCorrectId() {
         taskManager.removeSubTaskById(subtask.getId());
         List<Subtask> subTaskStorage = taskManager.getAllSubTasks();
-        assertNotNull(subTaskStorage, "В списке подзадач не обнаружено.");
+        assertNotNull(subTaskStorage, "Подзадача не получена.");
         assertEquals(0, subTaskStorage.size(), "Список подзадач не пустой.");
     }
 
     @Test
-    void removeSubTaskByNotCorrectId() {
+    void checkRemoveSubTaskByNotCorrectId() {
         taskManager.removeSubTaskById(0);
         List<Subtask> subTaskStorage = taskManager.getAllSubTasks();
-        assertNotNull(subTaskStorage, "В списке подзадач не обнаружено.");
+        assertNotNull(subTaskStorage, "Подзадача не получена.");
         assertEquals(1, subTaskStorage.size(), "Список подзадач пустой.");
     }
 
-    // Обновить TASK (EPIC, SUBTASK) &&&&
+    // Обновить TASK, EPIC, SUBTASK
     @Test
-    void updateTasksAndStatus() {
-        task.setName("Задача №1");
+    void checkToUpdateTask() {
+        task.setName("Задача №2");
         taskManager.updateTask(task);
-        assertEquals("Задача №1", task.getName(), "Имя задачи не изменилось.");
+        assertEquals("Задача №2", task.getName(), "Имя задачи не изменилось.");
+    }
+
+    @Test
+    void checkToUpdateEpicAndSubtask() {
         subtask.setStatus(Status.IN_PROGRESS);
         taskManager.updateTask(subtask);
         assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи не обновилось.");
@@ -200,23 +204,40 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(0, taskManager.getAllSubTasks().size(), "Список подзадач не пустой.");
     }
 
-    // Удалить все задачи
+    // Удалить все задачи TASK, EPIC, SUBTASK
     @Test
-    void removeAllTasks() {
+    void checkRemoveAllTasks() {
         taskManager.removeAllTasks();
         assertEquals(0, taskManager.getAllTasks().size(), "Список задач не пустой.");
     }
 
     @Test
-    void removeAllEpics() {
+    void checkRemoveAllEpics() {
         taskManager.removeAllEpics();
         assertEquals(0, taskManager.getAllEpics().size(), "Список задач (эпиков) не пустой.");
     }
 
     @Test
-    void removeAllSubTasks() {
+    void checkRemoveAllSubTasks() {
         taskManager.removeAllSubTasks();
         assertEquals(0, taskManager.getAllSubTasks().size(), "Список подзадач не пустой.");
+    }
+
+    // Получение истории задач
+    @Test
+    void checkHistoryListWithTasks() {
+        taskManager.createEpic(epic);
+        taskManager.createSubTask(subtask);
+        List<Task> taskList = taskManager.getHistory();
+        assertEquals(2, taskList.size(), "История задач пустая.");
+        assertFalse(taskList.contains(epic), "История не содержит задачу (эпик).");
+        assertFalse(taskList.contains(subtask), "История не содержит подзадачу");
+    }
+
+    @Test
+    void checkHistoryListWithNoTasks() {
+        assertNotNull(taskManager.getHistory(), "");
+        assertEquals(0, taskManager.getHistory().size(), "История задач пустая.");
     }
 
 }
