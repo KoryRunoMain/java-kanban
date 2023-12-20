@@ -18,10 +18,16 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     protected Subtask subtask;
 
 
+    protected void initTasks() {
+        taskManager.createTask(task = new Task("Task", "Task Description"));
+        taskManager.createEpic(epic = new Epic("Epic", "Epic Description"));
+        taskManager.createSubTask(subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description"));
+    }
+
+
     // Создать TASK, EPIC, SUBTASK
     @Test
     public void checkCreateTask() {
-        task = new Task("Task", "Task Description");
         taskManager.createTask(task);
         int taskId = task.getId();
         final Task savedTask = taskManager.getTaskById(taskId);
@@ -38,7 +44,6 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void checkCreateEpic() {
-        epic = new Epic("Epic", "Epic Description");
         taskManager.createEpic(epic);
         int epicId = epic.getId();
         final Epic savedEpic = taskManager.getEpicById(epicId);
@@ -55,7 +60,6 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void checkCreateSubTask() {
-        subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description");
         taskManager.createSubTask(subtask);
         int subtaskId = subtask.getId();
         final Subtask savedSubTask = taskManager.getSubTaskById(subtaskId);
@@ -155,19 +159,67 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(1, subTaskStorage.size(), "Список подзадач пустой.");
     }
 
-    // Обновить TASK, EPIC, SUBTASK
+    // Обновить задачи TASK, EPIC, SUBTASK
     @Test
-    void checkToUpdateTask() {
-        task.setName("Задача №2");
+    void checkUpdateTask() {
+        task.setName("Task2");
         taskManager.updateTask(task);
-        assertEquals("Задача №2", task.getName(), "Имя задачи не изменилось.");
+        assertEquals("Task2", task.getName(), "Имя задачи не изменилось.");
+    }
+    @Test
+    void checkUpdateEpic() {
+        epic.setName("Epic2");
+        taskManager.updateTask(epic);
+        assertEquals("Task2", epic.getName(), "Имя задачи не изменилось.");
+    }
+    @Test
+    void checkUpdateSubtask() {
+        subtask.setName("Subtask2");
+        taskManager.updateTask(subtask);
+        assertEquals("Task2", subtask.getName(), "Имя задачи не изменилось.");
+    }
+
+    // Обновить Статус TASK, EPIC, SUBTASK
+    @Test
+    void checkUpdateTaskToStatusIN_PROGRESS() {
+        task.setStatus(Status.IN_PROGRESS);
+        taskManager.updateTask(task);
+        assertEquals(Status.IN_PROGRESS, task.getStatus(), "Статус задачи не обновился.");
     }
 
     @Test
-    void checkToUpdateEpicAndSubtask() {
+    void checkUpdateTaskToStatusDONE() {
+        task.setStatus(Status.DONE);
+        taskManager.updateTask(task);
+        assertEquals(Status.DONE, task.getStatus(), "Статус задачи не обновился.");
+    }
+
+    @Test
+    void checkUpdateEpicToStatusIN_PROGRESS() {
+        epic.setStatus(Status.IN_PROGRESS);
+        taskManager.updateTask(epic);
+        assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи не обновился.");
+    }
+
+    @Test
+    void checkUpdateEpicToStatusDONE() {
+        epic.setStatus(Status.DONE);
+        taskManager.updateTask(epic);
+        assertEquals(Status.DONE, epic.getStatus(), "Статус задачи не обновился.");
+    }
+
+    @Test
+    void checkUpdateSubTaskToStatusIN_PROGRESS() {
         subtask.setStatus(Status.IN_PROGRESS);
         taskManager.updateTask(subtask);
-        assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи не обновилось.");
+        assertEquals(Status.IN_PROGRESS, subtask.getStatus(), "Статус задачи не обновился.");
+    }
+
+    @Test
+    void checkUpdateSubTaskToStatusDONE() {
+        subtask.setStatus(Status.DONE);
+        taskManager.updateTask(subtask);
+        assertEquals(Status.DONE, subtask.getStatus(), "Статус задачи не обновился.");
     }
 
     // Получить все задачи TASK, EPIC, SUBTASK
