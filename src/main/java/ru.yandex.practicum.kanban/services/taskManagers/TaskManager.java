@@ -55,5 +55,4 @@ public interface TaskManager {
     /* Просмотр истории */
     List<Task> getHistory();
 
-
 }

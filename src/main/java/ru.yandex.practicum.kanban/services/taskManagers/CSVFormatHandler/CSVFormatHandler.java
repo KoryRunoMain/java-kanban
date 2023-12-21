@@ -24,13 +24,13 @@ public class CSVFormatHandler {
     /* Получить строку из задач */
     public String generateToString(Task task) {
         String result = task.getId() + DELIMITER +      // id
-                task.getType() + DELIMITER +                // type
+                task.getType() + DELIMITER +            // type
                 task.getName() + DELIMITER +            // name
-                task.getStatus() + DELIMITER +              //status
+                task.getStatus() + DELIMITER +          //status
                 task.getDescription() + DELIMITER;      // description
 
         if (task.getType() == Type.SUBTASK) {
-            result += ((Subtask) task).getEpicId();         // epic id
+            result += ((Subtask) task).getEpicId();     // epic id
         }
         return result;
     }
