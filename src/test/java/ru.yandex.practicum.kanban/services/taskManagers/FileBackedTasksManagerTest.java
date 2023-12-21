@@ -32,11 +32,11 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     }
 
     // Удаление истории задач для тестов
-//    protected void removeTasksHistory() {
-//        taskManager.historyManager.remove(task);
-//        taskManager.historyManager.remove(epic);
-//        taskManager.historyManager.remove(subtask);
-//    }
+    protected void removeTasksHistory() {
+        taskManager.historyManager.remove(task.getId());
+        taskManager.historyManager.remove(epic.getId());
+        taskManager.historyManager.remove(subtask.getId());
+    }
 
 
     @BeforeEach
@@ -82,12 +82,11 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     @Test
     public void checkLoadFromEmptyFileOfHistory() {
         createTasksHistory();
-        FileBackedTasksManager taskMan = FileBackedTasksManager.loadFromFile(file);
+        FileBackedTasksManager tasksManagerFromFile = FileBackedTasksManager.loadFromFile(file);
         assertEquals(3, taskManager.historyManager.getHistory().size(), "Файл с историрей пустой.");
-
-
+        removeTasksHistory();
+        tasksManagerFromFile = FileBackedTasksManager.loadFromFile(file);
+        assertEquals(0, taskManager.historyManager.getHistory().size(), "Файл с историрей пустой.");
     }
-
-
 
 }
