@@ -6,6 +6,7 @@ import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -290,6 +291,22 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void checkHistoryListWithNoTasks() {
         assertNotNull(taskManager.getHistory(), "");
         assertEquals(0, taskManager.getHistory().size(), "История задач пустая.");
+    }
+
+    // Проверить наличие эпика у подзадач
+    @Test
+    public void checkSubtasksForEpic() {
+        int epicId = subtask.getEpicId();
+
+        assertNotNull(epic.getSubTask(), "Задача (Эпик) не получена.");
+        assertEquals(1, epic.getSubTask().size(), "Задача (Эпик) не имеет подзадач.");
+
+        Epic epicById = taskManager.getEpicById(epicId);
+        assertNotNull(epicById, "Задача (Эпик) не получена.");
+
+        Integer subtasksOfEpicById = epicById.getSubTask().get(0);
+        assertEquals(subtask.getId(), subtasksOfEpicById, "Подзадачи не совпадают");
+
     }
 
 }
