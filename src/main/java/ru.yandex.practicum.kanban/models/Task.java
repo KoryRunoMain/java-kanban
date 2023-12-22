@@ -3,6 +3,7 @@ package ru.yandex.practicum.kanban.models;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -11,6 +12,8 @@ public class Task {
     protected int id;
     protected Status status;
     protected Type type;
+    protected long duration;
+    protected LocalDateTime startTime;
 
     public Task(String name, String description) {
         this.name = name;
@@ -19,12 +22,24 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public Task(int id, String name, String description, Status status, Type type) {
+    public Task(int id, String name, String description, Status status, long duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.type = type;
+        this.type = Type.TASK;
         this.id = id;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
+
+    public Task(String name, String description, long duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.type = Type.TASK;
+        this.duration = duration;
+        this.startTime = startTime;
+
     }
 
     public String getName() {
@@ -62,6 +77,28 @@ public class Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        long seconds = 60L;
+        return startTime.plusSeconds(duration * seconds);
+    }
+
 
     @Override
     public String toString() {
