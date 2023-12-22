@@ -3,6 +3,7 @@ package ru.yandex.practicum.kanban.models;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -99,15 +100,14 @@ public class Task {
         return startTime.plusSeconds(duration * seconds);
     }
 
-
     @Override
     public String toString() {
         return type + " {" +
                 "ID=" + id +
                 ", taskName='" + name + '\'' +
                 ", taskDescription='" + description + '\'' +
-                ", status=" + status +
-                '}';
+                ", status=" + status + ", start time=" + startTime +
+                ", duration=" + duration + ", end time=" + getEndTime() + '\'' + '}';
     }
 
     @Override
@@ -116,15 +116,17 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return id == task.id
+                && duration == task.duration
                 && Objects.equals(name, task.name)
                 && Objects.equals(description, task.description)
                 && status == task.status
-                && type == task.type;
+                && type == task.type
+                && Objects.equals(startTime, task.startTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, status, type);
+        return Objects.hash(name, description, id, status, type, duration, startTime);
     }
 
 }

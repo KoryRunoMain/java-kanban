@@ -3,6 +3,7 @@ package ru.yandex.practicum.kanban.models;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +33,6 @@ public class Epic extends Task {
         this.endTime = endTime;
     }
 
-//    public void setStartTime() {
-//        LocalDateTime minimumTime = null;
-//        LocalDateTime minSubtaskTime;
-//
-//        }
-//
-//    }
-
-
-
-
     public ArrayList<Integer> getSubTask() {
         return new ArrayList<>(subTasksIds);
     }
@@ -58,6 +48,15 @@ public class Epic extends Task {
     public void clearSubtaskIds() {
         subTasksIds.clear();
     }
+
+    public void setDuration() {
+        long duration = 0;
+        for (Integer subtask : subTasksIds) {
+            duration = duration + subtask.compareTo((int) getDuration());
+        }
+        this.duration = duration;
+    }
+
 
     @Override
     public String toString() {
