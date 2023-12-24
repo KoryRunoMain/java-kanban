@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Epic extends Task {
     protected final List<Integer> subTasksIds;
-    static long epochSecond = 32503669200000L;
+    static long epochSecond = 3712455237000L;
     protected static Instant endTime = Instant.ofEpochSecond(epochSecond);
 
     public Epic(String name, String description) {
@@ -19,8 +19,8 @@ public class Epic extends Task {
         this.subTasksIds = new ArrayList<>();
     }
 
-    public Epic(String name, String description, long duration, Instant startTime) {
-        super(name, description, duration, startTime);
+    public Epic(String name, String description, long duration, Instant startTime, Status status) {
+        super(name, description, duration, startTime, status);
         this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
     }

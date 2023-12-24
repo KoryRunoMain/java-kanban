@@ -41,10 +41,10 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public Task(String name, String description, long duration, Instant startTime) {
+    public Task(String name, String description, long duration, Instant startTime, Status status) {
         this.name = name;
         this.description = description;
-        this.status = Status.NEW;
+        this.status = status;
         this.type = Type.TASK;
         this.duration = duration;
         this.startTime = startTime;

@@ -1,11 +1,14 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 
+import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,14 +21,18 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     protected Subtask subtask;
 
 
+    /* Создаем задачи для теста */
     protected void initTasks() {
-        taskManager.createTask(task = new Task("Task", "Task Description"));
-        taskManager.createEpic(epic = new Epic("Epic", "Epic Description"));
-        taskManager.createSubTask(subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description"));
+        taskManager.createTask(task = new Task("Task", "Task Description", 5,
+                Instant.ofEpochMilli(1703275200000L), Status.NEW));
+        taskManager.createEpic(epic = new Epic("Epic", "Epic Description", 15,
+                Instant.ofEpochMilli(1703275500000L), Status.NEW));
+        taskManager.createSubTask(subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+                Instant.ofEpochMilli(1703276400000L), Status.NEW));
     }
 
 
-    // Создать TASK, EPIC, SUBTASK
+    /* Создаем TASK, EPIC, SUBTASK */
     @Test
     public void checkCreateTask() {
         taskManager.createTask(task);
@@ -74,7 +81,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(subtask , subtaskStorage.get(subtaskId), "Подзадача не совпадают.");
     }
 
-    // Получить TASK, EPIC, SUBTASK
+
+    /* Получить TASK, EPIC, SUBTASK, PrioritizedTasks */
     @Test
     void checkTaskByIdTestNotNull() {
         Task task = taskManager.getSubTaskById(1);
@@ -110,13 +118,23 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertNull(subtask, "Подзадача не найдена");
     }
 
-    // Удалить TASK, EPIC, SUBTASK
+    /* Проверить список приоритетных задач */
+    @Test
+    public void checkPrioritizedTasksList() {
+        Task task1 = taskManager.createTask(task);
+        assertNotNull(task1, "Список не получен.");
+        assertEquals(List.of(task1), taskManager.getPrioritizedTasks(), "Список задач не совпадает.");
+        assertFalse(taskManager.getPrioritizedTasks().isEmpty(), "Список не содержит приоритетных задач.");
+    }
+
+
+    /* Удалить TASK, EPIC, SUBTASK */
     @Test
     void checkRemoveTaskByCorrectId() {
         taskManager.removeTaskById(task.getId());
         List<Task> taskStorage = taskManager.getAllTasks();
         assertNotNull(taskStorage, "Задача не получена.");
-        assertEquals(0, taskStorage.size(), "Список задач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskStorage, "Список задач не пустой.");
     }
 
     @Test
@@ -132,7 +150,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.removeEpicById(epic.getId());
         List<Epic> epicStorage = taskManager.getAllEpics();
         assertNotNull(epicStorage, "Задача (Эпик) не получена.");
-        assertEquals(0, epicStorage.size(), "Список задач (эпиков) не пустой.");
+        assertEquals(Collections.EMPTY_LIST, epicStorage, "Список задач (эпиков) не пустой.");
     }
 
     @Test
@@ -148,7 +166,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.removeSubTaskById(subtask.getId());
         List<Subtask> subTaskStorage = taskManager.getAllSubTasks();
         assertNotNull(subTaskStorage, "Подзадача не получена.");
-        assertEquals(0, subTaskStorage.size(), "Список подзадач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, subTaskStorage, "Список подзадач не пустой.");
     }
 
     @Test
@@ -159,7 +177,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(1, subTaskStorage.size(), "Список подзадач пустой.");
     }
 
-    // Обновить задачи TASK, EPIC, SUBTASK
+
+    /* Обновить задачи TASK, EPIC, SUBTASK */
     @Test
     void checkUpdateTask() {
         task.setName("Task2");
@@ -179,7 +198,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals("Task2", subtask.getName(), "Имя задачи не изменилось.");
     }
 
-    // Обновить Статус TASK, EPIC, SUBTASK
+
+    /* Обновить Статус TASK, EPIC, SUBTASK */
     @Test
     void checkUpdateTaskToStatusIN_PROGRESS() {
         task.setStatus(Status.IN_PROGRESS);
@@ -222,7 +242,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(Status.DONE, subtask.getStatus(), "Статус задачи не обновился.");
     }
 
-    // Получить все задачи TASK, EPIC, SUBTASK
+
+    /* Получить все задачи TASK, EPIC, SUBTASK */
     @Test
     void checkListWithAllTasks() {
         assertEquals(1, taskManager.getAllTasks().size(), "Список задач пустой.");
@@ -231,7 +252,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void checkListWithoutAllTasks() {
         taskManager.removeAllEpics();
-        assertEquals(0, taskManager.getAllTasks().size(), "Список задач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllTasks(), "Список задач не пустой.");
     }
 
     @Test
@@ -242,7 +263,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void checkListWithoutAllEpics() {
         taskManager.removeAllEpics();
-        assertEquals(0, taskManager.getAllEpics().size(), "Список задач (эпиков) не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllEpics(), "Список задач (эпиков) не пустой.");
     }
 
     @Test
@@ -253,29 +274,34 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void checkListWithoutAllSubTasks() {
         taskManager.removeAllSubTasks();
-        assertEquals(0, taskManager.getAllSubTasks().size(), "Список подзадач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllSubTasks(), "Список подзадач не пустой.");
     }
 
-    // Удалить все задачи TASK, EPIC, SUBTASK
+
+    /* Удалить все задачи TASK, EPIC, SUBTASK */
     @Test
     void checkRemoveAllTasks() {
         taskManager.removeAllTasks();
-        assertEquals(0, taskManager.getAllTasks().size(), "Список задач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllTasks(), "Список задач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getPrioritizedTasks(), "Список задач не пустой.");
     }
 
     @Test
     void checkRemoveAllEpics() {
         taskManager.removeAllEpics();
-        assertEquals(0, taskManager.getAllEpics().size(), "Список задач (эпиков) не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllEpics(), "Список задач (эпиков) не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getPrioritizedTasks(), "Список задач не пустой.");
     }
 
     @Test
     void checkRemoveAllSubTasks() {
         taskManager.removeAllSubTasks();
-        assertEquals(0, taskManager.getAllSubTasks().size(), "Список подзадач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllSubTasks(), "Список подзадач не пустой.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getPrioritizedTasks(), "Список задач не пустой.");
     }
 
-    // Получение истории задач
+
+    /* Получить истории задач */
     @Test
     void checkHistoryListWithTasks() {
         taskManager.createEpic(epic);
@@ -288,11 +314,13 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void checkHistoryListWithNoTasks() {
-        assertNotNull(taskManager.getHistory(), "");
-        assertEquals(0, taskManager.getHistory().size(), "История задач пустая.");
+        assertNotNull(taskManager.getHistory(), "История задач не получена.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getHistory(), "История задач пустая.");
+        assertEquals(Collections.EMPTY_LIST, taskManager.getPrioritizedTasks(), "Список задач не пустой.");
     }
 
-    // Проверить наличие эпика у подзадач
+
+    /* Проверить наличие эпика у подзадач */
     @Test
     public void checkSubtasksForEpic() {
         int epicId = subtask.getEpicId();
@@ -305,7 +333,6 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
         Integer subtasksOfEpicById = epicById.getSubTaskIds().get(0);
         assertEquals(subtask.getId(), subtasksOfEpicById, "Подзадачи не совпадают");
-
     }
 
 }
