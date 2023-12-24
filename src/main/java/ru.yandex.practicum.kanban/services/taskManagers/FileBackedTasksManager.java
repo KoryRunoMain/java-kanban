@@ -277,6 +277,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
                 Instant.ofEpochMilli(1703276400000L), Status.NEW);
         manager.createSubTask(subtask);
+//
+//        System.out.println(manager.getAllTasks());
+//        System.out.println(manager.getAllEpics());
+//        System.out.println(manager.getAllSubTasks());
     }
 
 }
