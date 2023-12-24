@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
+import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
@@ -16,21 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
     protected InMemoryTaskManager inMemoryTaskManager;
-    protected Epic epic;
+    protected Epic epic = new Epic("Epic", "Epic Description", 15, Instant.ofEpochMilli(1703275500000L), Status.NEW);
 
-
-    void initEpic() {
-        inMemoryTaskManager.createEpic(epic = new Epic("Epic2", "Epic2 Description", 10,
-                Instant.ofEpochMilli(1686344400000L), Status.NEW));
-    }
 
     @BeforeEach
     public void initManager() {
         taskManager = (InMemoryTaskManager) Managers.getDefault();
-        HistoryManager historyManager = Managers.getDefaultHistory();
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(historyManager);
-        initEpic();
-        initTasks();
     }
 
     /* Создаем Подзадачи для теста на проверку NEW, DONE, IN_PROGRESS */

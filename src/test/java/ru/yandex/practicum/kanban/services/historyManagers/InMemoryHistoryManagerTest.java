@@ -14,32 +14,37 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-    protected Task task;
-    protected Epic epic;
-    protected Subtask subtask;
+//    protected Task task;
+//    protected Epic epic;
+//    protected Subtask subtask;
     protected InMemoryTaskManager inMemoryTaskManager;
     protected HistoryManager historyManager;
 
+    private final Task task = new Task("Task", "Task Description", 5,
+            Instant.ofEpochMilli(1703275200000L), Status.NEW);
+    private final Epic epic = new Epic("Epic", "Epic Description", 15,
+            Instant.ofEpochMilli(1703275500000L), Status.NEW);
+    private final Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+            Instant.ofEpochMilli(1703276400000L), Status.NEW);
 
 
     /* Создаем задачи для тестов TASK, EPIC, SUBTASK */
-    protected void createTasksForTest() {
-        Task task = new Task("Task", "Task Description", 5,
-                Instant.ofEpochMilli(1703275200000L), Status.NEW);
-        inMemoryTaskManager.createTask(task);
-        Epic epic = new Epic("Epic", "Epic Description", 15,
-                Instant.ofEpochMilli(1703275500000L), Status.NEW);
-        inMemoryTaskManager.createEpic(epic);
-        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
-                Instant.ofEpochMilli(1703276400000L), Status.NEW);
-        inMemoryTaskManager.createSubTask(subtask);
-    }
+//    protected void createTasksForTest() {
+//        Task task = new Task("Task", "Task Description", 5,
+//                Instant.ofEpochMilli(1703275200000L), Status.NEW);
+//        inMemoryTaskManager.createTask(task);
+//        Epic epic = new Epic("Epic", "Epic Description", 15,
+//                Instant.ofEpochMilli(1703275500000L), Status.NEW);
+//        inMemoryTaskManager.createEpic(epic);
+//        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+//                Instant.ofEpochMilli(1703276400000L), Status.NEW);
+//        inMemoryTaskManager.createSubTask(subtask);
+//    }
 
     @BeforeEach
     public void init() {
         historyManager = new InMemoryHistoryManager();
         inMemoryTaskManager = new InMemoryTaskManager(historyManager);
-        createTasksForTest();
     }
 
     /* Пустая история задач */

@@ -16,21 +16,25 @@ import static org.junit.jupiter.api.Assertions.*;
 public abstract class TaskManagerTest<T extends TaskManager> {
 
     protected T taskManager;
-    protected Task task;
-    protected Epic epic;
-    protected Subtask subtask;
+//    protected Task task;
+//    protected Epic epic;
+//    protected Subtask subtask;
 
 
     /* Создаем задачи для теста */
-    @BeforeEach
-    protected void initTasks() {
-        taskManager.createTask(task = new Task("Task", "Task Description", 5,
-                Instant.ofEpochMilli(1703275200000L), Status.NEW));
-        taskManager.createEpic(epic = new Epic("Epic", "Epic Description", 15,
-                Instant.ofEpochMilli(1703275500000L), Status.NEW));
-        taskManager.createSubTask(subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
-                Instant.ofEpochMilli(1703276400000L), Status.NEW));
-    }
+    private final Task task = new Task("Task", "Task Description", 5, Instant.ofEpochMilli(1703275200000L), Status.NEW);
+    private final Epic epic = new Epic("Epic", "Epic Description", 15, Instant.ofEpochMilli(1703275500000L), Status.NEW);
+    private final Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5, Instant.ofEpochMilli(1703276400000L), Status.NEW);
+
+
+//    protected void initTasks() {
+//        taskManager.createTask(task = new Task("Task", "Task Description", 5,
+//                Instant.ofEpochMilli(1703275200000L), Status.NEW));
+//        taskManager.createEpic(epic = new Epic("Epic", "Epic Description", 15,
+//                Instant.ofEpochMilli(1703275500000L), Status.NEW));
+//        taskManager.createSubTask(subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+//                Instant.ofEpochMilli(1703276400000L), Status.NEW));
+//    }
 
 
     /* Создаем TASK, EPIC, SUBTASK */

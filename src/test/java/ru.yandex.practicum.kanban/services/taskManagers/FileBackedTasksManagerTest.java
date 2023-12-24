@@ -1,13 +1,19 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
+import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,13 +21,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
-    protected File file;
+    protected final Path path = Path.of("src/resources/tasks.csv");
+    protected final File file = new File(String.valueOf(path));
+    private final Task task = new Task("Task", "Task Description", 5,
+            Instant.ofEpochMilli(1703275200000L), Status.NEW);
+    private final Epic epic = new Epic("Epic", "Epic Description", 15,
+            Instant.ofEpochMilli(1703275500000L), Status.NEW);
+    private final Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+            Instant.ofEpochMilli(1703276400000L), Status.NEW);
+
 
     @BeforeEach
     public void init() {
-        file = new File("src/resources/" + "tasksTest" + ".csv");
         taskManager = new FileBackedTasksManager(Managers.getDefaultHistory(), file);
-        initTasks();
+    }
+
+    @AfterEach
+    void afterEach() {
+        try {
+            Files.delete(path);
+
+        } catch (IOException exception) {
+            exception.getStackTrace();
+        }
     }
 
     /* Загрузка из файла */
