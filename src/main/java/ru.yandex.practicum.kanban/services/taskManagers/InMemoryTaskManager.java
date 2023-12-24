@@ -25,6 +25,9 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = historyManager;
     }
 
+    public InMemoryTaskManager() {
+    }
+
     /* Увеличение ID задачи на 1 */
     public int getNextId() {
         return ++generatorId;
