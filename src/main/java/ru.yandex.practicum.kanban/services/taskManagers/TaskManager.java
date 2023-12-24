@@ -55,4 +55,10 @@ public interface TaskManager {
     /* Просмотр истории */
     List<Task> getHistory();
 
+    /* Получение списка всех подзадач определенного EPIC */
+    List<Subtask> getSubTasksOfEpic(Epic epic);
+
+
+    List<Task> getPrioritizedTasks();
+
 }

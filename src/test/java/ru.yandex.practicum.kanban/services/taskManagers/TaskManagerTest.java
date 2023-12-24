@@ -297,13 +297,13 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void checkSubtasksForEpic() {
         int epicId = subtask.getEpicId();
 
-        assertNotNull(epic.getSubTask(), "Задача (Эпик) не получена.");
-        assertEquals(1, epic.getSubTask().size(), "Задача (Эпик) не имеет подзадач.");
+        assertNotNull(epic.getSubTaskIds(), "Задача (Эпик) не получена.");
+        assertEquals(1, epic.getSubTaskIds().size(), "Задача (Эпик) не имеет подзадач.");
 
         Epic epicById = taskManager.getEpicById(epicId);
         assertNotNull(epicById, "Задача (Эпик) не получена.");
 
-        Integer subtasksOfEpicById = epicById.getSubTask().get(0);
+        Integer subtasksOfEpicById = epicById.getSubTaskIds().get(0);
         assertEquals(subtask.getId(), subtasksOfEpicById, "Подзадачи не совпадают");
 
     }

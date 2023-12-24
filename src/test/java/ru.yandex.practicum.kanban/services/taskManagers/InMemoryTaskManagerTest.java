@@ -40,7 +40,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     //Пустой список подзадач
     @Test
     public void checkEpicStatusWithoutSubtasks() {
-        assertEquals(0, epic.getSubTask().size(), "Список задач не пустой.");
+        assertEquals(0, epic.getSubTaskIds().size(), "Список задач не пустой.");
         inMemoryTaskManager.updateEpicStatus(epic);
         assertEquals(Status.NEW, epic.getStatus(), "Статус задачи (Эпик) не NEW");
     }
@@ -49,7 +49,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     public void checkEpicStatusWithAllSubtasksStatusNew() {
         createSubtaskAndSetStatusForNewDoneIn_Progress(Status.NEW);
-        assertEquals(2, epic.getSubTask().size(), "Список подзадач пуст.");
+        assertEquals(2, epic.getSubTaskIds().size(), "Список подзадач пуст.");
         inMemoryTaskManager.updateEpicStatus(epic);
         assertEquals(Status.NEW, epic.getStatus(), "Статус задачи (Эпик) не NEW");
     }
@@ -58,7 +58,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     public void checkEpicStatusWithAllSubtasksStatusDone() {
         createSubtaskAndSetStatusForNewDoneIn_Progress(Status.DONE);
-        assertEquals(2, epic.getSubTask().size(), "Список подзадач пуст.");
+        assertEquals(2, epic.getSubTaskIds().size(), "Список подзадач пуст.");
         inMemoryTaskManager.updateEpicStatus(epic);
         assertEquals(Status.DONE, epic.getStatus(), "Статус задачи (Эпик) не DONE");
     }
@@ -68,7 +68,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     public void checkEpicStatusWithAllSubtasksStatusNewAndDone() {
         createSubtaskAndSetStatusForNewDoneIn_Progress(Status.NEW);
         createSubtaskAndSetStatusForNewAndDone(Status.DONE);
-        assertEquals(3, epic.getSubTask().size(), "Список подзадач пуст.");
+        assertEquals(3, epic.getSubTaskIds().size(), "Список подзадач пуст.");
         inMemoryTaskManager.updateEpicStatus(epic);
         assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи (Эпик) не IN_PROGRESS");
     }
@@ -78,7 +78,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     public void checkEpicStatusWithAllSubtasksStatusIN_PROGRESS() {
         createSubtaskAndSetStatusForNewDoneIn_Progress(Status.IN_PROGRESS);
-        assertEquals(2, epic.getSubTask().size(), "Список подзадач пуст.");
+        assertEquals(2, epic.getSubTaskIds().size(), "Список подзадач пуст.");
         inMemoryTaskManager.updateEpicStatus(epic);
         assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи (Эпик) не IN_PROGRESS");
     }

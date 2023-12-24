@@ -4,7 +4,7 @@ import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 public class Task {
@@ -14,7 +14,7 @@ public class Task {
     protected Status status;
     protected Type type;
     protected long duration;
-    protected LocalDateTime startTime;
+    protected Instant startTime;
 
     public Task(String name, String description) {
         this.name = name;
@@ -23,7 +23,15 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public Task(int id, String name, String description, Status status, long duration, LocalDateTime startTime) {
+    public Task(int id, String name, String description, Status status, Type type) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = type;
+        this.id = id;
+    }
+
+    public Task(int id, String name, String description, Status status, long duration, Instant startTime) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -33,7 +41,7 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public Task(String name, String description, long duration, LocalDateTime startTime) {
+    public Task(String name, String description, long duration, Instant startTime) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
@@ -87,15 +95,15 @@ public class Task {
         this.duration = duration;
     }
 
-    public LocalDateTime getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Instant getEndTime() {
         long seconds = 60L;
         return startTime.plusSeconds(duration * seconds);
     }
@@ -106,8 +114,8 @@ public class Task {
                 "ID=" + id +
                 ", taskName='" + name + '\'' +
                 ", taskDescription='" + description + '\'' +
-                ", status=" + status + ", start time=" + startTime +
-                ", duration=" + duration + ", end time=" + getEndTime() + '\'' + '}';
+                ", status=" + status + ", start time=" + startTime.toEpochMilli() +
+                ", duration=" + duration + ", end time=" + getEndTime().toEpochMilli() + '\'' + '}';
     }
 
     @Override

@@ -3,7 +3,7 @@ package ru.yandex.practicum.kanban.models;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -15,7 +15,7 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    public Subtask(Integer epicId, String name, String description, long duration, LocalDateTime startTime) {
+    public Subtask(Integer epicId, String name, String description, long duration, Instant startTime) {
         super(name, description, duration, startTime);
         this.type = Type.SUBTASK;
         this.epicId = epicId;
@@ -32,8 +32,8 @@ public class Subtask extends Task {
                 ", epicID= " + epicId +
                 ", taskName='" + name + '\'' +
                 ", taskDescription='" + description + '\'' +
-                ", status=" + status +
-                '}';
+                ", status=" + status + ", start time=" + startTime.toEpochMilli() +
+                ", duration=" + duration + ", end time=" + getEndTime().toEpochMilli() + '\'' + '}';
     }
 
     @Override

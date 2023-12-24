@@ -4,14 +4,14 @@ import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
     protected final List<Integer> subTasksIds;
-    protected LocalDateTime endTime;
+    static long epochSecond = 32503669200000L;
+    protected static Instant endTime = Instant.ofEpochSecond(epochSecond);
 
     public Epic(String name, String description) {
         super(name, description);
@@ -19,21 +19,22 @@ public class Epic extends Task {
         this.subTasksIds = new ArrayList<>();
     }
 
-    public Epic(String name, String description, long duration, LocalDateTime startTime) {
+    public Epic(String name, String description, long duration, Instant startTime) {
         super(name, description, duration, startTime);
         this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
     }
 
     public Epic(int id, String name, String description, Status status,long duration,
-                LocalDateTime startTime, LocalDateTime endTime) {
+                Instant startTime) {
         super(id, name, description, status, duration, startTime);
         this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
-        this.endTime = endTime;
+        this.endTime = super.getEndTime();
     }
 
-    public ArrayList<Integer> getSubTask() {
+
+    public ArrayList<Integer> getSubTaskIds() {
         return new ArrayList<>(subTasksIds);
     }
 
@@ -49,14 +50,14 @@ public class Epic extends Task {
         subTasksIds.clear();
     }
 
-    public void setDuration() {
-        long duration = 0;
-        for (Integer subtask : subTasksIds) {
-            duration = duration + subtask.compareTo((int) getDuration());
-        }
-        this.duration = duration;
+    @Override
+    public Instant getEndTime() {
+        return endTime;
     }
 
+    public void setEndTime(Instant endTime) {
+        Epic.endTime = endTime;
+    }
 
     @Override
     public String toString() {
@@ -64,8 +65,8 @@ public class Epic extends Task {
                 "ID=" + id +
                 ", taskName='" + name + '\'' +
                 ", taskDescription='" + description + '\'' +
-                ", status=" + status +
-                '}';
+                ", status=" + status + ", start time=" + startTime.toEpochMilli() +
+                ", duration=" + duration + ", end time=" + getEndTime().toEpochMilli() + '\'' + '}';
     }
 
     @Override
@@ -81,4 +82,5 @@ public class Epic extends Task {
     public int hashCode() {
         return Objects.hash(super.hashCode(), subTasksIds);
     }
+
 }
