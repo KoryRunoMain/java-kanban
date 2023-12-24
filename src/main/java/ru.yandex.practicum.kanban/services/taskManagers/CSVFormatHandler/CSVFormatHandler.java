@@ -48,7 +48,7 @@ public class CSVFormatHandler {
         return epicId;
     }
 
-    /* Получить задачи из строк */
+    /* Получить задачи из строк */ // дописать для duration и startTime
     public Task fromString(String value) {
         String[] values = value.split(DELIMITER);
         int valuesLength = values.length;
