@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
+import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
+
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,29 +21,25 @@ class InMemoryHistoryManagerTest {
     protected HistoryManager historyManager;
 
 
+
+    /* Создаем задачи для тестов TASK, EPIC, SUBTASK */
+    protected void createTasksForTest() {
+        Task task = new Task("Task", "Task Description", 5,
+                Instant.ofEpochMilli(1703275200000L), Status.NEW);
+        inMemoryTaskManager.createTask(task);
+        Epic epic = new Epic("Epic", "Epic Description", 15,
+                Instant.ofEpochMilli(1703275500000L), Status.NEW);
+        inMemoryTaskManager.createEpic(epic);
+        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+                Instant.ofEpochMilli(1703276400000L), Status.NEW);
+        inMemoryTaskManager.createSubTask(subtask);
+    }
+
     @BeforeEach
     public void init() {
         historyManager = new InMemoryHistoryManager();
         inMemoryTaskManager = new InMemoryTaskManager(historyManager);
         createTasksForTest();
-    }
-
-
-    /* Создаем задачи для тестов TASK, EPIC, SUBTASK */
-    protected void createTasksForTest() {
-        Task task1 = new Task("Task1", "Task1 Description");
-        inMemoryTaskManager.createTask(task1);
-        Epic epic1 = new Epic("Epic1", "Epic1 Description");
-        inMemoryTaskManager.createEpic(epic1);
-        Subtask subtask1 = new Subtask(epic1.getId(), "Subtask1", "Subtask1 Description");
-        inMemoryTaskManager.createSubTask(subtask1);
-    }
-
-    /* Добавляем в историю задачи для тестов */
-    public void addTasksToHistory() {
-        historyManager.add(task);
-        historyManager.add(epic);
-        historyManager.add(subtask);
     }
 
     /* Пустая история задач */
@@ -65,7 +64,9 @@ class InMemoryHistoryManagerTest {
     /* Удаление из истории: начало, середина, конец */
     @Test
     public void checkRemoveFromHistoryFirstMiddleLastTasks() {
-        addTasksToHistory();
+        historyManager.add(task);
+        historyManager.add(epic);
+        historyManager.add(subtask);
         assertNotNull(historyManager.getHistory(), "История задач не пустая.");
         assertEquals(1, historyManager.getHistory().size(), "История задач пустая.");
         assertNotNull(historyManager.getHistory(), "История задач не пустая.");

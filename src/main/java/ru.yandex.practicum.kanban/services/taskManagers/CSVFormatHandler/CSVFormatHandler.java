@@ -7,6 +7,7 @@ import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +19,33 @@ public class CSVFormatHandler {
 
     /* Получить заголовок */
     public String getHeader() {
-        return "id,type,name,status,description,epic" + "\n";
+        return "id,type,name,status,description,epic,duration,startTime" + "\n";
     }
 
     /* Получить строку из задач */
     public String generateToString(Task task) {
-        String result = task.getId() + DELIMITER +      // id
+        return  task.getId() + DELIMITER +      // id
                 task.getType() + DELIMITER +            // type
                 task.getName() + DELIMITER +            // name
                 task.getStatus() + DELIMITER +          //status
-                task.getDescription() + DELIMITER;      // description
+                task.getDescription() + DELIMITER +     // description
+                getEpicIdOfSubTask(task) + DELIMITER +  // epic id
+                task.getDuration() + DELIMITER +        // duration
+                getTaskStartTime(task);                 // startTime
+    }
 
+    private static Instant getTaskStartTime(Task task) {
+        return task.getStartTime();
+    }
+
+    private static String getEpicIdOfSubTask(Task task) {
+        String epicId = "";
         if (task.getType() == Type.SUBTASK) {
-            result += ((Subtask) task).getEpicId();     // epic id
+            Subtask subtask = (Subtask) task;
+            epicId = String.valueOf(subtask.getEpicId());
+            return epicId;
         }
-        return result;
+        return epicId;
     }
 
     /* Получить задачи из строк */

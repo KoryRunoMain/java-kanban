@@ -19,34 +19,10 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @BeforeEach
     public void init() {
-        taskManager = new FileBackedTasksManager(Managers.getDefaultHistory());
         file = new File("src/resources/" + "tasksTest" + ".csv");
+        taskManager = new FileBackedTasksManager(Managers.getDefaultHistory(), file);
         initTasks();
     }
-
-
-    /* Отчистка коллекций задач для тестов */
-    protected void deleteAllTasksForTest() {
-        taskManager.removeAllTasks();
-        taskManager.removeAllEpics();
-        taskManager.removeAllSubTasks();
-    }
-
-    /* Загрузка истории задач для тестов */
-    protected void createTasksHistory() {
-        taskManager.historyManager.add(task);
-        taskManager.historyManager.add(epic);
-        taskManager.historyManager.add(subtask);
-    }
-
-
-    /* Удаление истории задач для тестов */
-    protected void removeTasksHistory() {
-        taskManager.historyManager.remove(task.getId());
-        taskManager.historyManager.remove(epic.getId());
-        taskManager.historyManager.remove(subtask.getId());
-    }
-
 
     /* Загрузка из файла */
     @Test
@@ -60,7 +36,9 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     /* Пустой список задач */
     @Test
     public void checkLoadFromFileWithNoTasks() {
-        deleteAllTasksForTest();
+        taskManager.removeAllTasks();
+        taskManager.removeAllEpics();
+        taskManager.removeAllSubTasks();
         FileBackedTasksManager taskMan = FileBackedTasksManager.loadFromFile(file);
         final List<Task> tasks = taskMan.getAllTasks();
         final List<Epic> epics = taskMan.getAllEpics();
@@ -76,7 +54,9 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     /* Эпик без подзадач */
     @Test
     public void checkLoadFromEpicFileWithoutSubtasks() {
-        deleteAllTasksForTest();
+        taskManager.removeAllTasks();
+        taskManager.removeAllEpics();
+        taskManager.removeAllSubTasks();
         assertEquals(Collections.EMPTY_LIST, taskManager.getAllSubTasks(), "Список подзадач не пустой.");
         FileBackedTasksManager taskMan = FileBackedTasksManager.loadFromFile(file);
         assertEquals(1, taskMan.getAllEpics().size(), "Список задач (Epic) не пустой.");
@@ -86,9 +66,13 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     /* Пустой список истории */
     @Test
     public void checkLoadFromEmptyFileOfHistory() {
-        createTasksHistory();
+        taskManager.historyManager.add(task);
+        taskManager.historyManager.add(epic);
+        taskManager.historyManager.add(subtask);
         assertEquals(3, FileBackedTasksManager.loadFromFile(file).getHistory().size(), "Файл с историрей пустой.");
-        removeTasksHistory();
+        taskManager.historyManager.remove(task.getId());
+        taskManager.historyManager.remove(epic.getId());
+        taskManager.historyManager.remove(subtask.getId());
         assertEquals(Collections.EMPTY_LIST, FileBackedTasksManager.loadFromFile(file).getHistory(), "Файл с историрей пустой.");
     }
 
