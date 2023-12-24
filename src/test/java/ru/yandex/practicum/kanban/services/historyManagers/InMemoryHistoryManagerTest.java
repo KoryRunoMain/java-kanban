@@ -18,7 +18,7 @@ class InMemoryHistoryManagerTest {
     protected HistoryManager historyManager;
 
 
-    // Создаем задачи для тестов TASK, EPIC, SUBTASK
+    /* Создаем задачи для тестов TASK, EPIC, SUBTASK */
     protected void createTasksForTest() {
         Task task1 = new Task("Task1", "Task1 Description");
         inMemoryTaskManager.createTask(task1);
@@ -28,7 +28,7 @@ class InMemoryHistoryManagerTest {
         inMemoryTaskManager.createSubTask(subtask1);
     }
 
-    // Добавляем в историю задачи для тестов
+    /* Добавляем в историю задачи для тестов */
     public void addTasksToHistory() {
         historyManager.add(task);
         historyManager.add(epic);
@@ -43,14 +43,15 @@ class InMemoryHistoryManagerTest {
         createTasksForTest();
     }
 
-    //Пустая история задач
+    /* Пустая история задач */
     @Test
     public void checkEmptyHistoryTasks() {
         assertNotNull(historyManager.getHistory(), "История задач не пустая.");
         assertEquals(0, historyManager.getHistory().size(), "История задая не пустая.");
     }
 
-    //Дублирование
+
+    /* Дублирование */
     @Test
     public void checkDoubleTasksIdsInHistory() {
         historyManager.add(task);
@@ -61,7 +62,7 @@ class InMemoryHistoryManagerTest {
         assertEquals(1, historyManager.getHistory().size(), "История задач пустая.");
     }
 
-    //Удаление из истории: начало, середина, конец
+    /* Удаление из истории: начало, середина, конец */
     @Test
     public void checkRemoveFromHistoryFirstMiddleLastTasks() {
         addTasksToHistory();
