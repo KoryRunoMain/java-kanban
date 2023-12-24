@@ -23,6 +23,7 @@ public class Epic extends Task {
         super(name, description, duration, startTime, status);
         this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
+        this.endTime = super.getEndTime();
     }
 
     public Epic(int id, String name, String description, Status status,long duration,
