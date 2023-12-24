@@ -22,6 +22,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
 
     /* Создаем задачи для теста */
+    @BeforeEach
     protected void initTasks() {
         taskManager.createTask(task = new Task("Task", "Task Description", 5,
                 Instant.ofEpochMilli(1703275200000L), Status.NEW));

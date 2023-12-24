@@ -18,6 +18,14 @@ class InMemoryHistoryManagerTest {
     protected HistoryManager historyManager;
 
 
+    @BeforeEach
+    public void init() {
+        historyManager = new InMemoryHistoryManager();
+        inMemoryTaskManager = new InMemoryTaskManager(historyManager);
+        createTasksForTest();
+    }
+
+
     /* Создаем задачи для тестов TASK, EPIC, SUBTASK */
     protected void createTasksForTest() {
         Task task1 = new Task("Task1", "Task1 Description");
@@ -33,14 +41,6 @@ class InMemoryHistoryManagerTest {
         historyManager.add(task);
         historyManager.add(epic);
         historyManager.add(subtask);
-    }
-
-
-    @BeforeEach
-    public void init() {
-        historyManager = new InMemoryHistoryManager();
-        inMemoryTaskManager = new InMemoryTaskManager(historyManager);
-        createTasksForTest();
     }
 
     /* Пустая история задач */

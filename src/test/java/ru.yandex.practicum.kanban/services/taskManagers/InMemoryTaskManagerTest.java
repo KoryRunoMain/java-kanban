@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.enums.Status;
+import ru.yandex.practicum.kanban.services.Managers;
+import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
 
 import java.time.Instant;
@@ -16,12 +18,20 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     protected InMemoryTaskManager inMemoryTaskManager;
     protected Epic epic;
 
-    @BeforeEach
+
     void initEpic() {
         inMemoryTaskManager.createEpic(epic = new Epic("Epic2", "Epic2 Description", 10,
                 Instant.ofEpochMilli(1686344400000L), Status.NEW));
     }
 
+    @BeforeEach
+    public void initManager() {
+        taskManager = (InMemoryTaskManager) Managers.getDefault();
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(historyManager);
+        initEpic();
+        initTasks();
+    }
 
     /* Создаем Подзадачи для теста на проверку NEW, DONE, IN_PROGRESS */
     public void createSubtaskAndSetStatusForNewDoneIn_Progress(Status status) {
@@ -84,6 +94,16 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertEquals(2, epic.getSubTaskIds().size(), "Список подзадач пуст.");
         inMemoryTaskManager.updateEpicStatus(epic);
         assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи (Эпик) не IN_PROGRESS");
+    }
+
+    /* Обновление времени задач EPIC */
+    public void checkUpdateEpicTime() {
+
+    }
+
+    /* Проверка пересечение задач */
+    public void checkVerifyTasks() {
+
     }
 
 }

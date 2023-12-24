@@ -34,19 +34,6 @@ public class InMemoryTaskManager implements TaskManager {
         generatorId = initialID;
     }
 
-    /* Получение списка всех подзадач определенного EPIC */
-    @Override
-    public List<Subtask> getSubTasksOfEpic(Epic epic) {
-        if (epicStorage.containsKey(epic.getId())) {
-            List<Subtask> subtasksOfEpic = new ArrayList<>();
-            for (Integer subTaskNum : epic.getSubTaskIds()) {
-                subtasksOfEpic.add(subTaskStorage.get(subTaskNum));
-            }
-            return subtasksOfEpic;
-        } else {
-            return new ArrayList<>();
-        }
-    }
 
     /* Обновление времени задач EPIC */
     private void updateEpicTime(Epic epic) {
@@ -67,12 +54,6 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setEndTime(endTime);
         duration = (endTime.toEpochMilli() - startTime.toEpochMilli());
         epic.setDuration(duration);
-    }
-
-    /* Получить копию задач по приоритету */
-    @Override
-    public List<Task> getPrioritizedTasks() {
-        return new ArrayList<>(prioritizedTasks);
     }
 
     /* Проверка на пересечение задач  */
@@ -105,6 +86,12 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             throw new TaskConflictException("Ошибка. Задачи пересекаются.");
         }
+    }
+
+    /* Получить копию задач по приоритету */
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
     }
 
     /* Просмотр истории */
@@ -315,6 +302,20 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         return new ArrayList<>(subTaskStorage.values());
+    }
+
+    /* Получение списка всех подзадач определенного EPIC */
+    @Override
+    public List<Subtask> getSubTasksOfEpic(Epic epic) {
+        if (epicStorage.containsKey(epic.getId())) {
+            List<Subtask> subtasksOfEpic = new ArrayList<>();
+            for (Integer subTaskNum : epic.getSubTaskIds()) {
+                subtasksOfEpic.add(subTaskStorage.get(subTaskNum));
+            }
+            return subtasksOfEpic;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /* SUBTASKS.Удаление по ID */

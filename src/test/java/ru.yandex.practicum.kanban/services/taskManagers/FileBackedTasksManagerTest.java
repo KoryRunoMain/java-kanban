@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
+import ru.yandex.practicum.kanban.services.Managers;
 
 import java.io.File;
 import java.util.Collections;
@@ -15,6 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
     protected File file;
+
+    @BeforeEach
+    public void init() {
+        taskManager = new FileBackedTasksManager(Managers.getDefaultHistory());
+        file = new File("src/resources/" + "tasksTest" + ".csv");
+        initTasks();
+    }
 
 
     /* Отчистка коллекций задач для тестов */
@@ -39,11 +47,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         taskManager.historyManager.remove(subtask.getId());
     }
 
-
-    @BeforeEach
-    public void initFile() {
-        file = new File("src/resources/" + "tasksTest" + ".csv");
-    }
 
     /* Загрузка из файла */
     @Test
