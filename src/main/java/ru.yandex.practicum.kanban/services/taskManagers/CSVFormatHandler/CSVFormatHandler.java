@@ -14,8 +14,8 @@ import java.util.List;
 public class CSVFormatHandler {
 
     private static final String DELIMITER = ",";
-    private static final Integer TASK_LENGTH = 5;
-    private static final Integer TASK_LENGTH_WITH_EPICID = 6;
+    private static final Integer TASK_LENGTH = 7;
+    private static final Integer TASK_LENGTH_WITH_EPICID = 8;
 
     /* Получить заголовок */
     public String getHeader() {
@@ -24,10 +24,10 @@ public class CSVFormatHandler {
 
     /* Получить строку из задач */
     public String generateToString(Task task) {
-        return  task.getId() + DELIMITER +      // id
+        return  task.getId() + DELIMITER +              // id
                 task.getType() + DELIMITER +            // type
                 task.getName() + DELIMITER +            // name
-                task.getStatus() + DELIMITER +          //status
+                task.getStatus() + DELIMITER +          // status
                 task.getDescription() + DELIMITER +     // description
                 getEpicIdOfSubTask(task) + DELIMITER +  // epic id
                 task.getDuration() + DELIMITER +        // duration
@@ -57,31 +57,35 @@ public class CSVFormatHandler {
             valuesLength != TASK_LENGTH_WITH_EPICID) {
             return null;
         }
-        int id = Integer.parseInt(values[0]);               // id
-        Type type = Type.valueOf(values[1]);                // type
-        String name = values[2];                            // name
-        Status status = Status.valueOf(values[3]);          // status
-        String description = values[4];                     // description
         int epicId = 0;
+        int id = Integer.parseInt(values[0]);                                   // id
+        Type type = Type.valueOf(values[1]);                                    // type
+        String name = values[2];                                                // name
+        Status status = Status.valueOf(values[3]);                              // status
+        String description = values[4];                                         // description
         if (type.equals(Type.SUBTASK)) {
-            epicId = Integer.parseInt(values[5]);           // epic id
+            epicId = Integer.parseInt(values[5]);                               // epic id
         }
+        long duration = Long.parseLong(values[6]);                              // duration
+        Instant startTime = Instant.parse(values[7]); // startTime
 
         switch (type) {
             case EPIC -> {
-                Epic epic = new Epic(name, description);
-                epic.setId(id);
-                epic.setStatus(status);
-                return epic;
+//                Epic epic = new Epic(id, name, description, status, duration, startTime);
+//                epic.setId(id);
+//                epic.setStatus(status);
+//                return epic;
+                return new Epic(id, name, description, status, duration, startTime);
             }
             case SUBTASK -> {
-                Subtask subtask = new Subtask(epicId, name, description);
-                subtask.setId(id);
-                subtask.setStatus(status);
-                return subtask;
+//                Subtask subtask = new Subtask(epicId, name, description, duration, startTime, status);
+//                subtask.setId(id);
+//                subtask.setStatus(status);
+//                return subtask;
+                return new Subtask(epicId, name, description, duration, startTime, status);
             }
             default -> {
-                return new Task(id, name, description, status, type);
+                return new Task(id, name, description, status, duration, startTime);
             }
         }
     }
