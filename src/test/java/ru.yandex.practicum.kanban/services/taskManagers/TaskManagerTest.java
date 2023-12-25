@@ -182,7 +182,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void checkRemoveSubTaskByNotCorrectId() {
         taskManager.createEpic(epic);
         taskManager.createSubTask(subtask);
-//        taskManager.removeSubTaskById(35);
+        taskManager.removeSubTaskById(35);
         assertEquals(1, taskManager.getAllSubTasks().size());
     }
 
