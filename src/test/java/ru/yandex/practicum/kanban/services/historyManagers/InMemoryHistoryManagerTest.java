@@ -7,6 +7,7 @@ import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
+import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.time.Instant;
 
@@ -14,37 +15,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-//    protected Task task;
-//    protected Epic epic;
-//    protected Subtask subtask;
-    protected InMemoryTaskManager inMemoryTaskManager;
+    protected TaskManager taskManager;
     protected HistoryManager historyManager;
-
-    private final Task task = new Task("Task", "Task Description", 5,
-            Instant.ofEpochMilli(1703275200000L), Status.NEW);
-    private final Epic epic = new Epic("Epic", "Epic Description", 15,
-            Instant.ofEpochMilli(1703275500000L), Status.NEW);
-    private final Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
-            Instant.ofEpochMilli(1703276400000L), Status.NEW);
-
+    protected Task task;
+    protected Epic epic;
+    protected Subtask subtask;
 
     /* Создаем задачи для тестов TASK, EPIC, SUBTASK */
-//    protected void createTasksForTest() {
-//        Task task = new Task("Task", "Task Description", 5,
-//                Instant.ofEpochMilli(1703275200000L), Status.NEW);
-//        inMemoryTaskManager.createTask(task);
-//        Epic epic = new Epic("Epic", "Epic Description", 15,
-//                Instant.ofEpochMilli(1703275500000L), Status.NEW);
-//        inMemoryTaskManager.createEpic(epic);
-//        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
-//                Instant.ofEpochMilli(1703276400000L), Status.NEW);
-//        inMemoryTaskManager.createSubTask(subtask);
-//    }
+    protected void createTasksForTest() {
+        task = new Task("Task", "Task Description", 5,
+                Instant.ofEpochMilli(1703275200000L));
+        taskManager.createTask(task);
+        epic = new Epic("Epic", "Epic Description", 15,
+                Instant.ofEpochMilli(1703275500000L));
+        taskManager.createEpic(epic);
+        subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+                Instant.ofEpochMilli(1703276400000L));
+        taskManager.createSubTask(subtask);
+    }
 
     @BeforeEach
-    public void init() {
+    public void setUp() {
+        taskManager = new InMemoryTaskManager();
         historyManager = new InMemoryHistoryManager();
-        inMemoryTaskManager = new InMemoryTaskManager(historyManager);
+        createTasksForTest();
     }
 
     /* Пустая история задач */
@@ -55,7 +49,7 @@ class InMemoryHistoryManagerTest {
     }
 
 
-    /* Дублирование */
+    /* Дублирование */ //+
     @Test
     public void checkDoubleTasksIdsInHistory() {
         historyManager.add(task);
@@ -70,12 +64,14 @@ class InMemoryHistoryManagerTest {
     @Test
     public void checkRemoveFromHistoryFirstMiddleLastTasks() {
         historyManager.add(task);
-        historyManager.add(epic);
-        historyManager.add(subtask);
         assertNotNull(historyManager.getHistory(), "История задач не пустая.");
         assertEquals(1, historyManager.getHistory().size(), "История задач пустая.");
+
+        historyManager.add(epic);
         assertNotNull(historyManager.getHistory(), "История задач не пустая.");
         assertEquals(2, historyManager.getHistory().size(), "История задач пустая.");
+
+        historyManager.add(subtask);
         assertNotNull(historyManager.getHistory(), "История задач не пустая.");
         assertEquals(3, historyManager.getHistory().size(), "История задач пустая.");
 
@@ -83,9 +79,11 @@ class InMemoryHistoryManagerTest {
         historyManager.remove(task.getId());
         assertNotNull(historyManager.getHistory(), "История задач пустая.");
         assertEquals(2, historyManager.getHistory().size(), "История задач не пустая.");
+
         historyManager.remove(epic.getId());
         assertNotNull(historyManager.getHistory(), "История задач пустая.");
         assertEquals(1, historyManager.getHistory().size(), "История задач не пустая.");
+
         historyManager.remove(subtask.getId());
         assertNotNull(historyManager.getHistory(), "История задач пустая.");
         assertEquals(0, historyManager.getHistory().size(), "История задач не пустая.");

@@ -51,6 +51,16 @@ public class Task {
 
     }
 
+    public Task(String name, String description, long duration, Instant startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.type = Type.TASK;
+        this.duration = duration;
+        this.startTime = startTime;
+
+    }
+
     public String getName() {
         return name;
     }

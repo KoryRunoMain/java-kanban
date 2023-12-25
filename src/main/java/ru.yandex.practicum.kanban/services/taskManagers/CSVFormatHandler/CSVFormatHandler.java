@@ -9,6 +9,8 @@ import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class CSVFormatHandler {

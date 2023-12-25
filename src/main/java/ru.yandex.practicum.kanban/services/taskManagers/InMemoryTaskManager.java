@@ -129,7 +129,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public ArrayList<Task> getAllTasks() {
         if (taskStorage.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return new ArrayList<>(taskStorage.values());
     }
@@ -195,7 +195,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public ArrayList<Epic> getAllEpics() {
         if (epicStorage.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return new ArrayList<>(epicStorage.values());
     }
@@ -302,7 +302,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public ArrayList<Subtask> getAllSubTasks() {
         if (subTaskStorage.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return new ArrayList<>(subTaskStorage.values());
     }

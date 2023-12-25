@@ -36,6 +36,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* Сохранение задач и истории в файл */
     protected void saveToFile() {
+        if (subTaskStorage == null && taskStorage == null && epicStorage == null) {
+            return;
+        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, UTF_8));
              BufferedReader reader = new BufferedReader(new FileReader(file, UTF_8))) {
             String line = reader.readLine();
@@ -268,16 +271,16 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
         manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
 
-        Task task = new Task("Task", "Task Description", 5,
-                Instant.ofEpochMilli(1703275200000L), Status.NEW);
-        manager.createTask(task);
-        Epic epic = new Epic("Epic", "Epic Description", 15,
-                Instant.ofEpochMilli(1703275500000L), Status.NEW);
-        manager.createEpic(epic);
-        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
-                Instant.ofEpochMilli(1703276400000L), Status.NEW);
-        manager.createSubTask(subtask);
-//
+//        Task task = new Task("Task", "Task Description", 5,
+//                Instant.ofEpochMilli(1703275200000L), Status.NEW);
+//        manager.createTask(task);
+//        Epic epic = new Epic("Epic", "Epic Description", 15,
+//                Instant.ofEpochMilli(1703275500000L), Status.NEW);
+//        manager.createEpic(epic);
+//        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
+//                Instant.ofEpochMilli(1703276400000L), Status.NEW);
+//        manager.createSubTask(subtask);
+
 //        System.out.println(manager.getAllTasks());
 //        System.out.println(manager.getAllEpics());
 //        System.out.println(manager.getAllSubTasks());
