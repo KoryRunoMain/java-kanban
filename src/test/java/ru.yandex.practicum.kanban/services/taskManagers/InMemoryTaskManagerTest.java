@@ -7,7 +7,6 @@ import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
-import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
 
 import java.time.Instant;

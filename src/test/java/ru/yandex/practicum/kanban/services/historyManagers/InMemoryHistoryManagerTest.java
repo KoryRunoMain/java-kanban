@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
@@ -44,49 +43,48 @@ class InMemoryHistoryManagerTest {
     /* Пустая история задач */
     @Test
     public void checkEmptyHistoryTasks() {
-        assertNotNull(historyManager.getHistory(), "История задач не пустая.");
-        assertEquals(0, historyManager.getHistory().size(), "История задая не пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(0, historyManager.getHistory().size());
     }
 
-
-    /* Дублирование */ //+
+    /* Дублирование */
     @Test
     public void checkDoubleTasksIdsInHistory() {
         historyManager.add(task);
-        assertNotNull(historyManager.getHistory(), "История задач не пустая.");
-        assertEquals(1, historyManager.getHistory().size(), "История задач пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(1, historyManager.getHistory().size());
         historyManager.add(task);
-        assertNotNull(historyManager.getHistory(), "История задач не пустая.");
-        assertEquals(1, historyManager.getHistory().size(), "История задач пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(1, historyManager.getHistory().size());
     }
 
     /* Удаление из истории: начало, середина, конец */
     @Test
     public void checkRemoveFromHistoryFirstMiddleLastTasks() {
         historyManager.add(task);
-        assertNotNull(historyManager.getHistory(), "История задач не пустая.");
-        assertEquals(1, historyManager.getHistory().size(), "История задач пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(1, historyManager.getHistory().size());
 
         historyManager.add(epic);
-        assertNotNull(historyManager.getHistory(), "История задач не пустая.");
-        assertEquals(2, historyManager.getHistory().size(), "История задач пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(2, historyManager.getHistory().size());
 
         historyManager.add(subtask);
-        assertNotNull(historyManager.getHistory(), "История задач не пустая.");
-        assertEquals(3, historyManager.getHistory().size(), "История задач пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(3, historyManager.getHistory().size());
 
         // Проверка удаления
         historyManager.remove(task.getId());
-        assertNotNull(historyManager.getHistory(), "История задач пустая.");
-        assertEquals(2, historyManager.getHistory().size(), "История задач не пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(2, historyManager.getHistory().size());
 
         historyManager.remove(epic.getId());
-        assertNotNull(historyManager.getHistory(), "История задач пустая.");
-        assertEquals(1, historyManager.getHistory().size(), "История задач не пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(1, historyManager.getHistory().size());
 
         historyManager.remove(subtask.getId());
-        assertNotNull(historyManager.getHistory(), "История задач пустая.");
-        assertEquals(0, historyManager.getHistory().size(), "История задач не пустая.");
+        assertNotNull(historyManager.getHistory());
+        assertEquals(0, historyManager.getHistory().size());
     }
 
 }

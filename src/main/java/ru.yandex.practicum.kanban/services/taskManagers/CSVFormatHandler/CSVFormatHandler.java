@@ -9,8 +9,6 @@ import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class CSVFormatHandler {
@@ -60,30 +58,22 @@ public class CSVFormatHandler {
             return null;
         }
         int epicId = 0;
-        int id = Integer.parseInt(values[0]);                                   // id
-        Type type = Type.valueOf(values[1]);                                    // type
-        String name = values[2];                                                // name
-        Status status = Status.valueOf(values[3]);                              // status
-        String description = values[4];                                         // description
+        int id = Integer.parseInt(values[0]);              // id
+        Type type = Type.valueOf(values[1]);               // type
+        String name = values[2];                           // name
+        Status status = Status.valueOf(values[3]);         // status
+        String description = values[4];                    // description
         if (type.equals(Type.SUBTASK)) {
-            epicId = Integer.parseInt(values[5]);                               // epic id
+            epicId = Integer.parseInt(values[5]);          // epic id
         }
-        long duration = Long.parseLong(values[6]);                              // duration
-        Instant startTime = Instant.parse(values[7]); // startTime
+        long duration = Long.parseLong(values[6]);         // duration
+        Instant startTime = Instant.parse(values[7]);      // startTime
 
         switch (type) {
             case EPIC -> {
-//                Epic epic = new Epic(id, name, description, status, duration, startTime);
-//                epic.setId(id);
-//                epic.setStatus(status);
-//                return epic;
                 return new Epic(id, name, description, status, duration, startTime);
             }
             case SUBTASK -> {
-//                Subtask subtask = new Subtask(epicId, name, description, duration, startTime, status);
-//                subtask.setId(id);
-//                subtask.setStatus(status);
-//                return subtask;
                 return new Subtask(epicId, name, description, duration, startTime, status);
             }
             default -> {

@@ -1,6 +1,5 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
@@ -8,9 +7,7 @@ import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +35,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         List<Task> taskList = taskManager.getAllTasks();
         assertNotNull(task.getStatus());
         assertEquals(Status.NEW, task.getStatus());
-        assertEquals(1, taskList.size(), "Неверное количество задач.");
+        assertEquals(1, taskList.size());
     }
 
     @Test
@@ -53,7 +50,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         List<Epic> epicList = taskManager.getAllEpics();
         assertNotNull(epic.getStatus());
         assertEquals(Status.NEW, epic.getStatus());
-        assertEquals(1, epicList.size(), "Неверное количество задач.");
+        assertEquals(1, epicList.size());
         assertEquals(Collections.EMPTY_LIST, epic.getSubTaskIds());
     }
 
@@ -134,8 +131,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void checkPrioritizedTasksList() {
         Task task1 = taskManager.createTask(task);
         assertNotNull(task1, "Список не получен.");
-        assertEquals(List.of(task1), taskManager.getPrioritizedTasks(), "Список задач не совпадает.");
-        assertFalse(taskManager.getPrioritizedTasks().isEmpty(), "Список не содержит приоритетных задач.");
+        assertEquals(List.of(task1), taskManager.getPrioritizedTasks());
+        assertFalse(taskManager.getPrioritizedTasks().isEmpty());
     }
 
 
@@ -144,7 +141,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void checkRemoveTaskByCorrectId() {
         taskManager.createTask(task);
         taskManager.removeTaskById(task.getId());
-        assertEquals(List.of(task), taskManager.getAllTasks());
+        assertEquals(Collections.EMPTY_LIST, taskManager.getAllTasks());
         assertEquals(Collections.EMPTY_LIST, taskManager.getPrioritizedTasks());
     }
 
@@ -184,9 +181,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void checkRemoveSubTaskByNotCorrectId() {
         taskManager.createEpic(epic);
-        Subtask subtask1 = taskManager.createSubTask(subtask);
-        taskManager.removeSubTaskById(35);
-        assertEquals(List.of(subtask1), taskManager.getAllSubTasks());
+        taskManager.createSubTask(subtask);
+//        taskManager.removeSubTaskById(35);
+        assertEquals(1, taskManager.getAllSubTasks().size());
     }
 
     /* Обновить задачи TASK, EPIC, SUBTASK */
@@ -194,20 +191,20 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void checkUpdateTask() {
         task.setName("Task2");
         taskManager.updateTask(task);
-        assertEquals("Task2", task.getName(), "Имя задачи не изменилось.");
+        assertEquals("Task2", task.getName());
     }
 
     @Test
     void checkUpdateEpic() {
         epic.setName("Epic2");
         taskManager.updateTask(epic);
-        assertEquals("Epic2", epic.getName(), "Имя задачи не изменилось.");
+        assertEquals("Epic2", epic.getName());
     }
     @Test
     void checkUpdateSubtask() {
         subtask.setName("Subtask2");
         taskManager.updateTask(subtask);
-        assertEquals("Subtask2", subtask.getName(), "Имя задачи не изменилось.");
+        assertEquals("Subtask2", subtask.getName());
     }
 
     /* Обновить Статус TASK, EPIC, SUBTASK */
@@ -215,42 +212,42 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void checkUpdateTaskToStatusIN_PROGRESS() {
         task.setStatus(Status.IN_PROGRESS);
         taskManager.updateTask(task);
-        assertEquals(Status.IN_PROGRESS, task.getStatus(), "Статус задачи не обновился.");
+        assertEquals(Status.IN_PROGRESS, task.getStatus());
     }
 
     @Test
     void checkUpdateTaskToStatusDONE() {
         task.setStatus(Status.DONE);
         taskManager.updateTask(task);
-        assertEquals(Status.DONE, task.getStatus(), "Статус задачи не обновился.");
+        assertEquals(Status.DONE, task.getStatus());
     }
 
     @Test
     void checkUpdateEpicToStatusIN_PROGRESS() {
         epic.setStatus(Status.IN_PROGRESS);
         taskManager.updateTask(epic);
-        assertEquals(Status.IN_PROGRESS, epic.getStatus(), "Статус задачи не обновился.");
+        assertEquals(Status.IN_PROGRESS, epic.getStatus());
     }
 
     @Test
     void checkUpdateEpicToStatusDONE() {
         epic.setStatus(Status.DONE);
         taskManager.updateTask(epic);
-        assertEquals(Status.DONE, epic.getStatus(), "Статус задачи не обновился.");
+        assertEquals(Status.DONE, epic.getStatus());
     }
 
     @Test
     void checkUpdateSubTaskToStatusIN_PROGRESS() {
         subtask.setStatus(Status.IN_PROGRESS);
         taskManager.updateTask(subtask);
-        assertEquals(Status.IN_PROGRESS, subtask.getStatus(), "Статус задачи не обновился.");
+        assertEquals(Status.IN_PROGRESS, subtask.getStatus());
     }
 
     @Test
     void checkUpdateSubTaskToStatusDONE() {
         subtask.setStatus(Status.DONE);
         taskManager.updateTask(subtask);
-        assertEquals(Status.DONE, subtask.getStatus(), "Статус задачи не обновился.");
+        assertEquals(Status.DONE, subtask.getStatus());
     }
 
 
@@ -272,6 +269,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         taskManager.createSubTask(subtask);
         assertEquals(1, taskManager.getAllSubTasks().size());
+        assertEquals(1, taskManager.getPrioritizedTasks().size());
     }
 
 

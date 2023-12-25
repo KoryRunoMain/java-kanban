@@ -3,13 +3,11 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.util.*;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler.CSVFormatHandler;
@@ -271,19 +269,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
         manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
 
-//        Task task = new Task("Task", "Task Description", 5,
-//                Instant.ofEpochMilli(1703275200000L), Status.NEW);
-//        manager.createTask(task);
-//        Epic epic = new Epic("Epic", "Epic Description", 15,
-//                Instant.ofEpochMilli(1703275500000L), Status.NEW);
-//        manager.createEpic(epic);
-//        Subtask subtask = new Subtask(epic.getId(), "SubTask", "Subtask Description", 5,
-//                Instant.ofEpochMilli(1703276400000L), Status.NEW);
-//        manager.createSubTask(subtask);
-
-//        System.out.println(manager.getAllTasks());
-//        System.out.println(manager.getAllEpics());
-//        System.out.println(manager.getAllSubTasks());
     }
 
 }

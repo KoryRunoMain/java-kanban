@@ -278,13 +278,13 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return null;
         }
-        addTaskToPrioritizedList(subtask);
         subTaskStorage.put(getNextId(), subtask);
         epic.getSubTaskIds().add(generatorId);
         subtask.setId(generatorId);
         epic.addSubtaskId(generatorId);
         updateEpicStatus(epic);
         updateEpicTime(epic);
+        addTaskToPrioritizedList(subtask);
         return subtask;
     }
 

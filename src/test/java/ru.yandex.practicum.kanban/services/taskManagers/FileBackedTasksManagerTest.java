@@ -4,23 +4,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
-import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
-import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
-import ru.yandex.practicum.kanban.services.historyManagers.InMemoryHistoryManager;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,10 +26,10 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         initTasks();
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        assertTrue(file.delete());
-//    }
+    @AfterEach
+    public void tearDown() {
+        assertTrue(file.delete());
+    }
 
     /* Загрузка из файла */
     @Test
