@@ -81,7 +81,6 @@ public class InMemoryTaskManager implements TaskManager {
     /* Добавление задачи в список prioritizedTasks  */
     public void addTaskToPrioritizedList(Task task) {
         boolean isVeried = verifyTasks(task);
-
         if (isVeried) {
             prioritizedTasks.add(task);
         } else {
