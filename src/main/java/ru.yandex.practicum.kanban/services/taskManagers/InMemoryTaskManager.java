@@ -41,31 +41,27 @@ public class InMemoryTaskManager implements TaskManager {
     /* Обновление времени задач EPIC */
     private void updateEpicTime(Epic epic) {
         List<Subtask> subtasks = getSubTasksOfEpic(epic);
-        Instant startTime = Instant.ofEpochMilli(0);
-        Instant endTime = Instant.ofEpochMilli(0);
+        Instant startTime = subtasks.get(0).getStartTime();
+        Instant endTime = subtasks.get(0).getEndTime();
         long duration = 0L;
 
         for (Subtask subtaskNum : subtasks) {
             Subtask subtask = subTaskStorage.get(subtaskNum.getId());
-            Instant subTaskStartTime = subtask.getStartTime();
-            Instant subTaskEndTime = subtask.getEndTime();
-            if (subTaskStartTime.isBefore(startTime)) {
-                startTime = subTaskStartTime;
+            if (subtaskNum.getStartTime().isAfter(endTime)) {
+                startTime = subtaskNum.getStartTime();
+            } else if (subtaskNum.getEndTime().isAfter(endTime)) {
+                endTime = subtaskNum.getEndTime();
             }
-            if (subTaskEndTime.isAfter(endTime)) {
-                endTime = subTaskEndTime;
-            }
-            duration += subTaskStorage.get(subtaskNum.getEpicId()).getDuration();
-
+            duration += subtask.getDuration();
         }
-        epicStorage.get(epic.getId()).setStartTime(startTime);
-        epicStorage.get(epic.getId()).setEndTime(endTime);
-        epicStorage.get(epic.getId()).setDuration(duration);
+        epic.setStartTime(startTime);
+        epic.setEndTime(endTime);
+        epic.setDuration(duration);
     }
 
     /* Проверка на пересечение задач  */
     private boolean verifyTasks(Task task) {
-        boolean isIntersection = true;
+        boolean isIntersection = false;
         Instant startTimeOfTask = task.getStartTime();
         Instant endTimeOfTask = task.getEndTime();
 
@@ -77,10 +73,10 @@ public class InMemoryTaskManager implements TaskManager {
             Instant endTime = taskNum.getEndTime();
 
             boolean isCoating = startTime.isBefore(startTimeOfTask) && endTime.isAfter(endTimeOfTask);             // isCoating
-            boolean isIntersectionByStart = startTime.isBefore(endTimeOfTask) && endTime.isAfter(endTimeOfTask);   // isIntersectionByStart
             boolean isIntersectionByEnd = startTime.isBefore(startTimeOfTask) && endTime.isAfter(startTimeOfTask); // isIntersectionByEnd
+            boolean isIntersectionByStart = startTime.isBefore(endTimeOfTask) && endTime.isAfter(endTimeOfTask);   // isIntersectionByStart
             boolean isInTheBorders = startTime.isAfter(startTimeOfTask) && endTime.isBefore(endTimeOfTask);        // isInTheBorders
-            isIntersection = !(isCoating || isIntersectionByStart || isIntersectionByEnd || isInTheBorders);
+            isIntersection = isCoating || isIntersectionByStart || isIntersectionByEnd || isInTheBorders;
         }
         return isIntersection;
     }
@@ -89,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void addTaskToPrioritizedList(Task task) {
         boolean isVeried = verifyTasks(task);
 
-        if (isVeried) {
+        if (!isVeried) {
             prioritizedTasks.add(task);
         } else {
             throw new TaskConflictException("Ошибка. Задачи пересекаются.");
