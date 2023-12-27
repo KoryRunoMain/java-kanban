@@ -61,7 +61,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     /* Проверка на пересечение задач  */
     private boolean verifyTasks(Task task) {
-        boolean isIntersection = false;
         Instant startTimeOfTask = task.getStartTime();
         Instant endTimeOfTask = task.getEndTime();
 
@@ -72,20 +71,18 @@ public class InMemoryTaskManager implements TaskManager {
             Instant startTime = taskNum.getStartTime();
             Instant endTime = taskNum.getEndTime();
 
-            boolean isCoating = startTime.isBefore(startTimeOfTask) && endTime.isAfter(endTimeOfTask);             // isCoating
-            boolean isIntersectionByEnd = startTime.isBefore(startTimeOfTask) && endTime.isAfter(startTimeOfTask); // isIntersectionByEnd
-            boolean isIntersectionByStart = startTime.isBefore(endTimeOfTask) && endTime.isAfter(endTimeOfTask);   // isIntersectionByStart
-            boolean isInTheBorders = startTime.isAfter(startTimeOfTask) && endTime.isBefore(endTimeOfTask);        // isInTheBorders
-            isIntersection = isCoating || isIntersectionByStart || isIntersectionByEnd || isInTheBorders;
+            if(endTimeOfTask.isAfter(startTime) && startTimeOfTask.isBefore(endTime)) {
+                return false;
+            }
         }
-        return isIntersection;
+        return true;
     }
 
     /* Добавление задачи в список prioritizedTasks  */
     public void addTaskToPrioritizedList(Task task) {
         boolean isVeried = verifyTasks(task);
 
-        if (!isVeried) {
+        if (isVeried) {
             prioritizedTasks.add(task);
         } else {
             throw new TaskConflictException("Ошибка. Задачи пересекаются.");
