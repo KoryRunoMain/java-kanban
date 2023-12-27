@@ -61,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     /* Проверка на пересечение задач  */
     private boolean verifyTasks(Task task) {
-        boolean isIntersection = false;
+        boolean isIntersection = true;
         Instant startTimeOfTask = task.getStartTime();
         Instant endTimeOfTask = task.getEndTime();
 
@@ -72,10 +72,11 @@ public class InMemoryTaskManager implements TaskManager {
             Instant startTime = taskNum.getStartTime();
             Instant endTime = taskNum.getEndTime();
 
-            isIntersection = startTime.isBefore(startTimeOfTask) && endTime.isAfter(endTimeOfTask)  // isCoating
-                    || startTime.isBefore(endTimeOfTask) && endTime.isAfter(endTimeOfTask)          // isIntersectionByStart
-                    || startTime.isBefore(startTimeOfTask) && endTime.isAfter(startTimeOfTask)      // isIntersectionByEnd
-                    || startTime.isAfter(startTimeOfTask) && endTime.isBefore(endTimeOfTask);       // isInTheBorders
+            boolean isCoating = startTime.isBefore(startTimeOfTask) && endTime.isAfter(endTimeOfTask);             // isCoating
+            boolean isIntersectionByStart = startTime.isBefore(endTimeOfTask) && endTime.isAfter(endTimeOfTask);   // isIntersectionByStart
+            boolean isIntersectionByEnd = startTime.isBefore(startTimeOfTask) && endTime.isAfter(startTimeOfTask); // isIntersectionByEnd
+            boolean isInTheBorders = startTime.isAfter(startTimeOfTask) && endTime.isBefore(endTimeOfTask);        // isInTheBorders
+            isIntersection = !(isCoating || isIntersectionByStart || isIntersectionByEnd || isInTheBorders);
         }
         return isIntersection;
     }
@@ -84,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void addTaskToPrioritizedList(Task task) {
         boolean isVeried = verifyTasks(task);
 
-        if (!isVeried) {
+        if (isVeried) {
             prioritizedTasks.add(task);
         } else {
             throw new TaskConflictException("Ошибка. Задачи пересекаются.");

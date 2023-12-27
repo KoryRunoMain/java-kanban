@@ -3,11 +3,13 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.*;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
+import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler.CSVFormatHandler;
@@ -109,6 +111,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     fileBackedTasksManager.updateGeneratorID(initialID);
                 }
 
+//                switch (task.getType()) {
+//                    case TASK -> {
+//                        fileBackedTasksManager.taskStorage.put(task.getId(), task);
+//                        fileBackedTasksManager.addTaskToPrioritizedList(task);
+//                    }
+//                    case EPIC -> fileBackedTasksManager.epicStorage.put(task.getId(), (Epic) task);
+//                    case SUBTASK -> {
+//                        fileBackedTasksManager.subTaskStorage.put(task.getId(), (Subtask) task);
+//                        int epicId = (((Subtask) task).getEpicId());
+//                        List<Integer> subtasksIds = fileBackedTasksManager.epicStorage.get(epicId).getSubTaskIds();
+//                        subtasksIds.add(task.getId());
+//                        fileBackedTasksManager.addTaskToPrioritizedList(task);
+//                    }
+//                }
                 if (task instanceof Epic epic) {
                     fileBackedTasksManager.epicStorage // Заполнение задачами Epic
                                           .put(epic.getId(), epic);
@@ -116,12 +132,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 } else if (task instanceof Subtask subtask) {
                     fileBackedTasksManager.subTaskStorage // Заполнение задачами SubTask
                                           .put(subtask.getId(), subtask);
+                    fileBackedTasksManager.addTaskToPrioritizedList(subtask);
                     fileBackedTasksManager.epicStorage // Заполнение Epic задачи своими SubTask задачами
                                           .get(subtask.getEpicId())
                                           .addSubtaskId(subtask.getId());
                 } else {
                     fileBackedTasksManager.taskStorage // Заполнение задачами Task
                                           .put(task.getId(), task);
+                    fileBackedTasksManager.addTaskToPrioritizedList(task);
                 }
             }
 
@@ -268,6 +286,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public static void main(String[] args) {
         FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
         manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
+
+        Task task1 = new Task("T2", "D2", 10, Instant.ofEpochMilli(1703673000000L));
+        manager.createTask(task1);
+
+        Task task = new Task("T1", "D1", 30, Instant.ofEpochMilli(1703671200000L));
+        manager.createTask(task);
+
+        Task task2 = new Task("T2", "D2", 7, Instant.ofEpochMilli(1703673600000L));
+        manager.createTask(task2);
+
+        System.out.println(manager.getPrioritizedTasks());
+
 
     }
 
