@@ -40,23 +40,27 @@ public class InMemoryTaskManager implements TaskManager {
 
     /* Обновление времени задач EPIC */
     private void updateEpicTime(Epic epic) {
-        // Возможно Переписать получше, но пока что так..
         List<Subtask> subtasks = getSubTasksOfEpic(epic);
-        Instant startTime = subtasks.get(0).getStartTime();
-        Instant endTime = subtasks.get(0).getEndTime();
-        long duration;
+        Instant startTime = Instant.ofEpochMilli(0);
+        Instant endTime = Instant.ofEpochMilli(0);
+        long duration = 0L;
 
         for (Subtask subtaskNum : subtasks) {
-            if (subtaskNum.getStartTime().isAfter(endTime)) {
-                startTime = subtaskNum.getStartTime();
-            } else if (subtaskNum.getEndTime().isAfter(endTime)) {
-                endTime = subtaskNum.getEndTime();
+            Subtask subtask = subTaskStorage.get(subtaskNum.getId());
+            Instant subTaskStartTime = subtask.getStartTime();
+            Instant subTaskEndTime = subtask.getEndTime();
+            if (subTaskStartTime.isBefore(startTime)) {
+                startTime = subTaskStartTime;
             }
+            if (subTaskEndTime.isAfter(endTime)) {
+                endTime = subTaskEndTime;
+            }
+            duration += subTaskStorage.get(subtaskNum.getEpicId()).getDuration();
+
         }
-        epic.setStartTime(startTime);
-        epic.setEndTime(endTime);
-        duration = (endTime.toEpochMilli() - startTime.toEpochMilli());
-        epic.setDuration(duration);
+        epicStorage.get(epic.getId()).setStartTime(startTime);
+        epicStorage.get(epic.getId()).setEndTime(endTime);
+        epicStorage.get(epic.getId()).setDuration(duration);
     }
 
     /* Проверка на пересечение задач  */
