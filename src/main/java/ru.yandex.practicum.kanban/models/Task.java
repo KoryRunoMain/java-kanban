@@ -8,9 +8,9 @@ import java.time.Instant;
 import java.util.Objects;
 
 public class Task {
+    protected int id;
     protected String name;
     protected String description;
-    protected int id;
     protected Status status;
     protected Type type;
     protected long duration;
@@ -23,20 +23,11 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public Task(int id, String name, String description, Status status, Type type) {
+    public Task(String name, String description, long duration, Instant startTime) {
         this.name = name;
         this.description = description;
-        this.status = status;
-        this.type = type;
-        this.id = id;
-    }
-
-    public Task(int id, String name, String description, Status status, long duration, Instant startTime) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
+        this.status = Status.NEW;
         this.type = Type.TASK;
-        this.id = id;
         this.duration = duration;
         this.startTime = startTime;
     }
@@ -48,17 +39,16 @@ public class Task {
         this.type = Type.TASK;
         this.duration = duration;
         this.startTime = startTime;
-
     }
 
-    public Task(String name, String description, long duration, Instant startTime) {
+    public Task(int id, String name, String description, Status status, long duration, Instant startTime) {
         this.name = name;
         this.description = description;
-        this.status = Status.NEW;
+        this.status = status;
         this.type = Type.TASK;
+        this.id = id;
         this.duration = duration;
         this.startTime = startTime;
-
     }
 
     public String getName() {

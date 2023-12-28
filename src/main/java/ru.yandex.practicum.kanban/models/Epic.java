@@ -9,21 +9,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
+
     protected final List<Integer> subTasksIds;
     static long epochSecond = 3712455237000L;
     protected static Instant endTime = Instant.ofEpochSecond(epochSecond);
+
 
     public Epic(String name, String description) {
         super(name, description);
         this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
-    }
-
-    public Epic(String name, String description, long duration, Instant startTime, Status status) {
-        super(name, description, duration, startTime, status);
-        this.type = Type.EPIC;
-        this.subTasksIds = new ArrayList<>();
-        endTime = super.getEndTime();
     }
 
     public Epic(String name, String description, long duration, Instant startTime) {
@@ -33,14 +28,19 @@ public class Epic extends Task {
         endTime = super.getEndTime();
     }
 
-    public Epic(int id, String name, String description, Status status, long duration,
-                Instant startTime) {
-        super(id, name, description, status, duration, startTime);
+    public Epic(String name, String description, long duration, Instant startTime, Status status) {
+        super(name, description, duration, startTime, status);
         this.type = Type.EPIC;
         this.subTasksIds = new ArrayList<>();
         endTime = super.getEndTime();
     }
 
+    public Epic(int id, String name, String description, Status status, long duration, Instant startTime) {
+        super(id, name, description, status, duration, startTime);
+        this.type = Type.EPIC;
+        this.subTasksIds = new ArrayList<>();
+        endTime = super.getEndTime();
+    }
 
     public ArrayList<Integer> getSubTaskIds() {
         return new ArrayList<>(subTasksIds);

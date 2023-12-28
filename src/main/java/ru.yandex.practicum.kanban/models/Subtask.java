@@ -7,22 +7,17 @@ import java.time.Instant;
 import java.util.Objects;
 
 public class Subtask extends Task {
+
     protected final int epicId;
 
-    public Subtask(Integer epicId, String name, String description) {
-        super(name, description);
+    public Subtask(Integer epicId, String name, String description, long duration, Instant startTime) {
+        super(name, description, duration, startTime);
         this.type = Type.SUBTASK;
         this.epicId = epicId;
     }
 
     public Subtask(Integer epicId, String name, String description, long duration, Instant startTime, Status status) {
         super(name, description, duration, startTime, status);
-        this.type = Type.SUBTASK;
-        this.epicId = epicId;
-    }
-
-    public Subtask(Integer epicId, String name, String description, long duration, Instant startTime) {
-        super(name, description, duration, startTime);
         this.type = Type.SUBTASK;
         this.epicId = epicId;
     }

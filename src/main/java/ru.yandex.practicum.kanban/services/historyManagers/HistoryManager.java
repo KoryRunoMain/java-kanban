@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface HistoryManager {
 
-    /* Добавление */
+    /*Добавить*/
     void add(Task task);
 
-    /* Удаление */
+    /*Удалить*/
     void remove(int id);
 
-    /* Получение */
+    /*Получить*/
     List<Task> getHistory();
 
 }

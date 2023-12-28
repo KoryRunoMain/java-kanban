@@ -10,26 +10,40 @@ import java.util.Map;
 public class InMemoryHistoryManager implements HistoryManager {
 
     protected final Map<Integer, Node<Task>> historyTasks;
-    public Node<Task> head;
-    public Node<Task> tail;
+    protected Node<Task> head;
+    protected Node<Task> tail;
 
     public InMemoryHistoryManager() {
         historyTasks = new HashMap<>();
     }
 
-    /* Добавление задачи в конец списка */
-    private void linkLast(Task task) {
-        Node<Task> newNode = new Node<>(tail, task, null);
-        historyTasks.put(task.getId(), newNode);
-        if (tail == null) {
-            head = newNode;
-        } else {
-            tail.next = newNode;
+
+    /*Добавить задачу*/
+    @Override
+    public void add(Task task) {
+        if (task == null) {
+            return;
         }
-        tail = newNode;
+        if (historyTasks.containsKey(task.getId())) {
+            remove(task.getId());
+        }
+        linkLast(task);
     }
 
-    /* Сбор всех задач в список выдачи истории просмотров */
+    /*Удалить задачу*/
+    @Override
+    public void remove(int id) {
+        removeNode(historyTasks.get(id));
+        historyTasks.remove(id);
+    }
+
+    /*Получить историю просмотров*/
+    @Override
+    public List<Task> getHistory() {
+        return getTasks();
+    }
+
+    /*Получить список задач*/
     private List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
         Node<Task> taskNode = head;
@@ -41,7 +55,19 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasks;
     }
 
-    /* Удаление узла задачи из двухсвязного списка */
+    /*Добавить задачу в конец списка*/
+    private void linkLast(Task task) {
+        Node<Task> newNode = new Node<>(tail, task, null);
+        historyTasks.put(task.getId(), newNode);
+        if (tail == null) {
+            head = newNode;
+        } else {
+            tail.next = newNode;
+        }
+        tail = newNode;
+    }
+
+    /*Удалить узел из двухсвязного списка*/
     private void removeNode(Node<Task> taskNode) {
         if (taskNode == null) {
             return;
@@ -65,31 +91,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
         taskNode.prev.next = taskNode.next;
         taskNode.next.prev = taskNode.prev;
-    }
-
-    /* Добавить задачу */
-    @Override
-    public void add(Task task) {
-        if (task == null) {
-            return;
-        }
-        if (historyTasks.containsKey(task.getId())) {
-            remove(task.getId());
-        }
-        linkLast(task);
-    }
-
-    /* Удалить задачу */
-    @Override
-    public void remove(int id) {
-        removeNode(historyTasks.get(id));
-        historyTasks.remove(id);
-    }
-
-    /* Получить историю просмотров */
-    @Override
-    public List<Task> getHistory() {
-        return getTasks();
     }
 
     @Override

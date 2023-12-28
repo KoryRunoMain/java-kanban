@@ -10,55 +10,33 @@ import java.util.List;
 
 public interface TaskManager {
 
-    /* TASKS */
-    // Создать
-    Task createTask(Task task);
-    // Получить
-    Task getTaskById(int id);
-    // Удалить
-    void removeTaskById(int id);
-    // Обновить
-    void updateTask(Task updateTask);
-    // Получить все задачи
-    ArrayList<Task> getAllTasks();
-    // Удалить все задачи
-    void removeAllTasks();
+    /*TASK*/
+    Task createTask(Task task); //TASK.Создать
+    Task getTaskById(int id); // TASK.Получить
+    void removeTaskById(int id); // TASK.Удалить
+    void updateTask(Task updateTask); // TASK.Обновить
+    void removeAllTasks(); // TASK.Удалить все задачи
 
-    /* EPICS */
-    // Создать
-    Epic createEpic(Epic epic);
-    // Получить
-    Epic getEpicById(int id);
-    // Удалить
-    void removeEpicById(int id);
-    // Обновить
-    void updateEpic(Epic updateEpic);
-    // Получить все задачи
-    ArrayList<Epic> getAllEpics();
-    // Удалить все задачи
-    void removeAllEpics();
+    /*EPIC*/
+    Epic createEpic(Epic epic); // EPIC.Создать
+    Epic getEpicById(int id); // EPIC.Получить
+    void removeEpicById(int id); // EPIC.Удалить
+    void updateEpic(Epic updateEpic); // EPIC.Обновить
+    void removeAllEpics(); // EPIC.Удалить все задачи
 
-    /* SUBTASKS */
-    // Создать
-    Subtask createSubTask(Subtask subtask);
-    // Получить
-    Subtask getSubTaskById(int id);
-    // Удалить
-    void removeSubTaskById(int id);
-    // Обновить
-    void updateSubTask(Subtask updateSubtask);
-    // Получить все подзадачи
-    ArrayList<Subtask> getAllSubTasks();
-    // Удалить все подзадачи
-    void removeAllSubTasks();
+    /*SUBTASK*/
+    Subtask createSubTask(Subtask subtask); // SUBTASK.Создать
+    Subtask getSubTaskById(int id); // SUBTASK.Получить
+    void removeSubTaskById(int id); // SUBTASK.Удалить
+    void updateSubTask(Subtask updateSubtask); // SUBTASK.Обновить
+    void removeAllSubTasks(); // SUBTASK.Удалить все подзадачи
 
-    /* Просмотр истории */
-    List<Task> getHistory();
-
-    /* Получение списка всех подзадач определенного EPIC */
-    List<Subtask> getSubTasksOfEpic(Epic epic);
-
-    /* Получить список приоритетных задач */
-    List<Task> getPrioritizedTasks();
+    /*Другие методы*/
+    ArrayList<Task> getAllTasks(); // TASK.Получить все задачи
+    ArrayList<Epic> getAllEpics(); // EPIC.Получить все задачи
+    ArrayList<Subtask> getAllSubTasks(); // SUBTASK.Получить все задачи
+    List<Task> getPrioritizedTasks(); // Получить список приоритетных задач
+    List<Task> getHistory(); // Получить историю задач
+    List<Subtask> getSubTasksOfEpic(Epic epic); // Получить список SubTask всех подзадач EPIC
 
 }

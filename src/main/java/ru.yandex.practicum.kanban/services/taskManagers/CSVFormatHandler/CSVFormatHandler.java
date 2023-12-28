@@ -6,7 +6,9 @@ import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.models.enums.Type;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
+import ru.yandex.practicum.kanban.services.taskManagers.exceptions.ManagerSaveException;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,12 @@ public class CSVFormatHandler {
     private static final Integer TASK_LENGTH = 7;
     private static final Integer TASK_LENGTH_WITH_EPICID = 8;
 
-    /* Получить заголовок */
+    /*Получить заголовок*/
     public String getHeader() {
         return "id,type,name,status,description,epic,duration,startTime" + "\n";
     }
 
-    /* Получить строку из задач */
+    /*Получить String из задач*/
     public String generateToString(Task task) {
         return  task.getId() + DELIMITER +              // id
                 task.getType() + DELIMITER +            // type
@@ -34,21 +36,7 @@ public class CSVFormatHandler {
                 getTaskStartTime(task);                 // startTime
     }
 
-    private static Instant getTaskStartTime(Task task) {
-        return task.getStartTime();
-    }
-
-    private static String getEpicIdOfSubTask(Task task) {
-        String epicId = "";
-        if (task.getType() == Type.SUBTASK) {
-            Subtask subtask = (Subtask) task;
-            epicId = String.valueOf(subtask.getEpicId());
-            return epicId;
-        }
-        return epicId;
-    }
-
-    /* Получить задачи из строк */ // дописать для duration и startTime
+    /*Получить задачи из String*/
     public Task fromString(String value) {
         String[] values = value.split(DELIMITER);
         int valuesLength = values.length;
@@ -57,6 +45,7 @@ public class CSVFormatHandler {
             valuesLength != TASK_LENGTH_WITH_EPICID) {
             return null;
         }
+
         int epicId = 0;
         int id = Integer.parseInt(values[0]);              // id
         Type type = Type.valueOf(values[1]);               // type
@@ -70,19 +59,13 @@ public class CSVFormatHandler {
         Instant startTime = Instant.parse(values[7]);      // startTime
 
         switch (type) {
-            case EPIC -> {
-                return new Epic(id, name, description, status, duration, startTime);
-            }
-            case SUBTASK -> {
-                return new Subtask(epicId, name, description, duration, startTime, status);
-            }
-            default -> {
-                return new Task(id, name, description, status, duration, startTime);
-            }
+            case EPIC -> {return new Epic(id, name, description, status, duration, startTime);}
+            case SUBTASK -> {return new Subtask(epicId, name, description, duration, startTime, status);}
+            default -> {return new Task(id, name, description, status, duration, startTime);}
         }
     }
 
-    /* Получить строку из истории */
+    /*Получить String из истории*/
     public String generateHistoryToString(HistoryManager historyManager) {
         List<String> result = new ArrayList<>();
         for (Task task: historyManager.getHistory()) {
@@ -91,7 +74,7 @@ public class CSVFormatHandler {
         return String.join(DELIMITER, result);
     }
 
-    /* Получить историю из строки */
+    /*Получить историю из String*/
     public List<Integer> historyFromString(String values) {
         List<Integer> taskIDs = new ArrayList<>();
         if (values == null) {
@@ -103,4 +86,21 @@ public class CSVFormatHandler {
         }
         return taskIDs;
     }
+
+    /*Получить начальное время*/
+    private static Instant getTaskStartTime(Task task) {
+        return task.getStartTime();
+    }
+
+    /*Получить ID задачи Epic для подзадачи SubTask*/
+    private static String getEpicIdOfSubTask(Task task) {
+        String epicId = "";
+        if (task.getType() == Type.SUBTASK) {
+            Subtask subtask = (Subtask) task;
+            epicId = String.valueOf(subtask.getEpicId());
+            return epicId;
+        }
+        return epicId;
+    }
+
 }
