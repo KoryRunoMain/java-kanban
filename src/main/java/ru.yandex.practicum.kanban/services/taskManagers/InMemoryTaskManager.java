@@ -75,7 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
         addTaskToPrioritizedList(updateTask);
     }
 
-    /*TASK.Удалить всех задачи*/
+    /*TASK.Удалить все задачи*/
     @Override
     public void removeAllTasks() {
         if (taskStorage.isEmpty()) {
