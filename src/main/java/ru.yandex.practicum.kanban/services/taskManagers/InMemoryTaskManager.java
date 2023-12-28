@@ -71,7 +71,16 @@ public class InMemoryTaskManager implements TaskManager {
             Instant startTime = taskNum.getStartTime();
             Instant endTime = taskNum.getEndTime();
 
-            if(endTimeOfTask.isAfter(startTime) && startTimeOfTask.isBefore(endTime)) {
+            if (startTime.isBefore(startTimeOfTask) && endTime.isAfter(endTimeOfTask)) { // isCoating
+                return false;
+            }
+            if (startTime.isBefore(endTimeOfTask) && endTime.isAfter(endTimeOfTask)) { // isIntersectionByStart
+                return false;
+            }
+            if (startTime.isBefore(startTimeOfTask) && endTime.isAfter(startTimeOfTask)) { // isIntersectionByEnd
+                return false;
+            }
+            if (startTime.isAfter(startTimeOfTask) && endTime.isBefore(endTimeOfTask)) { // isInTheBorders
                 return false;
             }
         }
