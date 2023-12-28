@@ -273,21 +273,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
         manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
 
-//        Task task1 = new Task("T1", "D1", 5, Instant.ofEpochMilli(1703671200000L)); // 13:00
-//        manager.createTask(task1);
-//        Epic epic1 = new Epic("E1", "E1", 10, Instant.ofEpochMilli(1703673000000L)); // 13:30
-//        manager.createEpic(epic1);
-//        Subtask subtask1 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703673900000L)); // 13:45
-//        manager.createSubTask(subtask1);
-//        Subtask subtask2 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703674500000L)); // 13:55
-//        manager.createSubTask(subtask2);
-//
-//        Task task2 = new Task("T1", "D1", 10, Instant.ofEpochMilli(1703682000000L)); // 16:00
-//        manager.createTask(task2);
-//        Task task3 = new Task("T3", "D3", 20, Instant.ofEpochMilli(1703673660000L)); // 13:41
-//        manager.createTask(task3);
-//
-//        System.out.println(manager.getPrioritizedTasks());
+        Task task1 = new Task("T1", "D1", 5, Instant.ofEpochMilli(1703671200000L)); // 13:00
+        manager.createTask(task1);
+        Epic epic1 = new Epic("E1", "E1", 10, Instant.ofEpochMilli(1703673000000L)); // 13:30
+        manager.createEpic(epic1);
+        Subtask subtask1 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703673900000L)); // 13:45
+        manager.createSubTask(subtask1);
+        Subtask subtask2 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703674500000L)); // 13:55
+        manager.createSubTask(subtask2);
+
+        Task task2 = new Task("T1", "D1", 10, Instant.ofEpochMilli(1703682000000L)); // 16:00
+        manager.createTask(task2);
+        Task task3 = new Task("T3", "D3", 20, Instant.ofEpochMilli(1703673660000L)); // 13:41
+        manager.createTask(task3);
+
+        System.out.println(manager.getPrioritizedTasks());
 
     }
 

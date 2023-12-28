@@ -9,7 +9,6 @@ import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.time.Instant;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
@@ -64,11 +63,9 @@ class InMemoryHistoryManagerTest {
         historyManager.add(task);
         assertNotNull(historyManager.getHistory());
         assertEquals(1, historyManager.getHistory().size());
-
         historyManager.add(epic);
         assertNotNull(historyManager.getHistory());
         assertEquals(2, historyManager.getHistory().size());
-
         historyManager.add(subtask);
         assertNotNull(historyManager.getHistory());
         assertEquals(3, historyManager.getHistory().size());
@@ -77,11 +74,9 @@ class InMemoryHistoryManagerTest {
         historyManager.remove(task.getId());
         assertNotNull(historyManager.getHistory());
         assertEquals(2, historyManager.getHistory().size());
-
         historyManager.remove(epic.getId());
         assertNotNull(historyManager.getHistory());
         assertEquals(1, historyManager.getHistory().size());
-
         historyManager.remove(subtask.getId());
         assertNotNull(historyManager.getHistory());
         assertEquals(0, historyManager.getHistory().size());

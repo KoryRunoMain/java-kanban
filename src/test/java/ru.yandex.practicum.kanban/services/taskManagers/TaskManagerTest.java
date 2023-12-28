@@ -158,7 +158,6 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.removeEpicById(epic.getId());
         assertEquals(Collections.EMPTY_LIST, taskManager.getAllEpics());
         assertEquals(Collections.EMPTY_LIST, taskManager.getPrioritizedTasks());
-
     }
 
     @Test
@@ -200,6 +199,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.updateTask(epic);
         assertEquals("Epic2", epic.getName());
     }
+
     @Test
     void checkUpdateSubtask() {
         subtask.setName("Subtask2");
