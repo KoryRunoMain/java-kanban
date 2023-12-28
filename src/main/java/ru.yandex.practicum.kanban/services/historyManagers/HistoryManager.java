@@ -6,13 +6,8 @@ import java.util.List;
 
 public interface HistoryManager {
 
-    /*Добавить*/
-    void add(Task task);
-
-    /*Удалить*/
-    void remove(int id);
-
-    /*Получить*/
-    List<Task> getHistory();
+    void add(Task task); // Добавить
+    void remove(int id); // Удалить
+    List<Task> getHistory(); // Получить
 
 }
