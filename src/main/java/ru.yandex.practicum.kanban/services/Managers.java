@@ -1,6 +1,6 @@
 package ru.yandex.practicum.kanban.services;
 
-import adapter.InstantAdapter;
+import ru.yandex.practicum.kanban.adapter.InstantAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.yandex.practicum.kanban.httpServer.KVServer;
