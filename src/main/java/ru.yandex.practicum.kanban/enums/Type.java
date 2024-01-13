@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.models.enums;
+package ru.yandex.practicum.kanban.enums;
 
 
 public enum Type {

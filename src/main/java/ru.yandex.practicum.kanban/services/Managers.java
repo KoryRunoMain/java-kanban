@@ -1,12 +1,16 @@
 package ru.yandex.practicum.kanban.services;
 
+import adapter.InstantAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import ru.yandex.practicum.kanban.httpServer.KVServer;
 import ru.yandex.practicum.kanban.services.historyManagers.InMemoryHistoryManager;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
-import ru.yandex.practicum.kanban.services.taskManagers.FileBackedTasksManager;
+import ru.yandex.practicum.kanban.services.taskManagers.HttpTaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
 
-import java.io.File;
+import java.time.Instant;
 
 public class Managers {
 
@@ -18,7 +22,14 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static FileBackedTasksManager getFileBackedTasksManager() {
-        return new FileBackedTasksManager(getDefaultHistory());
+    public static HttpTaskManager getDefault(HistoryManager historyManager) {
+        return new HttpTaskManager(historyManager, "http://localhost:" + KVServer.PORT);
     }
+
+    public static Gson getGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Instant.class, new InstantAdapter());
+        return gsonBuilder.create();
+    }
+
 }

@@ -2,18 +2,15 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Instant;
 import java.util.*;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler.CSVFormatHandler;
-import ru.yandex.practicum.kanban.services.taskManagers.exceptions.ManagerSaveException;
+import ru.yandex.practicum.kanban.exceptions.ManagerSaveException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -151,7 +148,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     // Другие методы
     /*FILE.Восстановление данных из файла*/
     public static FileBackedTasksManager loadFromFile(File file){
-        FileBackedTasksManager fileBackedTasksManager = Managers.getFileBackedTasksManager();
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager((HistoryManager) file);
         int initialID = 0; // Счетчик id восстановленных задач
         try (BufferedReader reader = new BufferedReader(new FileReader(file, UTF_8))) {
 

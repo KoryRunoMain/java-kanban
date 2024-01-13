@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
+import ru.yandex.practicum.kanban.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
 
 import java.time.Instant;

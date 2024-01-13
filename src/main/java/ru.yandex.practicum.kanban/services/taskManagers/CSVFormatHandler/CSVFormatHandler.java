@@ -3,12 +3,10 @@ package ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.models.enums.Status;
-import ru.yandex.practicum.kanban.models.enums.Type;
+import ru.yandex.practicum.kanban.enums.Status;
+import ru.yandex.practicum.kanban.enums.Type;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
-import ru.yandex.practicum.kanban.services.taskManagers.exceptions.ManagerSaveException;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,16 +45,16 @@ public class CSVFormatHandler {
         }
 
         int epicId = 0;
-        int id = Integer.parseInt(values[0]);              // id
-        Type type = Type.valueOf(values[1]);               // type
-        String name = values[2];                           // name
-        Status status = Status.valueOf(values[3]);         // status
-        String description = values[4];                    // description
+        int id = Integer.parseInt(values[0]);            // id
+        Type type = Type.valueOf(values[1]);             // type
+        String name = values[2];                         // name
+        Status status = Status.valueOf(values[3]);       // status
+        String description = values[4];                  // description
         if (type.equals(Type.SUBTASK)) {
-            epicId = Integer.parseInt(values[5]);          // epic id
+            epicId = Integer.parseInt(values[5]);        // epic id
         }
-        long duration = Long.parseLong(values[6]);         // duration
-        Instant startTime = Instant.parse(values[7]);      // startTime
+        long duration = Long.parseLong(values[6]);       // duration
+        Instant startTime = Instant.parse(values[7]);    // startTime
 
         switch (type) {
             case EPIC -> {return new Epic(id, name, description, status, duration, startTime);}

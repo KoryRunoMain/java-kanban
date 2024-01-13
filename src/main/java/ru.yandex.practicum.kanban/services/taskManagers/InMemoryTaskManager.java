@@ -2,10 +2,10 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.models.Epic;
-import ru.yandex.practicum.kanban.models.enums.Status;
+import ru.yandex.practicum.kanban.enums.Status;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.services.taskManagers.exceptions.TaskConflictException;
+import ru.yandex.practicum.kanban.exceptions.TaskConflictException;
 
 import java.time.Instant;
 import java.util.*;
@@ -23,6 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     public InMemoryTaskManager() {
     }
+
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }

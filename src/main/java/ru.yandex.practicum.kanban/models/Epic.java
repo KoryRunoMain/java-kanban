@@ -1,7 +1,7 @@
 package ru.yandex.practicum.kanban.models;
 
-import ru.yandex.practicum.kanban.models.enums.Status;
-import ru.yandex.practicum.kanban.models.enums.Type;
+import ru.yandex.practicum.kanban.enums.Status;
+import ru.yandex.practicum.kanban.enums.Type;
 
 import java.time.Instant;
 import java.util.ArrayList;
