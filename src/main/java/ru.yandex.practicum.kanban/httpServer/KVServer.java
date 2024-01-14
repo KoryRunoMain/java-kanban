@@ -34,6 +34,11 @@ public class KVServer {
         server.start();
     }
 
+    public void stop() {
+        server.stop(0);
+        System.out.println("Сервер остановлен на " + PORT + " порту.");
+    }
+
     protected boolean hasAuth(HttpExchange h) {
         String rawQuery = h.getRequestURI().getRawQuery();
         return rawQuery != null && (rawQuery.contains("API_TOKEN=" + apiToken) || rawQuery.contains("API_TOKEN=DEBUG"));
