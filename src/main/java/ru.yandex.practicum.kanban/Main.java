@@ -17,11 +17,9 @@ import java.time.Instant;
 
 public class Main {
     public static void main(String[] args) {
-        // Спринт 8
         KVServer server;
         try {
             Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
-
             server = new KVServer();
             server.start();
             HistoryManager historyManager = Managers.getDefaultHistory();
@@ -40,9 +38,7 @@ public class Main {
 //        httpTaskManager.createTask(task2);
 //        Task task3 = new Task("T3", "D3", 20, Instant.ofEpochMilli(1703673660000L)); // 13:41
 //        httpTaskManager.createTask(task3);
-
-
-            httpTaskManager.getTaskById(task1.getId());
+                        httpTaskManager.getTaskById(task1.getId());
             httpTaskManager.getEpicById(epic1.getId());
             httpTaskManager.getSubTaskById(subtask1.getId());
 
