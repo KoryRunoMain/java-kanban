@@ -1,27 +1,26 @@
 package ru.yandex.practicum.kanban.httpServer.handlers;
 
-import ru.yandex.practicum.kanban.adapter.InstantAdapter;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import ru.yandex.practicum.kanban.models.Epic;
+import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 
 public class SubtasksOfEpicHandler implements HttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+    private final Gson gson;
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private static final int ID_SYMBOL = 3;
 
     public SubtasksOfEpicHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
+        gson = Managers.getGson();
     }
 
     @Override
