@@ -35,14 +35,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public Task createTask(Task task) {
         super.createTask(task);
-        saveToFile();
+        save();
         return task;
     }
 
     @Override
     public Task getTaskById(int id) {
         Task task = super.getTaskById(id);
-        saveToFile();
+        save();
         return task;
     }
 
@@ -54,33 +54,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void removeTaskById(int id) {
         super.removeTaskById(id);
-        saveToFile();
+        save();
     }
 
     @Override
     public void removeAllTasks() {
         super.removeAllTasks();
-        saveToFile();
+        save();
     }
 
     @Override
     public void updateTask(Task updateTask) {
         super.updateTask(updateTask);
-        saveToFile();
+        save();
     }
 
     /* EPICS */
     @Override
     public Epic createEpic(Epic epic) {
         super.createEpic(epic);
-        saveToFile();
+        save();
         return epic;
     }
 
     @Override
     public Epic getEpicById(int id) {
         Epic epic = super.getEpicById(id);
-        saveToFile();
+        save();
         return epic;
     }
 
@@ -92,33 +92,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void removeEpicById(int id) {
         super.removeEpicById(id);
-        saveToFile();
+        save();
     }
 
     @Override
     public void removeAllEpics() {
         super.removeAllEpics();
-        saveToFile();
+        save();
     }
 
     @Override
     public void updateEpic(Epic updateEpic) {
         super.updateEpic(updateEpic);
-        saveToFile();
+        save();
     }
 
     /* SUBTASKS */
     @Override
     public Subtask createSubTask(Subtask subtask) {
         super.createSubTask(subtask);
-        saveToFile();
+        save();
         return subtask;
     }
 
     @Override
     public Subtask getSubTaskById(int id) {
         Subtask subtask = super.getSubTaskById(id);
-        saveToFile();
+        save();
         return subtask;
     }
 
@@ -130,19 +130,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void removeSubTaskById(int id) {
         super.removeSubTaskById(id);
-        saveToFile();
+        save();
     }
 
     @Override
     public void removeAllSubTasks() {
         super.removeAllSubTasks();
-        saveToFile();
+        save();
     }
 
     @Override
     public void updateSubTask(Subtask updateSubtask) {
         super.updateSubTask(updateSubtask);
-        saveToFile();
+        save();
     }
 
     // Другие методы
@@ -229,7 +229,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     /*TASK.Сохранить задачи & истории в файл*/
-    protected void saveToFile() {
+    protected void save() {
         if (subTaskStorage == null && taskStorage == null && epicStorage == null) {
             return;
         }
@@ -263,20 +263,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 //    public static void main(String[] args) {
 //        FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
 //        manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
-//
-//        // Таски..
-//        Task task1 = new Task("T1", "D1", 5, Instant.ofEpochMilli(1703671200000L)); // 13:00
-//        manager.createTask(task1);
-//        Epic epic1 = new Epic("E1", "E1", 10, Instant.ofEpochMilli(1703673000000L)); // 13:30
-//        manager.createEpic(epic1);
-//        Subtask subtask1 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703673900000L)); // 13:45
-//        manager.createSubTask(subtask1);
-//        Subtask subtask2 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703674500000L)); // 13:55
-//        manager.createSubTask(subtask2);
-//        Task task2 = new Task("T2", "D2", 10, Instant.ofEpochMilli(1703682000000L)); // 16:00
-//        manager.createTask(task2);
-//        Task task3 = new Task("T3", "D3", 20, Instant.ofEpochMilli(1703673660000L)); // 13:41
-//        manager.createTask(task3);
 //    }
 
 }
