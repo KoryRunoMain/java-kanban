@@ -4,7 +4,6 @@ package ru.yandex.practicum.kanban;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.yandex.practicum.kanban.adapter.InstantAdapter;
-import ru.yandex.practicum.kanban.enums.Status;
 import ru.yandex.practicum.kanban.httpServer.KVServer;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
@@ -32,8 +31,8 @@ public class Main {
         httpTaskManager.createEpic(epic1);
         Subtask subtask1 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703673900000L)); // 13:45
         httpTaskManager.createSubTask(subtask1);
-//        Subtask subtask2 = new Subtask(epic1.getId(), "S1", "S1", 5, Instant.ofEpochMilli(1703674500000L)); // 13:55
-//        httpTaskManager.createSubTask(subtask2);
+        Subtask subtask2 = new Subtask(epic1.getId(), "S2", "S2", 5, Instant.ofEpochMilli(1703674500000L)); // 13:55
+        httpTaskManager.createSubTask(subtask2);
 //        Task task2 = new Task("T2", "D2", 10, Instant.ofEpochMilli(1703682000000L)); // 16:00
 //        httpTaskManager.createTask(task2);
 //        Task task3 = new Task("T3", "D3", 20, Instant.ofEpochMilli(1703673660000L)); // 13:41
