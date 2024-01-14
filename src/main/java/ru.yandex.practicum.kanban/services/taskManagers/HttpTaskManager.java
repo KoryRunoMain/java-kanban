@@ -30,7 +30,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
     }
 
     @Override
-    public void saveToFile() {
+    public void save() {
         client.put(TASK_KEY, gson.toJson(taskStorage.values()));
         client.put(EPIC_KEY, gson.toJson(epicStorage.values()));
         client.put(SUBTASK_KEY, gson.toJson(subTaskStorage.values()));
