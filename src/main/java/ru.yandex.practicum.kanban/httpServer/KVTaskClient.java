@@ -22,7 +22,7 @@ public class KVTaskClient {
 
 
     public String load(String key) {
-        URI uri = URI.create(serverURL + "load/" + key + "?API_TOKEN=" + apiToken);
+        URI uri = URI.create(serverURL + "/load/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -42,7 +42,7 @@ public class KVTaskClient {
     }
 
     public void put (String key, String json) {
-        URI uri = URI.create(serverURL + "load/" + key + "?API_TOKEN=" + apiToken);
+        URI uri = URI.create(serverURL + "/save/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
