@@ -42,8 +42,9 @@ public class HttpTaskServer extends KVServer {
         server.start();
     }
 
+    @Override
     public void stop() {
-        server.stop(0);
+        server.stop(1);
         System.out.println("TaskServer stopped " + PORT);
     }
 
