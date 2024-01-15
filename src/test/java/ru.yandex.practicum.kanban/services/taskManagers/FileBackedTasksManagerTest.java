@@ -1,5 +1,6 @@
 package ru.yandex.practicum.kanban.services.taskManagers;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.models.Epic;
@@ -45,7 +46,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     /* Пустой список задач */
     @Test
     public void checkLoadFromFileWithNoTasks() {
-        taskManager.saveToFile();
+        taskManager.save();
         FileBackedTasksManager.loadFromFile(file);
         assertEquals(Collections.EMPTY_LIST, taskManager.getAllTasks());
         assertEquals(Collections.EMPTY_LIST, taskManager.getAllEpics());
@@ -54,7 +55,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     /* Пустой список истории */
     @Test
     public void checkLoadFromEmptyFileOfHistory() {
-        taskManager.saveToFile();
+        taskManager.save();
         FileBackedTasksManager.loadFromFile(file);
         assertEquals(Collections.EMPTY_LIST, taskManager.getHistory());
     }
