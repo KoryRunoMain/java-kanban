@@ -21,8 +21,7 @@ public class Main {
             Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
             server = new KVServer();
             server.start();
-            HistoryManager historyManager = Managers.getDefaultHistory();
-            TaskManager httpTaskManager = Managers.getDefault(historyManager);
+            TaskManager httpTaskManager = Managers.getDefault();
 
         // Таски
         Task task1 = new Task("T1", "D1", 5, Instant.ofEpochMilli(1703671200000L)); // 13:00
@@ -33,13 +32,10 @@ public class Main {
         httpTaskManager.createSubTask(subtask1);
         Subtask subtask2 = new Subtask(epic1.getId(), "S2", "S2", 5, Instant.ofEpochMilli(1703674500000L)); // 13:55
         httpTaskManager.createSubTask(subtask2);
-//        Task task2 = new Task("T2", "D2", 10, Instant.ofEpochMilli(1703682000000L)); // 16:00
-//        httpTaskManager.createTask(task2);
-//        Task task3 = new Task("T3", "D3", 20, Instant.ofEpochMilli(1703673660000L)); // 13:41
-//        httpTaskManager.createTask(task3);
-                        httpTaskManager.getTaskById(task1.getId());
-            httpTaskManager.getEpicById(epic1.getId());
-            httpTaskManager.getSubTaskById(subtask1.getId());
+
+        httpTaskManager.getTaskById(task1.getId());
+        httpTaskManager.getEpicById(epic1.getId());
+        httpTaskManager.getSubTaskById(subtask1.getId());
 
             System.out.println("Печать всех задач");
             System.out.println(gson.toJson(httpTaskManager.getAllTasks()));
