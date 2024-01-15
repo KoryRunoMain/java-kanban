@@ -49,7 +49,6 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
     /* Пустой список подзадач */
-
     @Test
     public void checkEpicStatusWithoutSubtasks() {
         assertEquals(Collections.EMPTY_LIST, epic.getSubTaskIds());
