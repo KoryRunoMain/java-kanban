@@ -1,7 +1,6 @@
 package ru.yandex.practicum.kanban.httpServer;
 
 import com.google.gson.Gson;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import ru.yandex.practicum.kanban.httpServer.handlers.EpicHandler;
 import ru.yandex.practicum.kanban.httpServer.handlers.HistoryHandler;
@@ -10,11 +9,9 @@ import ru.yandex.practicum.kanban.httpServer.handlers.SubtaskHandler;
 import ru.yandex.practicum.kanban.httpServer.handlers.SubtasksOfEpicHandler;
 import ru.yandex.practicum.kanban.httpServer.handlers.TaskHandler;
 import ru.yandex.practicum.kanban.services.Managers;
-import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.net.InetSocketAddress;
 
 public class HttpTaskServer extends KVServer {
@@ -22,11 +19,11 @@ public class HttpTaskServer extends KVServer {
     private final Gson gson;
     public static final int PORT = 8080;
 
-    public HttpTaskServer() throws IOException, InterruptedIOException {
-        HistoryManager historyManager = Managers.getDefaultHistory();
-        TaskManager taskManager = Managers.getDefault(historyManager);
+    public HttpTaskServer() throws IOException {
+        TaskManager taskManager = Managers.getDefault();
         gson = Managers.getGson();
-        server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
+        server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        // endPoints
         server.createContext("/tasks/task", new TaskHandler(taskManager));
         server.createContext("/tasks/epic", new EpicHandler(taskManager));
         server.createContext("/tasks/subtask", new SubtaskHandler(taskManager));
