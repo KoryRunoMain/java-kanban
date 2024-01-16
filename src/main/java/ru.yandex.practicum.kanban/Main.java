@@ -16,12 +16,15 @@ import java.time.Instant;
 
 public class Main {
     public static void main(String[] args) {
+        TaskManager httpTaskManager;
         KVServer server;
+        Gson gson;
+
         try {
-            Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+            gson = Managers.getGson();
             server = new KVServer();
             server.start();
-            TaskManager httpTaskManager = Managers.getDefault();
+            httpTaskManager = Managers.getDefault();
 
         // Таски
         Task task1 = new Task("T1", "D1", 5, Instant.ofEpochMilli(1703671200000L)); // 13:00
@@ -49,7 +52,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
      }
 }
