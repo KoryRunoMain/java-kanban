@@ -26,8 +26,8 @@ public class KVTaskClient {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .GET()
                     .uri(uri)
+                    .GET()
                     .header("Content-Type", "application/json")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -46,8 +46,8 @@ public class KVTaskClient {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
                     .uri(uri)
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
                     .header("Content-Type", "application/json")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET));
@@ -64,8 +64,8 @@ public class KVTaskClient {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .GET()
                     .uri(URI.create(serverURL + "/register"))
+                    .GET()
                     .header("Content-Type", "application/json")
                     .build();
 
