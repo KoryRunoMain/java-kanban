@@ -2,6 +2,7 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import ru.yandex.practicum.kanban.models.Epic;
@@ -158,8 +159,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             }
             String tasksLine = "";
             boolean firstLine = reader.readLine()  // Переменная для пропуска заголовка
-                                      .trim()
-                                      .equals(handler.getHeader());
+                    .trim()
+                    .equals(handler.getHeader());
 
             /*Проветь первую строку файла на наличие заголовока*/
             while ((tasksLine = reader.readLine()) != null) {
@@ -187,18 +188,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 }
                 if (task instanceof Epic epic) {
                     fileBackedTasksManager.epicStorage // Заполнение задачами Epic
-                                          .put(epic.getId(), epic);
+                            .put(epic.getId(), epic);
 
                 } else if (task instanceof Subtask subtask) {
                     fileBackedTasksManager.subTaskStorage // Заполнение задачами SubTask
-                                          .put(subtask.getId(), subtask);
+                            .put(subtask.getId(), subtask);
                     fileBackedTasksManager.addTaskToPrioritizedList(subtask);
                     fileBackedTasksManager.epicStorage // Заполнение Epic задачи своими SubTask задачами
-                                          .get(subtask.getEpicId())
-                                          .addSubtaskId(subtask.getId());
+                            .get(subtask.getEpicId())
+                            .addSubtaskId(subtask.getId());
                 } else {
                     fileBackedTasksManager.taskStorage // Заполнение задачами Task
-                                          .put(task.getId(), task);
+                            .put(task.getId(), task);
                     fileBackedTasksManager.addTaskToPrioritizedList(task);
                 }
             }
@@ -211,15 +212,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             for (int id : handler.historyFromString(historyRow)) {
                 if (fileBackedTasksManager.taskStorage.containsKey(id)) {
                     fileBackedTasksManager.historyManager
-                                          .add(fileBackedTasksManager.taskStorage.get(id));
+                            .add(fileBackedTasksManager.taskStorage.get(id));
                 }
                 if (fileBackedTasksManager.epicStorage.containsKey(id)) {
                     fileBackedTasksManager.historyManager
-                                          .add(fileBackedTasksManager.epicStorage.get(id));
+                            .add(fileBackedTasksManager.epicStorage.get(id));
                 }
                 if (fileBackedTasksManager.subTaskStorage.containsKey(id)) {
                     fileBackedTasksManager.historyManager
-                                          .add(fileBackedTasksManager.subTaskStorage.get(id));
+                            .add(fileBackedTasksManager.subTaskStorage.get(id));
                 }
             }
         } catch (IOException e) {

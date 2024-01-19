@@ -20,12 +20,11 @@ public class HttpTaskManager extends FileBackedTasksManager {
     final static String HISTORY_KEY = "history";
 
     private final KVTaskClient client;
-    private final Gson gson;
+    private final Gson gson = Managers.getGson();;
 
 
     public HttpTaskManager(HistoryManager historyManager, String urlPath) {
         super(historyManager);
-        gson = Managers.getGson();
         client = new KVTaskClient(urlPath);
     }
 
@@ -34,7 +33,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
         client.put(TASK_KEY, gson.toJson(taskStorage.values()));
         client.put(EPIC_KEY, gson.toJson(epicStorage.values()));
         client.put(SUBTASK_KEY, gson.toJson(subTaskStorage.values()));
-        client.put(HISTORY_KEY, gson.toJson(getHistory().stream()
+        client.put(HISTORY_KEY, gson.toJson(this.getHistory().stream()
                 .map(Task::getId)
                 .collect(Collectors.toList())));
     }

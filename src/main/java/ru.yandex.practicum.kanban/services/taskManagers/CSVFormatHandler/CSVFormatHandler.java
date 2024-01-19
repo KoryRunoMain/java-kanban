@@ -40,7 +40,7 @@ public class CSVFormatHandler {
         int valuesLength = values.length;
 
         if (valuesLength != TASK_LENGTH &&
-            valuesLength != TASK_LENGTH_WITH_EPICID) {
+                valuesLength != TASK_LENGTH_WITH_EPICID) {
             return null;
         }
 

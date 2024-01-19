@@ -13,22 +13,21 @@ import java.nio.charset.StandardCharsets;
 public class KVTaskClient {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final String apiToken;
-    private final String serverURL;
+    private final String url;
 
-    public KVTaskClient(String serverURL) {
-        this.serverURL = serverURL;
-        apiToken = register(serverURL);
+    public KVTaskClient(String url) {
+        this.url = url;
+        apiToken = register(url);
     }
 
 
     public String load(String key) {
-        URI uri = URI.create(serverURL + "/load/" + key + "?API_TOKEN=" + apiToken);
+        URI uri = URI.create(this.url + "/load/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
                     .GET()
-                    .header("Content-Type", "application/json")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
@@ -42,13 +41,12 @@ public class KVTaskClient {
     }
 
     public void put (String key, String json) {
-        URI uri = URI.create(serverURL + "/save/" + key + "?API_TOKEN=" + apiToken);
+        URI uri = URI.create(url + "/save/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
                     .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .header("Content-Type", "application/json")
+                    .uri(uri)
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET));
             if (response.statusCode() != 200) {
@@ -60,13 +58,12 @@ public class KVTaskClient {
         }
     }
 
-    private String register(String serverURL) {
+    private String register(String url) {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(serverURL + "/register"))
+                    .uri(URI.create(url + "/register"))
                     .GET()
-                    .header("Content-Type", "application/json")
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

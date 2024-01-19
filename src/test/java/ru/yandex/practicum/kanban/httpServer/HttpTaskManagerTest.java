@@ -8,6 +8,7 @@ import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.services.Managers;
+import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.HttpTaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManagerTest;
@@ -18,9 +19,9 @@ import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
-
-    protected KVServer kvServer;
+    protected HistoryManager historyManager;
     protected TaskManager taskManager;
+    protected KVServer kvServer;
     protected Task task;
     protected Epic epic;
     protected Subtask subtask;
@@ -30,9 +31,10 @@ public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
         try {
             kvServer = new KVServer();
             kvServer.start();
-            taskManager = Managers.getDefault();
+            historyManager = Managers.getDefaultHistory();
+            taskManager = Managers.getDefault(historyManager);
             System.out.println("Сервер запущен");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

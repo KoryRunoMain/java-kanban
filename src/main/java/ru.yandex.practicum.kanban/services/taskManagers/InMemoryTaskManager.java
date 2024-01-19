@@ -181,16 +181,16 @@ public class InMemoryTaskManager implements TaskManager {
     /*SUBTASK.Удалить по ID*/
     @Override
     public void removeSubTaskById(int id) {
-        if (!subTaskStorage.containsKey(id)) {
+        Subtask subtask = subTaskStorage.get(id);
+        if (subtask == null) {
             return;
         }
-        Subtask subtask = subTaskStorage.get(id);
         Epic epic = epicStorage.get(subTaskStorage.get(id).getEpicId());
         epic.removeSubtask(id);
-        subTaskStorage.remove(id);
-        historyManager.remove(id);
         updateEpicStatus(epic);
         updateEpicTime(epic);
+        subTaskStorage.remove(id);
+        historyManager.remove(id);
         prioritizedTasks.remove(subtask);
     }
 
@@ -220,13 +220,13 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         for (Epic epic : epicStorage.values()) {
-            for (Integer subTasksId : epic.getSubTaskIds()) {
-                subTaskStorage.remove(subTasksId);
-                historyManager.remove(subTasksId);
-                prioritizedTasks.remove(subTaskStorage.get(subTasksId));
+            for (int subtaskId : epic.getSubTaskIds()) {
+                Subtask subtask = subTaskStorage.get(subtaskId);
+                prioritizedTasks.remove(subtask);
+                subTaskStorage.remove(subtaskId);
+                historyManager.remove(subtaskId);
             }
-            epic.clearSubtaskIds();
-            updateEpicStatus(epic);
+            epic.getSubTaskIds().clear();
         }
     }
 
@@ -274,7 +274,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Subtask> getSubTasksOfEpic(Epic epic) {
         if (epicStorage.containsKey(epic.getId())) {
             List<Subtask> subtasksOfEpic = new ArrayList<>();
-            for (Integer subTaskNum : epic.getSubTaskIds()) {
+            for (int subTaskNum : epic.getSubTaskIds()) {
                 subtasksOfEpic.add(subTaskStorage.get(subTaskNum));
             }
             return subtasksOfEpic;

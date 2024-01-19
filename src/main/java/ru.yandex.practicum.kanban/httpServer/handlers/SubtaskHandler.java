@@ -14,77 +14,74 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class SubtaskHandler implements HttpHandler {
-    private final TaskManager taskManager;
-    private final Gson gson;
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private static final int ID_SYMBOL = 3;
+    private final TaskManager taskManager;
+    private final Gson gson;
 
     public SubtaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
         gson = Managers.getGson();
     }
 
-
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        final String query = exchange.getRequestURI().getQuery();
-        switch (exchange.getRequestMethod()) {
+    public void handle(HttpExchange exchange) throws IOException,
+            NumberFormatException, StringIndexOutOfBoundsException, JsonSyntaxException {
+
+        String method = exchange.getRequestMethod();
+        switch (method) {
             case "GET" -> {
+                String query = exchange.getRequestURI().getQuery();
                 if (query == null) {
-                    String response = gson.toJson(taskManager.getAllSubTasks());
-                    writeResponse(exchange, response);
+                    String jsonString = gson.toJson(taskManager.getAllSubTasks());
+                    writeResponse(exchange, jsonString, 200);
                     return;
                 }
-                try {
-                    String valueId = query.substring(ID_SYMBOL);
-                    int id = Integer.parseInt(valueId);
-                    Subtask subtask = taskManager.getSubTaskById(id);
-                    String response = gson.toJson(subtask);
-                    writeResponse(exchange, response);
-                } catch (NumberFormatException e) {
-                    exchange.sendResponseHeaders(400, 0);
+                String s = query.substring(query.indexOf("id=") + ID_SYMBOL);
+                int id = Integer.parseInt(s);
+                Subtask subtask = taskManager.getSubTaskById(id);
+                if (subtask != null) {
+                    String jsonString = gson.toJson(subtask);
+                    writeResponse(exchange, jsonString, 200);
+                    return;
                 }
+                writeResponse(exchange, "Задача не найдена", 400);
             }
             case "POST" -> {
-                String bodyRequest = new String(exchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
-                try {
-                    Subtask subtask = gson.fromJson(bodyRequest, Subtask.class);
-                    int id = subtask.getId();
-                    if (taskManager.getSubTaskById(id) != null) {
-                        taskManager.updateSubTask(subtask);
-                    } else {
-                        taskManager.createSubTask(subtask);
-                    }
-                    exchange.sendResponseHeaders(201, 0);
-                } catch (JsonSyntaxException e) {
-                    exchange.sendResponseHeaders(400, 0);
-                }
-            }
-            case "DELETE" -> {
-                if (query == null) {
-                    taskManager.removeAllSubTasks();
-                    exchange.sendResponseHeaders(200, 0);
+                String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+                Subtask subtask = gson.fromJson(request, Subtask.class);
+                int id = subtask.getId();
+                if (taskManager.getSubTaskById(id) != null) {
+                    taskManager.updateTask(subtask);
+                    writeResponse(exchange, "Задача id=" + id + " обновлена", 201);
                     return;
                 }
-                try {
-                    String valueId = query.substring(ID_SYMBOL);
-                    int id = Integer.parseInt(valueId);
-                    taskManager.removeSubTaskById(id);
-                    exchange.sendResponseHeaders(200, 0);
-                } catch (NumberFormatException e) {
-                    exchange.sendResponseHeaders(400, 0);
-                }
+                Subtask newSubtask = taskManager.createSubTask(subtask);
+                int newSubtaskId = newSubtask.getId();
+                writeResponse(exchange, "Задача id=" + newSubtaskId, 201);
             }
-            default -> exchange.sendResponseHeaders(404, 0);
+            case "DELETE" -> {
+                String query = exchange.getRequestURI().getQuery();
+                if (query == null) {
+                    taskManager.removeAllSubTasks();
+                    writeResponse(exchange, "Задачи удалены", 200);
+                    return;
+                }
+                String s = query.substring(query.indexOf("id=") + ID_SYMBOL);
+                int subtaskId = Integer.parseInt(s);
+                taskManager.removeSubTaskById(subtaskId);
+                writeResponse(exchange, "Задача id=" + subtaskId + " удалена", 200);
+            }
+            default -> writeResponse(exchange, "Запрос не может быть обработан", 400);
         }
     }
 
-    private void writeResponse(HttpExchange exchange, String responseString) throws IOException {
+    private void writeResponse(HttpExchange exchange, String responseString, int responseCode) throws IOException {
         if(responseString.isBlank()) {
-            exchange.sendResponseHeaders(200, 0);
+            exchange.sendResponseHeaders(responseCode, 0);
         } else {
             byte[] bytes = responseString.getBytes(DEFAULT_CHARSET);
-            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.sendResponseHeaders(responseCode, bytes.length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(bytes);
             }

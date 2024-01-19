@@ -7,7 +7,9 @@ import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.enums.Status;
 import ru.yandex.practicum.kanban.services.Managers;
+import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,10 +22,11 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     protected InMemoryTaskManager inMemoryTaskManager;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException, InterruptedException {
         epic = new Epic(2,"Epic", "Epic Description", Status.NEW, 15,
                 Instant.ofEpochMilli(1703275500000L));
-        taskManager = (InMemoryTaskManager) Managers.getDefault();
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        taskManager = Managers.getDefault(historyManager);
         inMemoryTaskManager = new InMemoryTaskManager();
         inMemoryTaskManager.createEpic(epic);
     }

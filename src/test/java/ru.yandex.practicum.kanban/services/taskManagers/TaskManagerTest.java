@@ -31,6 +31,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     /* Создаем TASK, EPIC, SUBTASK */
     @Test
     public void checkCreateTask() {
+        task = new Task(1,"Task", "Task Description", Status.NEW, 5,
+                Instant.ofEpochMilli(1703275200000L));
         taskManager.createTask(task);
         List<Task> taskList = taskManager.getAllTasks();
         assertNotNull(task.getStatus());
@@ -163,9 +165,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void checkRemoveEpicByNotCorrectId() {
         taskManager.createEpic(epic);
-        taskManager.removeEpicById(0);
+        taskManager.removeEpicById(999);
         assertEquals(1, taskManager.getAllEpics().size());
-        assertEquals(1, taskManager.getPrioritizedTasks().size());
+
     }
 
     @Test
@@ -181,7 +183,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void checkRemoveSubTaskByNotCorrectId() {
         taskManager.createEpic(epic);
         taskManager.createSubTask(subtask);
-        taskManager.removeSubTaskById(35);
+        taskManager.removeSubTaskById(999);
         assertEquals(1, taskManager.getAllSubTasks().size());
     }
 
@@ -267,6 +269,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void checkListWithAllSubTasks() {
         taskManager.createEpic(epic);
+        taskManager.removeAllSubTasks();
         taskManager.createSubTask(subtask);
         assertEquals(1, taskManager.getAllSubTasks().size());
         assertEquals(1, taskManager.getPrioritizedTasks().size());

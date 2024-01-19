@@ -12,8 +12,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class HistoryHandler implements HttpHandler {
-    private final TaskManager taskManager;
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+    private final TaskManager taskManager;
     private final Gson gson;
 
     public HistoryHandler(TaskManager taskManager) {
@@ -23,21 +23,22 @@ public class HistoryHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        switch (exchange.getRequestMethod()) {
+        String method = exchange.getRequestMethod();
+        switch (method) {
             case "GET" -> {
                 String response = gson.toJson(taskManager.getHistory());
-                writeResponse(exchange, response);
+                writeResponse(exchange, response, 200);
             }
-            default -> exchange.sendResponseHeaders(400, 0);
+            default -> writeResponse(exchange, "Запрос не может быть обработан", 400);
         }
     }
 
-    private void writeResponse(HttpExchange exchange, String responseString) throws IOException {
+    private void writeResponse(HttpExchange exchange, String responseString, int responseCode) throws IOException {
         if(responseString.isBlank()) {
-            exchange.sendResponseHeaders(200, 0);
+            exchange.sendResponseHeaders(responseCode, 0);
         } else {
             byte[] bytes = responseString.getBytes(DEFAULT_CHARSET);
-            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.sendResponseHeaders(responseCode, bytes.length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(bytes);
             }

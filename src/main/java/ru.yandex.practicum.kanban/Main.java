@@ -7,6 +7,7 @@ import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.services.Managers;
+import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.time.Instant;
@@ -21,7 +22,8 @@ public class Main {
             gson = Managers.getGson();
             server = new KVServer();
             server.start();
-            httpTaskManager = Managers.getDefault();
+            HistoryManager historyManager = Managers.getDefaultHistory();
+            httpTaskManager = Managers.getDefault(historyManager);
 
             // Таски
             Task task1 = new Task("T1", "D1", 5, Instant.ofEpochMilli(1703671200000L)); // 13:00
@@ -45,10 +47,13 @@ public class Main {
             System.out.println(gson.toJson(httpTaskManager.getAllSubTasks()));
             System.out.println("Загруженный менеджер");
             System.out.println(httpTaskManager);
+            System.out.println("Subtasks OF Epic:");
+            System.out.println(httpTaskManager.getSubTasksOfEpic(epic1));
+
             server.stop();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-     }
+    }
 }

@@ -7,8 +7,6 @@ import ru.yandex.practicum.kanban.httpServer.KVServer;
 import ru.yandex.practicum.kanban.services.historyManagers.InMemoryHistoryManager;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.HttpTaskManager;
-import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
-import ru.yandex.practicum.kanban.services.taskManagers.InMemoryTaskManager;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -23,8 +21,8 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static HttpTaskManager getDefault() {
-        return new HttpTaskManager(getDefaultHistory(), "http://localhost:" + KVServer.PORT);
+    public static HttpTaskManager getDefault(HistoryManager historyManager) throws IOException, InterruptedException {
+        return new HttpTaskManager(historyManager, "http://localhost:" + KVServer.PORT);
     }
 
     public static Gson getGson() {
