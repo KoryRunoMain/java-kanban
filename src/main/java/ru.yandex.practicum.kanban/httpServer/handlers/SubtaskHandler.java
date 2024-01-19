@@ -29,9 +29,9 @@ public class SubtaskHandler implements HttpHandler {
             NumberFormatException, StringIndexOutOfBoundsException, JsonSyntaxException {
 
         String method = exchange.getRequestMethod();
+        String query = exchange.getRequestURI().getQuery();
         switch (method) {
             case "GET" -> {
-                String query = exchange.getRequestURI().getQuery();
                 if (query == null) {
                     String jsonString = gson.toJson(taskManager.getAllSubTasks());
                     writeResponse(exchange, jsonString, 200);
@@ -47,6 +47,7 @@ public class SubtaskHandler implements HttpHandler {
                 }
                 writeResponse(exchange, "Задача не найдена", 400);
             }
+
             case "POST" -> {
                 String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                 Subtask subtask = gson.fromJson(request, Subtask.class);
@@ -60,8 +61,8 @@ public class SubtaskHandler implements HttpHandler {
                 int newSubtaskId = newSubtask.getId();
                 writeResponse(exchange, "Задача id=" + newSubtaskId, 201);
             }
+
             case "DELETE" -> {
-                String query = exchange.getRequestURI().getQuery();
                 if (query == null) {
                     taskManager.removeAllSubTasks();
                     writeResponse(exchange, "Задачи удалены", 200);
@@ -72,6 +73,7 @@ public class SubtaskHandler implements HttpHandler {
                 taskManager.removeSubTaskById(subtaskId);
                 writeResponse(exchange, "Задача id=" + subtaskId + " удалена", 200);
             }
+
             default -> writeResponse(exchange, "Запрос не может быть обработан", 400);
         }
     }

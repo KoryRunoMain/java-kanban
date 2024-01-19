@@ -29,6 +29,7 @@ public class PrioritizedTasksHandler implements HttpHandler {
                 String jsonString = gson.toJson(taskManager.getPrioritizedTasks());
                 writeResponse(exchange, jsonString, 200);
             }
+
             default -> writeResponse(exchange, "Запрос не может быть обработан", 400);
         }
     }

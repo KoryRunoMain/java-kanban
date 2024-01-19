@@ -27,15 +27,6 @@ public class HttpTaskServer {
         contexts();
     }
 
-    public void contexts() {
-        server.createContext("/tasks/task", new TaskHandler(taskManager));
-        server.createContext("/tasks/epic", new EpicHandler(taskManager));
-        server.createContext("/tasks/subtask", new SubtaskHandler(taskManager));
-        server.createContext("/tasks", new PrioritizedTasksHandler(taskManager));
-        server.createContext("/tasks/history", new HistoryHandler(taskManager));
-        server.createContext("/tasks/subtask/epic/", new SubtasksOfEpicHandler(taskManager));
-    }
-
     public void start() {
         server.start();
         System.out.println("Сервер запущен, порт: " + PORT);
@@ -45,6 +36,15 @@ public class HttpTaskServer {
     public void stop() {
         server.stop(1);
         System.out.println("Сервер остановлен, порт: " + PORT);
+    }
+
+    public void contexts() {
+        server.createContext("/tasks/task", new TaskHandler(taskManager));
+        server.createContext("/tasks/epic", new EpicHandler(taskManager));
+        server.createContext("/tasks/subtask", new SubtaskHandler(taskManager));
+        server.createContext("/tasks", new PrioritizedTasksHandler(taskManager));
+        server.createContext("/tasks/history", new HistoryHandler(taskManager));
+        server.createContext("/tasks/subtask/epic/", new SubtasksOfEpicHandler(taskManager));
     }
 }
 

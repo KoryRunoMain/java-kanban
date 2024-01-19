@@ -26,9 +26,10 @@ public class HistoryHandler implements HttpHandler {
         String method = exchange.getRequestMethod();
         switch (method) {
             case "GET" -> {
-                String response = gson.toJson(taskManager.getHistory());
-                writeResponse(exchange, response, 200);
+                String jsonString = gson.toJson(taskManager.getHistory());
+                writeResponse(exchange, jsonString, 200);
             }
+
             default -> writeResponse(exchange, "Запрос не может быть обработан", 400);
         }
     }

@@ -14,7 +14,7 @@ import com.sun.net.httpserver.HttpServer;
  * Постман: https://www.getpostman.com/collections/a83b61d9e1c81c10575c
  */
 public class KVServer {
-    public static final int PORT = 8078;
+    public static final int PORT = 8079;
     private final String apiToken;
     private final HttpServer server;
     private final Map<String, String> data = new HashMap<>();

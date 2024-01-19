@@ -27,14 +27,15 @@ public class SubtasksOfEpicHandler implements HttpHandler {
             NumberFormatException, StringIndexOutOfBoundsException, NullPointerException {
 
         String method = exchange.getRequestMethod();
+        String query = exchange.getRequestURI().getQuery();
         switch (method) {
             case "GET" -> {
-                String query = exchange.getRequestURI().getQuery();
                 String s = query.substring(query.indexOf("id=") + ID_SYMBOL);
                 int id = Integer.parseInt(s);
                 String jsonString = gson.toJson(taskManager.getSubTaskById(id));
                 writeResponse(exchange, jsonString, 200);
             }
+
             default -> writeResponse(exchange, "Запрос не может быть обработан", 400);
         }
     }
