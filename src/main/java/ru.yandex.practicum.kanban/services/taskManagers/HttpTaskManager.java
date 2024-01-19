@@ -55,16 +55,19 @@ public class HttpTaskManager extends FileBackedTasksManager {
                     taskStorage.put(task.getId(), task);
                     addTaskToPrioritizedList(task);
                 }
+
                 case "epic" -> {
                     Epic epic = gson.fromJson(element.getAsJsonObject(), Epic.class);
                     epicStorage.put(epic.getId(), epic);
                     addTaskToPrioritizedList(epic);
                 }
+
                 case  "subtask" -> {
                     Subtask subtask = gson.fromJson(element.getAsJsonObject(), Subtask.class);
                     subTaskStorage.put(subtask.getId(), subtask);
                     addTaskToPrioritizedList(subtask);
                 }
+
                 default -> System.out.println("Невозможно загрузить задачи");
             }
         }

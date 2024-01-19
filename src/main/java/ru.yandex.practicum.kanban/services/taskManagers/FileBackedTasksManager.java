@@ -2,13 +2,11 @@ package ru.yandex.practicum.kanban.services.taskManagers;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
-import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.CSVFormatHandler.CSVFormatHandler;
 import ru.yandex.practicum.kanban.exceptions.ManagerSaveException;
@@ -259,11 +257,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             throw new ManagerSaveException("Ошибка записи в файл..");
         }
     }
-
-//    /*MAIN.Проверка "Duration" & "Prioritized"*/
-//    public static void main(String[] args) {
-//        FileBackedTasksManager manager = Managers.getFileBackedTasksManager();
-//        manager = loadFromFile(Paths.get("src/resources/tasks.csv").toFile());
-//    }
 
 }

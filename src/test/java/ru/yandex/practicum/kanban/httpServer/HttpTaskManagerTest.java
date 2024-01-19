@@ -46,7 +46,7 @@ public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     }
 
     @Test
-    public void shouldLoadTasks() {
+    public void checkLoadTasks() {
         task = new Task(1,"Task", "Task Description", Status.NEW, 5,
                 Instant.ofEpochMilli(1703275200000L));
         taskManager.createTask(task);
@@ -55,7 +55,7 @@ public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     }
 
     @Test
-    public void shouldLoadEpics() {
+    public void checkLoadEpics() {
         epic = new Epic(2,"Epic", "Epic Description", Status.NEW, 5,
                 Instant.ofEpochMilli(1703275500000L));
         taskManager.createEpic(epic);
@@ -64,7 +64,7 @@ public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     }
 
     @Test
-    public void shouldLoadSubtasks() {
+    public void checkLoadSubtasks() {
         epic = new Epic(2,"Epic", "Epic Description", Status.NEW, 5,
                 Instant.ofEpochMilli(1703275500000L));
         taskManager.createEpic(epic);

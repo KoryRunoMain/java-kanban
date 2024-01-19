@@ -18,4 +18,5 @@ public class InstantAdapter extends TypeAdapter<Instant> {
     public Instant read(JsonReader jsonReader) throws IOException {
         return Instant.ofEpochMilli(Long.parseLong(jsonReader.nextString()));
     }
+
 }
