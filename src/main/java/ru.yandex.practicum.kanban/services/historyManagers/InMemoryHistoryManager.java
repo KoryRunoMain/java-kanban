@@ -44,7 +44,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     /*Получить список задач*/
-    private List<Task> getTasks() {
+    public List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
         Node<Task> taskNode = head;
 

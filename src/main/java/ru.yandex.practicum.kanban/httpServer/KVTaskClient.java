@@ -40,14 +40,32 @@ public class KVTaskClient {
 
     }
 
-    public void saveTasks() throws NullPointerException {
+//    public void saveTasks() {
+//        put(TASK_KEY, gson.toJson(taskManager.getAllTasks()));
+//        put(EPIC_KEY, gson.toJson(taskManager.getAllEpics()));
+//        put(SUBTASK_KEY, gson.toJson(taskManager.getAllSubTasks()));
+//        put(HISTORY_KEY, gson.toJson(historyManager.getHistory().stream()
+//                .map(Task::getId)
+//                .collect(Collectors.toList())));
+//    }
+
+    public void saveTasks() {
         put(TASK_KEY, gson.toJson(taskManager.getAllTasks()));
-        put(EPIC_KEY, gson.toJson(taskManager.getAllEpics()));
-        put(SUBTASK_KEY, gson.toJson(taskManager.getAllSubTasks()));
-        put(HISTORY_KEY, gson.toJson(taskManager.getHistory().stream()
-                .map(Task::getId)
-                .collect(Collectors.toList())));
     }
+
+    public void saveEpics() {
+        put(EPIC_KEY, gson.toJson(taskManager.getAllEpics()));
+    }
+
+    public void saveSubTasks() {
+        put(SUBTASK_KEY, gson.toJson(taskManager.getAllSubTasks()));
+    }
+
+//    public void saveHistory() {
+//        put(HISTORY_KEY, gson.toJson(historyManager.getHistory().stream()
+//                .map(Task::getId)
+//                .collect(Collectors.toList())));
+//    }
 
     public void loadFromServer() {
         loadTasks(TASK_KEY);
@@ -126,7 +144,7 @@ public class KVTaskClient {
         }
     }
 
-    private void put (String key, String json) {
+    public void put (String key, String json) {
         URI uri = URI.create(url + "/save/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
