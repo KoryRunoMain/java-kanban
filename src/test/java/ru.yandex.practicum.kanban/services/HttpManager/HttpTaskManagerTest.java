@@ -1,9 +1,10 @@
-package ru.yandex.practicum.kanban.httpServer;
+package ru.yandex.practicum.kanban.services.HttpManager;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.enums.Status;
+import ru.yandex.practicum.kanban.httpServer.KVServer;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;

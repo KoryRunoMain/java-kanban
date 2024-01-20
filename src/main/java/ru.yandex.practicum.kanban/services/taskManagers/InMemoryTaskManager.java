@@ -29,6 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
+
     /*TASK.Создать*/
     @Override
     public Task createTask(Task task) {
@@ -284,7 +285,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /*Добавить задачи в список prioritizedTasks*/
-    protected void addTaskToPrioritizedList(Task task) {
+    public void addTaskToPrioritizedList(Task task) {
         boolean isVeried = verifyTasks(task);
         if (isVeried) {
             prioritizedTasks.add(task);

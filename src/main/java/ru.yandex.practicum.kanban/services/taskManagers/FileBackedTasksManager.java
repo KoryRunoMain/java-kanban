@@ -29,7 +29,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         this.file = file;
     }
 
-
     /* TASKS */
     @Override
     public Task createTask(Task task) {
