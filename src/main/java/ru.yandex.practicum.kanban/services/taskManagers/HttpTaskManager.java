@@ -20,7 +20,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
     final static String HISTORY_KEY = "history";
 
     private final KVTaskClient client;
-    private final Gson gson = Managers.getGson();;
+    private final Gson gson = Managers.getGson();
 
 
     public HttpTaskManager(HistoryManager historyManager, String urlPath) {
