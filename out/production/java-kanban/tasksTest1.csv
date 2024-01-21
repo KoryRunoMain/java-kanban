@@ -1,4 +1,3 @@
 id,type,name,status,description,epic,duration,startTime
-1,TASK,Task,NEW,Task Description,,5,2023-12-22T20:00:00Z
-2,EPIC,Epic,NEW,Epic Description,,5,2023-12-22T20:05:00Z
+1,EPIC,Epic,NEW,Epic Description,,5,2023-12-22T20:05:00Z
 

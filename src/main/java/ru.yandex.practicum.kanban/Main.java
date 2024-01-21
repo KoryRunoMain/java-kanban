@@ -3,12 +3,12 @@ package ru.yandex.practicum.kanban;
 
 import com.google.gson.Gson;
 import ru.yandex.practicum.kanban.httpServer.KVServer;
-import ru.yandex.practicum.kanban.httpServer.KVTaskClient;
 import ru.yandex.practicum.kanban.models.Epic;
 import ru.yandex.practicum.kanban.models.Subtask;
 import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
+import ru.yandex.practicum.kanban.services.taskManagers.HttpTaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.time.Instant;
@@ -16,6 +16,7 @@ import java.time.Instant;
 public class Main {
     public static void main(String[] args) {
         TaskManager httpTaskManager;
+        HttpTaskManager hm;
         KVServer server;
         Gson gson;
 
@@ -25,7 +26,6 @@ public class Main {
             server.start();
             HistoryManager historyManager = Managers.getDefaultHistory();
             httpTaskManager = Managers.getDefault(historyManager);
-
 
             System.out.println("История просмотренных задач");
             System.out.println(gson.toJson(httpTaskManager.getHistory()));

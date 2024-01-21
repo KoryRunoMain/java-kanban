@@ -182,6 +182,9 @@ public class InMemoryTaskManager implements TaskManager {
     /*SUBTASK.Удалить по ID*/
     @Override
     public void removeSubTaskById(int id) {
+        if(!subTaskStorage.containsKey(id)) {
+            return;
+        }
         Subtask subtask = subTaskStorage.get(id);
         if (subtask == null) {
             return;

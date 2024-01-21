@@ -96,7 +96,7 @@ public class KVTaskClient {
 
     public void loadHistory() {
         int id;
-        JsonElement jsonElement = JsonParser.parseString(load("history"));
+        JsonElement jsonElement = JsonParser.parseString(load(HISTORY_KEY));
         JsonArray jsonArrayHistory = jsonElement.getAsJsonArray();
         for (JsonElement element : jsonArrayHistory) {
             id = element.getAsInt();
@@ -117,7 +117,7 @@ public class KVTaskClient {
     }
 
 
-    private String load(String key) {
+    public String load(String key) {
         URI uri = URI.create(this.url + "/load/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
