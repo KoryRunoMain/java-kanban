@@ -184,6 +184,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         taskManager.createSubTask(subtask);
         taskManager.removeSubTaskById(999);
+
         assertEquals(1, taskManager.getAllSubTasks().size());
     }
 

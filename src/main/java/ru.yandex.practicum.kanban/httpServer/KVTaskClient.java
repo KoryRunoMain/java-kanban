@@ -19,6 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class KVTaskClient {
@@ -40,15 +41,6 @@ public class KVTaskClient {
 
     }
 
-//    public void saveTasks() {
-//        put(TASK_KEY, gson.toJson(taskManager.getAllTasks()));
-//        put(EPIC_KEY, gson.toJson(taskManager.getAllEpics()));
-//        put(SUBTASK_KEY, gson.toJson(taskManager.getAllSubTasks()));
-//        put(HISTORY_KEY, gson.toJson(historyManager.getHistory().stream()
-//                .map(Task::getId)
-//                .collect(Collectors.toList())));
-//    }
-
     public void saveTasks() {
         put(TASK_KEY, gson.toJson(taskManager.getAllTasks()));
     }
@@ -61,11 +53,11 @@ public class KVTaskClient {
         put(SUBTASK_KEY, gson.toJson(taskManager.getAllSubTasks()));
     }
 
-//    public void saveHistory() {
-//        put(HISTORY_KEY, gson.toJson(historyManager.getHistory().stream()
-//                .map(Task::getId)
-//                .collect(Collectors.toList())));
-//    }
+    public void saveHistory(List<Task> ids) {
+        put(HISTORY_KEY, gson.toJson(ids.stream()
+                .map(Task::getId)
+                .collect(Collectors.toList())));
+    }
 
     public void loadFromServer() {
         loadTasks(TASK_KEY);
