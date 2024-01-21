@@ -23,22 +23,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class KVTaskClient {
-    final static String TASK_KEY = "task";
-    final static String EPIC_KEY = "epic";
-    final static String SUBTASK_KEY = "subtask";
-    final static String HISTORY_KEY = "history";
-    private final Gson gson = Managers.getGson();
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-    protected InMemoryTaskManager taskManager = new InMemoryTaskManager();
-    protected HistoryManager historyManager;
+    private static final String TASK_KEY = "task";
+    private static final String EPIC_KEY = "epic";
+    private static final String SUBTASK_KEY = "subtask";
+    private static final String HISTORY_KEY = "history";
+    private final Gson gson = Managers.getGson();
     private final String apiToken;
     private final String url;
-
+    protected HistoryManager historyManager;
+    protected InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
     public KVTaskClient(String url) {
         this.url = url;
         apiToken = register(url);
-
     }
 
     public void saveTasks() {
@@ -66,7 +64,7 @@ public class KVTaskClient {
         loadHistory();
     }
 
-    public void loadTasks(String key) {
+    private void loadTasks(String key) {
         JsonElement jsonElement = JsonParser.parseString(load(key));
         JsonArray jsonArrayTasks = jsonElement.getAsJsonArray();
         for (JsonElement element : jsonArrayTasks) {
@@ -94,7 +92,7 @@ public class KVTaskClient {
         }
     }
 
-    public void loadHistory() {
+    private void loadHistory() {
         int id;
         JsonElement jsonElement = JsonParser.parseString(load(HISTORY_KEY));
         JsonArray jsonArrayHistory = jsonElement.getAsJsonArray();
@@ -116,8 +114,25 @@ public class KVTaskClient {
         }
     }
 
+    private void put (String key, String json) {
+        URI uri = URI.create(url + "/save/" + key + "?API_TOKEN=" + apiToken);
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .uri(uri)
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET));
+            if (response.statusCode() != 200) {
+                throw new ManagerSaveException("Не удалось загрузить Менеджер, статус: " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            throw new ManagerSaveException("Не удалось загрузить Менеджер");
+        }
+    }
 
-    public String load(String key) {
+    private String load(String key) {
         URI uri = URI.create(this.url + "/load/" + key + "?API_TOKEN=" + apiToken);
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -133,24 +148,6 @@ public class KVTaskClient {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             throw new ManagerSaveException("Не удалось получить Менеджер");
-        }
-    }
-
-    public void put (String key, String json) {
-        URI uri = URI.create(url + "/save/" + key + "?API_TOKEN=" + apiToken);
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .uri(uri)
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET));
-            if (response.statusCode() != 200) {
-                throw new ManagerSaveException("Не удалось загрузить Менеджер, статус: " + response.statusCode());
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            throw new ManagerSaveException("Не удалось загрузить Менеджер");
         }
     }
 

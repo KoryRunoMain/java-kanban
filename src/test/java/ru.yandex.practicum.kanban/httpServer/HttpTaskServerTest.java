@@ -24,10 +24,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HttpTaskServerTest {
-    protected static InMemoryTaskManager taskManager;
-    protected static KVServer kvServer;
-    protected static HttpTaskServer httpTaskServer;
-    protected static Gson gson;
+    protected InMemoryTaskManager taskManager;
+    protected KVServer kvServer;
+    protected HttpTaskServer httpTaskServer;
+    protected Gson gson;
     protected Task task;
     protected Epic epic;
     protected Subtask subtask;

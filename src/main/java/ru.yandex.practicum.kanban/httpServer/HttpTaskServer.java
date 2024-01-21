@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class HttpTaskServer {
+    public static final int PORT = 8080;
     private final HttpServer server;
     protected final TaskManager taskManager;
     protected final HistoryManager historyManager;
-    public static final int PORT = 8080;
 
     public HttpTaskServer() throws IOException, InterruptedException, RuntimeException {
         historyManager = Managers.getDefaultHistory();

@@ -16,7 +16,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
     }
 
     @Override
-    public void save() {
+    protected void save() {
         client.saveTasks();
         client.saveEpics();
         client.saveSubTasks();
@@ -24,7 +24,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
         client.saveHistory(historyIds);
     }
 
-    public void load() {
+    protected void load() {
         client.loadFromServer();
     }
 
