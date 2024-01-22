@@ -50,7 +50,7 @@ public class Main {
             System.out.println("Загруженный менеджер");
             System.out.println(httpTaskManager);
             System.out.println("Subtasks OF Epic:");
-            System.out.println(gson.toJson(httpTaskManager.getSubTasksOfEpic(epic1)));
+//            System.out.println(gson.toJson(httpTaskManager.getSubTasksOfEpic(epic1)));
 
             System.out.println("История просмотренных задач");
             System.out.println(gson.toJson(httpTaskManager.getHistory()));
