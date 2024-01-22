@@ -24,17 +24,6 @@ public class Main {
         HttpTaskServer server = new HttpTaskServer();
         server.start();
 
-//        TaskManager httpTaskManager;
-//        KVServer server;
-//        Gson gson;
-//        HttpTaskManager htm = new HttpTaskManager();
-
-//        Gson gson = Managers.getGson();
-//        server = new KVServer();
-//        server.start();
-//        HistoryManager historyManager = Managers.getDefaultHistory();
-//        httpTaskManager = Managers.getDefault(historyManager);
-
         System.out.println("История просмотренных задач");
         System.out.println(gson.toJson(httpTaskManager.getHistory()));
 

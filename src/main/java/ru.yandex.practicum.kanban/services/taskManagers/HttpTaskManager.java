@@ -22,7 +22,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
         super(historyManager);
         client = new KVTaskClient(urlPath);
         save();
-        loadFromServer();
+//        loadFromServer();
     }
 
 
