@@ -15,14 +15,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HttpTaskManager extends FileBackedTasksManager {
-    private final KVTaskClient client;
-    private final Gson gson = Managers.getGson();
+    private KVTaskClient client;
+    private Gson gson = Managers.getGson();
 
     public HttpTaskManager(HistoryManager historyManager, String urlPath) {
         super(historyManager);
         client = new KVTaskClient(urlPath);
+        save();
         loadFromServer();
     }
+
 
     @Override
     protected void save() {

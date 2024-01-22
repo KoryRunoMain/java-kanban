@@ -16,8 +16,10 @@ import ru.yandex.practicum.kanban.services.taskManagers.TaskManagerTest;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     protected HistoryManager historyManager;
