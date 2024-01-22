@@ -11,19 +11,17 @@ import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.HttpTaskManager;
-import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 import ru.yandex.practicum.kanban.services.taskManagers.TaskManagerTest;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     protected HistoryManager historyManager;
-    protected TaskManager taskManager;
+    protected HttpTaskManager httpTaskManager;
     protected KVServer kvServer;
     protected Task task;
     protected Epic epic;
@@ -35,7 +33,7 @@ public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
             kvServer = new KVServer();
             kvServer.start();
             historyManager = Managers.getDefaultHistory();
-            taskManager = Managers.getDefault(historyManager);
+            httpTaskManager = Managers.getDefault(historyManager);
             System.out.println("Сервер запущен");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -48,34 +46,29 @@ public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
         System.out.println("Сервер остановлен");
     }
 
-    @Test
-    public void checkLoadTasks() {
+    public void initTasks() {
         task = new Task(1,"Task", "Task Description", Status.NEW, 5,
                 Instant.ofEpochMilli(1703275200000L));
-        taskManager.createTask(task);
-        taskManager.getTaskById(task.getId());
-        assertEquals(taskManager.getAllTasks(), taskManager.getHistory());
-    }
-
-    @Test
-    public void checkLoadEpics() {
+        httpTaskManager.createTask(task);
         epic = new Epic(2,"Epic", "Epic Description", Status.NEW, 5,
                 Instant.ofEpochMilli(1703275500000L));
-        taskManager.createEpic(epic);
-        taskManager.getEpicById(epic.getId());
-        assertEquals(taskManager.getAllEpics(), taskManager.getHistory());
-    }
-
-    @Test
-    public void checkLoadSubtasks() {
-        epic = new Epic(2,"Epic", "Epic Description", Status.NEW, 5,
-                Instant.ofEpochMilli(1703275500000L));
-        taskManager.createEpic(epic);
+        httpTaskManager.createEpic(epic);
         subtask = new Subtask(2, "SubTask", "Subtask Description", 5,
                 Instant.ofEpochMilli(1703276400000L), Status.NEW);
-        taskManager.createSubTask(subtask);
-        taskManager.getSubTaskById(subtask.getId());
-        assertEquals(taskManager.getAllSubTasks(), taskManager.getHistory());
+        httpTaskManager.createSubTask(subtask);
+    }
+
+    @Test
+    public void checkLoadFromServer() {
+        httpTaskManager.loadFromServer();
+        initTasks();
+
+        assertNotNull(httpTaskManager.getAllTasks());
+        assertEquals(1, httpTaskManager.getAllTasks().size());
+        assertNotNull(httpTaskManager.getAllEpics());
+        assertEquals(1, httpTaskManager.getAllEpics().size());
+        assertNotNull(httpTaskManager.getAllSubTasks());
+        assertEquals(1, httpTaskManager.getAllSubTasks().size());
     }
 
 }

@@ -25,11 +25,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         initTasks();
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        assertTrue(file.delete());
-//    }
-
     /* Загрузка из файла */
     @Test
     public void checkLoadFromFile() {

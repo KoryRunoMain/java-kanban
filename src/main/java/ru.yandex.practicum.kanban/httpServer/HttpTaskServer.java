@@ -16,9 +16,9 @@ import java.net.InetSocketAddress;
 
 public class HttpTaskServer {
     public static final int PORT = 8080;
-    private final HttpServer server;
-    protected final TaskManager taskManager;
     protected final HistoryManager historyManager;
+    protected final HttpServer server;
+    protected final TaskManager taskManager;
 
     public HttpTaskServer() throws IOException, InterruptedException, RuntimeException {
         historyManager = Managers.getDefaultHistory();
@@ -38,7 +38,7 @@ public class HttpTaskServer {
         System.out.println("Сервер остановлен, порт: " + PORT);
     }
 
-    public void contexts() {
+    protected void contexts() {
         server.createContext("/tasks/task", new TaskHandler(taskManager));
         server.createContext("/tasks/epic", new EpicHandler(taskManager));
         server.createContext("/tasks/subtask", new SubtaskHandler(taskManager));

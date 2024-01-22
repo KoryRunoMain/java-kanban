@@ -56,7 +56,7 @@ public class KVServer {
     }
 
     private void load(HttpExchange h) {
-        try {
+        try (h) {
             System.out.println("\n/load");
             if (!hasAuth(h)) {
                 System.out.println("Запрос не авторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
@@ -66,29 +66,30 @@ public class KVServer {
             if ("GET".equals(h.getRequestMethod())) {
                 String key = h.getRequestURI().getPath().substring("/load/".length());
                 if (key.isEmpty()) {
-                    System.out.println("Key для сохранения пустой. key указывается в пути: /load/{key}");
+                    System.out.println("Key для сохранения пустой. Key указывается в пути: /load/{key}");
                     h.sendResponseHeaders(400, 0);
                     return;
                 }
-                if (!data.containsKey(key)) {
-                    System.out.println("Данные для ключа отсутствуют: " + key);
+                if (data.get(key) == null) {
+                    System.out.println("Не могу достать данные для ключа '" + key + "', данные отсутствуют");
                     h.sendResponseHeaders(404, 0);
                     return;
                 }
-                sendText(h, data.get(key));
-                System.out.println("Значение для ключа " + key + " успешно отправлено!");
+                String response = data.get(key);
+                sendText(h, response);
+                System.out.println("Значение для ключа " + key + " успешно отправлено в ответ на запрос!");
                 h.sendResponseHeaders(200, 0);
             } else {
-                System.out.println("/load ждёт GET-запрос, а получил: " + h.getRequestMethod());
+                System.out.println("/load ждет GET-запрос, а получил: " + h.getRequestMethod());
                 h.sendResponseHeaders(405, 0);
             }
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
     private void save(HttpExchange h) throws IOException {
-        try {
+        try (h) {
             System.out.println("\n/save");
             if (!hasAuth(h)) {
                 System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
@@ -121,7 +122,7 @@ public class KVServer {
     }
 
     private void register(HttpExchange h) throws IOException {
-        try {
+        try (h) {
             System.out.println("\n/register");
             if ("GET".equals(h.getRequestMethod())) {
                 sendText(h, apiToken);

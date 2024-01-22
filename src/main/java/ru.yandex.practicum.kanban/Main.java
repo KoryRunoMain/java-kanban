@@ -1,6 +1,8 @@
 package ru.yandex.practicum.kanban;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import ru.yandex.practicum.kanban.adapter.InstantAdapter;
 import ru.yandex.practicum.kanban.httpServer.HttpTaskServer;
 import ru.yandex.practicum.kanban.httpServer.KVServer;
 import ru.yandex.practicum.kanban.models.Epic;
@@ -9,20 +11,20 @@ import ru.yandex.practicum.kanban.models.Task;
 import ru.yandex.practicum.kanban.services.Managers;
 import ru.yandex.practicum.kanban.services.historyManagers.HistoryManager;
 import ru.yandex.practicum.kanban.services.taskManagers.HttpTaskManager;
+import ru.yandex.practicum.kanban.services.taskManagers.TaskManager;
 
 import java.io.IOException;
 import java.time.Instant;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        KVServer kvServer = new KVServer();
-        kvServer.start();
+        KVServer kvServer;
         Gson gson = Managers.getGson();
+        kvServer = new KVServer();
+        kvServer.start();
         HistoryManager historyManager = Managers.getDefaultHistory();
-        HttpTaskManager httpTaskManager = Managers.getDefault(historyManager);
+        TaskManager httpTaskManager = Managers.getDefault(historyManager);
 
-        HttpTaskServer server = new HttpTaskServer();
-        server.start();
 
         System.out.println("История просмотренных задач");
         System.out.println(gson.toJson(httpTaskManager.getHistory()));
@@ -56,7 +58,6 @@ public class Main {
         System.out.println(gson.toJson(httpTaskManager.getHistory()));
 
         kvServer.stop();
-        server.stop();
-
     }
+
 }

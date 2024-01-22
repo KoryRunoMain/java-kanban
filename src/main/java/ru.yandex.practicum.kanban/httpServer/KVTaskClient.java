@@ -2,6 +2,7 @@ package ru.yandex.practicum.kanban.httpServer;
 
 import ru.yandex.practicum.kanban.enums.Type;
 import ru.yandex.practicum.kanban.exceptions.ManagerSaveException;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -40,31 +41,28 @@ public class KVTaskClient {
         put(HISTORY_KEY, jsonHistory);
     }
 
-    public String load(Type type) {
+    public String load(Type taskType) {
         String key = "";
-        if (type == Type.TASK) {
+        if (taskType == Type.TASK) {
             key = TASK_KEY;
         }
-        if (type == Type.EPIC) {
+        if (taskType == Type.EPIC) {
             key = EPIC_KEY;
         }
-        if (type == Type.SUBTASK) {
+        if (taskType == Type.SUBTASK) {
             key = SUBTASK_KEY;
         }
-        if (type == Type.HISTORY) {
+        if (taskType == Type.HISTORY) {
             key = HISTORY_KEY;
         }
         URI uri = URI.create(this.url + "/load/" + key + "?API_TOKEN=" + apiToken);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .build();
         try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .GET()
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200) {
-                throw new ManagerSaveException("Не удалось получить Менеджер, статус: " + response.statusCode());
-            }
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET));
             return response.body();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
